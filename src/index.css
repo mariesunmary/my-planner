@@ -1,13 +1,39 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/**
+ *
+ * Глобальні стилі додатку FocusFlow.
+ * Файл відповідає за:
+ * 1. Підключення глобального шрифту Inter для всіх компонентів.
+ * 2. Визначення CSS-змінних з основною палітрою кольорів додатку.
+ * 3. Встановлення базових налаштувань сторінки (body, box-sizing, посилання).
+ */
+
+/* Підключення глобального шрифту */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* Глобальні кольори (палітра проєкту FocusFlow) */
+:root {
+  --color-dark-blue: #1e3a5f;
+  --color-medium-blue: #3b6ea5;
+  --color-light-blue: #8cc0f7;
+  --color-light-beige: #f3f1e7;
+  --color-almost-black: #1b2024;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Базові налаштування сторінки */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-light-beige);
+  margin: 0;
+  padding: 0;
+  color: var(--color-almost-black);
+}
+
+/* Box-sizing для всіх елементів */
+* {
+  box-sizing: border-box;
+}
+
+/* Стиль для посилань */
+a {
+  text-decoration: none;
 }

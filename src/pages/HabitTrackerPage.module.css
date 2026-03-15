@@ -1,0 +1,92 @@
+/**
+ * Стилі для сторінки Habit Tracker.
+ * Файл визначає вигляд таблиці трекера, рядків звичок,
+ * заголовків днів, клітинок календаря, полів вводу та кнопок для редагування/відмітки виконання.
+ */
+
+/* розмір клітинки календаря */
+:root {
+  --cell-size: 34px;
+}
+
+/* таблиця трекера */
+.grid {
+  border-top: 2px solid #ddd;
+  overflow-x: auto;
+}
+
+/* рядки заголовків та звичок */
+.headerRow,
+.habitRow {
+  display: flex;
+  align-items: center;
+}
+
+/* заголовок та назва звички */
+.habitHeader,
+.habitName {
+  width: 180px;
+  padding: 0.5rem 0.7rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  color: var(--color-almost-black);
+  text-align: left;
+  background-color: #f9f9f9;
+  border-right: 2px solid #e0e0e0;
+  white-space: normal;         
+  word-break: break-word;      
+  overflow-wrap: anywhere;     
+}
+
+/* заголовки та клітинки днів */
+.dayHeader,
+.dayCell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.dayCell:hover {
+  background-color: #cde2ff;
+  transform: scale(1.1);
+}
+
+/* відмічена клітинка */
+.checked {
+  background-color: var(--color-medium-blue);
+  color: white;
+  font-weight: 700;
+}
+
+/* розкладаємо назву та кнопки по краях всередині лівої клітинки */
+.habitName {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* інпут для редагування всередині таблиці */
+.habitTitle input {
+  width: 100%;          
+  max-width: 100%;      
+  box-sizing: border-box; 
+  font-size: 0.95rem;   
+}
+
+/* контейнер кнопок праворуч */
+.habitActions {
+  margin-left: auto;              
+  display: flex;
+  align-items: center;
+}
+

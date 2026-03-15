@@ -1,0 +1,203 @@
+/**
+ * Загальні стилі для сторінок додатку.
+ * Файл визначає оформлення основного контейнера, опису сторінки,
+ * форм введення та кнопок, повідомлень про помилки, панелі навігації по місяцях
+ * та анімації появи елементів.
+ */
+
+/* Основний контейнер сторінки */
+.container {
+  padding: 1rem 1rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Опис сторінки та інструкції */
+.intro {
+  text-align: justify !important;;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--color-almost-black);
+}
+
+/* Форма додавання елементів */
+.form {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  align-items: stretch;
+}
+
+/* Обгортка для полів вводу */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Поле для введення нового елемента */
+.input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-medium-blue);
+  background-color: white;
+}
+
+/* Кнопка додавання елемента */
+.addButton {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--color-dark-blue);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: background-color 0.25s ease, transform 0.15s ease,
+              box-shadow 0.2s ease;
+}
+
+.addButton:hover {
+  background-color: var(--color-medium-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.addButton:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Кнопка-іконка для редагування */
+.actionButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-right: 0.4rem;
+}
+
+.actionButton:hover {
+  opacity: 0.7;
+}
+
+/* Кнопка видалення запису */
+.deleteButton {
+  background: none;
+  border: none;
+  color: #c00;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  line-height: 1;
+}
+
+.deleteButton:hover {
+  color: #a00;
+}
+
+/* Стиль поля при помилці введення */
+.inputError {
+  border: 2px solid #e63946 !important;
+  background-color: #f9e6e6;
+  color: #e63946;
+}
+
+.inputError::placeholder {
+  color: #e63946;
+  font-weight: 500;
+}
+
+/* Повідомлення про помилку */
+.errorMessage {
+  color: #e63946;
+  font-size: 0.95rem;
+  margin-top: 0rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+/* Панель навігації по місяцях */
+.monthNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Лейбл з поточним місяцем */
+.monthLabel {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-dark-blue);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Анімація появи лейблу місяця */
+.monthLabel-enter {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.monthLabel-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Кнопки навігації по місяцях */
+.navButton {
+  background: var(--color-dark-blue);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.navButton:hover {
+  background: var(--color-medium-blue);
+  transform: scale(1.05);
+}
+
+.navButton:active {
+  transform: scale(0.92);
+}
+
+/* Ефект плавної появи сторінки */
+.pageEnter {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}

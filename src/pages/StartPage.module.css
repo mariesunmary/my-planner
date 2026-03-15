@@ -1,0 +1,109 @@
+/**
+ * Стилі для StartPage.
+ * Файл відповідає за:
+ * 1. Центрування контенту на стартовій сторінці та загальний фон.
+ * 2. Анімовану появу логотипу, підзаголовку та кнопок.
+ * 3. Оформлення кнопок входу (Log In) та реєстрації (Register)
+ *    з ефектами наведення та тінями.
+ * 4. Узгоджене використання кольорової палітри проєкту FocusFlow.
+ */
+
+ /* Головний контейнер сторінки */
+.container {
+  min-height: 100vh;
+  background: var(--color-light-beige);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Логотип із анімацією появи */
+.logo {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--color-dark-blue);
+  margin-bottom: 1rem;
+  user-select: none;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: fadeInScale 0.8s ease-out forwards;
+}
+
+@keyframes fadeInScale {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Підзаголовок */
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--color-almost-black);
+  opacity: 0;
+  margin-bottom: 2.5rem;
+  max-width: 480px;
+  animation: fadeUp 0.9s ease-out 0.4s forwards;
+}
+
+/* Контейнер кнопок з анімацією */
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 1s ease-out 0.8s forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Базові стилі для кнопок */
+.loginButton,
+.registerButton {
+  padding: 0.75rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Кнопка входу */
+.loginButton {
+  background-color: var(--color-medium-blue);
+  color: white;
+}
+
+.loginButton:hover {
+  background-color: var(--color-dark-blue);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* Кнопка реєстрації */
+.registerButton {
+  background-color: var(--color-light-blue);
+  color: var(--color-almost-black);
+}
+
+.registerButton:hover {
+  background-color: var(--color-medium-blue);
+  color: white;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
