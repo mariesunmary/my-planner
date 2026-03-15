@@ -167,7 +167,7 @@ function ProjectPlannerPage() {
    */
   const handleDeleteProject = (id) => {
     setProjects((prev) => prev.filter((p) => p.id !== id));
-    if (selectedProjectId === id) setSelectedProjectId(null);
+    if (selectedProjectId === id) {setSelectedProjectId(null);}
   };
 
   /**

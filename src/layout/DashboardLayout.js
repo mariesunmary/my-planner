@@ -6,6 +6,7 @@
  * @param {ReactNode} children - Основний контент сторінки, який буде вставлений всередину container.
  */
 import React from "react";
+import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import styles from "./DashboardLayout.module.css";
@@ -63,5 +64,9 @@ function DashboardLayout({ children }) {
     </div>
   );
 }
+
+DashboardLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default DashboardLayout;

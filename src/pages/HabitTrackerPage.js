@@ -110,7 +110,7 @@ function HabitTrackerPage() {
       const next = { ...prev };
       for (let d = 1; d <= days.length; d++) {
         const key = `${name}-${monthKey}-${d}`;
-        if (key in next) delete next[key];
+        if (key in next) {delete next[key];}
       }
       return next;
     });
@@ -142,7 +142,7 @@ function HabitTrackerPage() {
    */
   const handleSaveHabit = (index) => {
     const newName = editedHabit.trim();
-    if (!newName) return;
+    if (!newName) {return;}
 
     const oldName = habits[index];
 
@@ -213,7 +213,7 @@ function HabitTrackerPage() {
             value={newHabit}
             onChange={(e) => {
               setNewHabit(e.target.value);
-              if (error) setError(false);
+              if (error) {setError(false);}
             }}
             onFocus={() => setError(false)}
             placeholder="Enter a new habit"

@@ -80,7 +80,7 @@ function WeeklyToDoPage() {
    * Збереження редагованого завдання
    */
   const saveEditedTask = () => {
-    if (!editingTask || !editingTask.text.trim()) return;
+    if (!editingTask || !editingTask.text.trim()) {return;}
 
     const { date, index, text } = editingTask;
     setTasks((prev) => {
@@ -122,7 +122,7 @@ function WeeklyToDoPage() {
                     key={index}
                     className={`${styles.task} ${task.done ? styles.done : ""}`}
                     onClick={() => {
-                      if (!isEditing) toggleTask(fullDate, index);
+                      if (!isEditing) {toggleTask(fullDate, index);}
                     }}
                     title={isEditing ? "" : "Click to toggle"}
                   >
@@ -140,8 +140,8 @@ function WeeklyToDoPage() {
                             })
                           }
                           onKeyDown={(e) => {
-                            if (e.key === "Enter") saveEditedTask();
-                            if (e.key === "Escape") setEditingTask(null);
+                            if (e.key === "Enter") {saveEditedTask();}
+                            if (e.key === "Escape") {setEditingTask(null);}
                           }}
                           autoFocus
                         />
@@ -212,9 +212,9 @@ function WeeklyToDoPage() {
                     }
                   }}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") handleAddTask(fullDate);
+                    if (e.key === "Enter") {handleAddTask(fullDate);}
                     if (e.key === "Escape")
-                      setInputVisible((prev) => ({ ...prev, [fullDate]: false }));
+                      {setInputVisible((prev) => ({ ...prev, [fullDate]: false }));}
                   }}
                   placeholder="New task"
                   autoFocus

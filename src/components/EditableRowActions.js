@@ -14,6 +14,7 @@
  */
 
 import React from "react";
+import PropTypes from "prop-types";
 import common from "../styles/Common.module.css";
 
 function EditableRowActions({
@@ -51,5 +52,17 @@ function EditableRowActions({
     </div>
   );
 }
+
+EditableRowActions.propTypes = {
+  isEditing: PropTypes.bool.isRequired,
+  onSave: PropTypes.func,
+  onCancel: PropTypes.func,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
+  saveTitle: PropTypes.string,
+  cancelTitle: PropTypes.string,
+  editTitle: PropTypes.string,
+  deleteTitle: PropTypes.string,
+};
 
 export default EditableRowActions;

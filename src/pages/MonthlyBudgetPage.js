@@ -77,12 +77,12 @@ function MonthlyBudgetPage() {
    * - Очищує форму та помилки.
    */
   const handleAddExpense = () => {
-    let newErrors = {};
+    const newErrors = {};
     const nameError = validateRequired(form.name, "Expense name");
     const amountError = validateRequired(form.amount, "Amount");
 
-    if (nameError) newErrors.name = nameError;
-    if (amountError) newErrors.amount = amountError;
+    if (nameError) {newErrors.name = nameError;}
+    if (amountError) {newErrors.amount = amountError;}
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
