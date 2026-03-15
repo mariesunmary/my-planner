@@ -37,3 +37,27 @@ Global scripts have been setup via `npm` inside `package.json`.
   ```bash
   npm run lint:fix
   ```
+
+## Advanced Tooling & Quality Checks
+
+### 1. Pre-Commit Hooks (Husky & lint-staged)
+In order to prevent poorly formatted code or invalid logic from entering the repository, this project utilizes **Husky**. Husky is configured to execute a `pre-commit` Git hook.
+- When you attempt `git commit`, Husky triggers `lint-staged`.
+- `lint-staged` maps over all customized `.js` files currently in the Git staging area and automatically runs `eslint --fix` on them. 
+- If ESLint detects an unfixable error, the commit is aborted automatically.
+
+### 2. Static Type Checking (TypeScript CheckJs)
+Even though the project relies on native JavaScript, we leverage the TypeScript compiler (`tsc`) silently in the background via a `jsconfig.json`.
+- The `"checkJs": true` compiler option verifies correct JavaScript implicit typings and JSDocs across the codebase without requiring migration to `.ts` syntax.
+- You can run the type checker manually:
+  ```bash
+  npm run type-check
+  ```
+
+### 3. Build Process Integration
+To ensure the CI/CD pipeline outputs safe artifacts, linting and type checking have been injected prior to React initialization. Both tools now block `npm run build` from succeeding if there are unresolved issues.
+- The command `npm run check-all` runs the linter first, and if successful, initiates the `type-check`.
+- The `"build"` script has been replaced with:
+  ```json
+  "build": "npm run check-all && react-scripts build"
+  ```
