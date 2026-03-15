@@ -13,6 +13,7 @@ export function loadFromStorage(key, fallback = null) {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : fallback;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("Error loading from storage", e);
     return fallback;
   }
@@ -27,6 +28,7 @@ export function saveToStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("Error saving to storage", e);
   }
 }
@@ -39,6 +41,7 @@ export function removeFromStorage(key) {
   try {
     localStorage.removeItem(key);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("Error removing from storage", e);
   }
 }

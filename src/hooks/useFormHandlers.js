@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 /**
  * Хук для уніфікованих обробників input
