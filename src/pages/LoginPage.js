@@ -29,8 +29,8 @@ function LoginPage() {
     const emailError = validateEmail(form.email);
     const passError = validatePassword(form.password);
 
-    if (emailError) newErrors.email = emailError;
-    if (passError) newErrors.password = passError;
+    if (emailError) {newErrors.email = emailError;}
+    if (passError) {newErrors.password = passError;}
 
     return newErrors;
   };

@@ -10,7 +10,7 @@ export function useFormHandlers(form, setForm, setErrors, setSuccess) {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...setErrors, [e.target.name]: "" });
-    if (setSuccess) setSuccess(""); // очищаємо повідомлення успіху
+    if (setSuccess) {setSuccess("");} // очищаємо повідомлення успіху
   };
 
   const handleFocus = (e) => {

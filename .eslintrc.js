@@ -23,6 +23,10 @@ module.exports = {
     "semi": ["warn", "always"],
     "eqeqeq": ["error", "always"],
     "no-unused-vars": "warn",
-    "no-console": "warn"
+    "no-console": "warn",
+    "prefer-const": "warn",
+    "no-var": "error",
+    "curly": ["warn", "all"],
+    "react/prop-types": "warn"
   }
 };

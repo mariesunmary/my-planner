@@ -34,9 +34,9 @@ function RegisterPage() {
     const emailError = validateEmail(form.email);
     const passError = validatePassword(form.password);
 
-    if (nameError) newErrors.name = nameError;
-    if (emailError) newErrors.email = emailError;
-    if (passError) newErrors.password = passError;
+    if (nameError) {newErrors.name = nameError;}
+    if (emailError) {newErrors.email = emailError;}
+    if (passError) {newErrors.password = passError;}
 
     return newErrors;
   };

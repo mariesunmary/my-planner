@@ -1,0 +1,63 @@
+
+> my-planner@0.1.0 lint
+> eslint src/**/*.js
+
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/components/EditableRowActions.js
+  20:3  warning  'isEditing' is missing in props validation    react/prop-types
+  21:3  warning  'onSave' is missing in props validation       react/prop-types
+  22:3  warning  'onCancel' is missing in props validation     react/prop-types
+  23:3  warning  'onEdit' is missing in props validation       react/prop-types
+  24:3  warning  'onDelete' is missing in props validation     react/prop-types
+  25:3  warning  'saveTitle' is missing in props validation    react/prop-types
+  26:3  warning  'cancelTitle' is missing in props validation  react/prop-types
+  27:3  warning  'editTitle' is missing in props validation    react/prop-types
+  28:3  warning  'deleteTitle' is missing in props validation  react/prop-types
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/hooks/useFormHandlers.js
+  13:21  warning  Expected { after 'if' condition  curly
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/layout/DashboardLayout.js
+  30:28  warning  'children' is missing in props validation  react/prop-types
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/pages/HabitTrackerPage.js
+  113:26  warning  Expected { after 'if' condition  curly
+  145:19  warning  Expected { after 'if' condition  curly
+  216:26  warning  Expected { after 'if' condition  curly
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/pages/LoginPage.js
+  32:21  warning  Expected { after 'if' condition  curly
+  33:20  warning  Expected { after 'if' condition  curly
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/pages/MonthlyBudgetPage.js
+  80:9   warning  'newErrors' is never reassigned. Use 'const' instead  prefer-const
+  84:20  warning  Expected { after 'if' condition                       curly
+  85:22  warning  Expected { after 'if' condition                       curly
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/pages/ProjectPlannerPage.js
+  170:35  warning  Expected { after 'if' condition  curly
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/pages/RegisterPage.js
+  37:20  warning  Expected { after 'if' condition  curly
+  38:21  warning  Expected { after 'if' condition  curly
+  39:20  warning  Expected { after 'if' condition  curly
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/pages/WeeklyToDoPage.js
+   83:51  warning  Expected { after 'if' condition  curly
+  125:39  warning  Expected { after 'if' condition  curly
+  143:52  warning  Expected { after 'if' condition  curly
+  144:53  warning  Expected { after 'if' condition  curly
+  215:44  warning  Expected { after 'if' condition  curly
+  217:23  warning  Expected { after 'if' condition  curly
+
+/Users/mariashkriabynets/Documents/GitHub/my-planner/src/utils/validation.js
+  11:21  warning  Expected { after 'if' condition  curly
+  12:31  warning  Expected { after 'if' condition  curly
+  22:22  warning  Expected { after 'if' condition  curly
+  23:50  warning  Expected { after 'if' condition  curly
+  33:18  warning  Expected { after 'if' condition  curly
+  34:28  warning  Expected { after 'if' condition  curly
+
+✖ 35 problems (0 errors, 35 warnings)
+  0 errors and 25 warnings potentially fixable with the `--fix` option.
+

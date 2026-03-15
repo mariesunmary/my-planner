@@ -8,8 +8,8 @@
  * @returns {string} Повертає повідомлення про помилку або пустий рядок, якщо валідно
  */
 export const validateName = (name) => {
-  if (!name.trim()) return "Name is required";
-  if (name.trim().length < 2) return "Name must be at least 2 characters";
+  if (!name.trim()) {return "Name is required";}
+  if (name.trim().length < 2) {return "Name must be at least 2 characters";}
   return "";
 };
 
@@ -19,8 +19,8 @@ export const validateName = (name) => {
  * @returns {string} Повертає повідомлення про помилку або пустий рядок, якщо валідно
  */
 export const validateEmail = (email) => {
-  if (!email.trim()) return "Email is required";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Email is invalid";
+  if (!email.trim()) {return "Email is required";}
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {return "Email is invalid";}
   return "";
 };
 
@@ -30,8 +30,8 @@ export const validateEmail = (email) => {
  * @returns {string} Повертає повідомлення про помилку або пустий рядок, якщо валідно
  */
 export const validatePassword = (password) => {
-  if (!password) return "Password is required";
-  if (password.length < 6) return "Password must be at least 6 characters";
+  if (!password) {return "Password is required";}
+  if (password.length < 6) {return "Password must be at least 6 characters";}
   return "";
 };
 
