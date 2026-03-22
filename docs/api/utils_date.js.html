@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Planner API utils/date.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="hide">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">My Planner Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-validation.html">validation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#DashboardLayout">DashboardLayout</a></li><li><a href="global.html#EditableRowActions">EditableRowActions</a></li><li><a href="global.html#HabitTrackerPage">HabitTrackerPage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ProjectPlannerPage">ProjectPlannerPage</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WeeklyToDoPage">WeeklyToDoPage</a></li><li><a href="global.html#categories">categories</a></li><li><a href="global.html#generateMonthDays">generateMonthDays</a></li><li><a href="global.html#getWeekDates">getWeekDates</a></li><li><a href="global.html#loadFromStorage">loadFromStorage</a></li><li><a href="global.html#navItems">navItems</a></li><li><a href="global.html#removeFromStorage">removeFromStorage</a></li><li><a href="global.html#saveToStorage">saveToStorage</a></li><li><a href="global.html#useFormHandlers">useFormHandlers</a></li><li><a href="global.html#useMonthNavigation">useMonthNavigation</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>utils/date.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Утиліти для роботи з датами.
+ */
+
+// Масив назв днів тижня
+export const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+// Масив назв місяців
+export const monthNames = [
+  "January","February","March","April","May","June",
+  "July","August","September","October","November","December"
+];
+
+/**
+ * Отримання дати поточного тижня (з понеділка по неділю).
+ * 
+ * @param {Date} [today=new Date()] - Базова дата, від якої розраховується тиждень. За замовчуванням - поточна дата.
+ * @returns {Array&lt;{label: string, date: string, fullDate: string}>} Масив об'єктів з інформацією про кожен день тижня.
+ */
+export function getWeekDates(today = new Date()) {
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+
+  return [...Array(7)].map((_, i) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + i);
+
+    return {
+      label: weekDays[i], 
+      date: date.toLocaleDateString("en-GB", { day: "numeric" }), 
+      fullDate: date.toISOString().split("T")[0], 
+    };
+  });
+}
+
+/**
+ * Генерація масиву днів для заданого місяця.
+ * 
+ * @param {number} year - Звичайний рік (наприклад, 2026).
+ * @param {number} month - Індекс місяця (0 - січень, 11 - грудень).
+ * @returns {number[]} Масив чисел, що представляють порядкові номери днів у заданому місяці.
+ */
+export function generateMonthDays(year, month) {
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  return [...Array(daysInMonth)].map((_, i) => i + 1);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

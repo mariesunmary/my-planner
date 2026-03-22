@@ -12,6 +12,8 @@ import { useFormHandlers } from "../hooks/useFormHandlers";
  * - Здійснює пошук користувача у localStorage
  * - Зберігає поточного користувача після успішного входу
  * - Переадресовує на головну сторінку (Home)
+ * @component
+ * @returns {JSX.Element} Форма авторизації.
  */
 function LoginPage() {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ function LoginPage() {
 
   /**
    * Валідація даних форми входу.
-   * @returns {Object} errors - об’єкт із помилками, якщо є
+   * @returns {object} errors - об’єкт із помилками, якщо є
    */
   const validate = () => {
     const newErrors = {};

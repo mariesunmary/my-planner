@@ -1,10 +1,4 @@
-/**
- * DashboardLayout — компонент обгортки для сторінок, які використовують
- * структуру з sidebar, шапкою та контейнером для основного контенту.
- *
- * Props:
- * @param {ReactNode} children - Основний контент сторінки, який буде вставлений всередину container.
- */
+
 import React from "react";
 import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
@@ -28,6 +22,14 @@ const navItems = [
 
 const quote = "Small steps every day lead to big changes.";
 
+/**
+ * DashboardLayout — компонент обгортки для сторінок, які використовують
+ * структуру з бічною панеллю, шапкою та контейнером для основного контенту.
+ * @component
+ * @param {object} props - Властивості компонента.
+ * @param {React.ReactNode} props.children - Основний контент сторінки, який буде вставлений всередину контейнера.
+ * @returns {JSX.Element} Обгортка зі структурою Dashboard.
+ */
 function DashboardLayout({ children }) {
   const location = useLocation();
 

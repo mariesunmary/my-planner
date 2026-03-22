@@ -17,6 +17,12 @@ const navItems = [
   { label: "Project Planner", path: "/projects" },
 ];
 
+/**
+ * Компонент бічної панелі навігації (Sidebar).
+ * Відповідає за привітання користувача та рендеринг основних посилань для навігації між сторінками застосунку.
+ * Використовує localStorage для отримання даних про поточного користувача.
+ * @returns {JSX.Element} React-компонент, що містить блок привітання та меню навігації.
+ */
 function Sidebar() {
   const location = useLocation();
 

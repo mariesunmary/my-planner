@@ -11,7 +11,11 @@ export const monthNames = [
   "July","August","September","October","November","December"
 ];
 
-// Отримання дати поточного тижня (з понеділка по неділю)
+/**
+ * Отримання дати поточного тижня (з понеділка по неділю).
+ * @param {Date} [today] - Базова дата, від якої розраховується тиждень. За замовчуванням - поточна дата.
+ * @returns {Array<{label: string, date: string, fullDate: string}>} Масив об'єктів з інформацією про кожен день тижня.
+ */
 export function getWeekDates(today = new Date()) {
   const monday = new Date(today);
   monday.setDate(today.getDate() - ((today.getDay() + 6) % 7));
@@ -28,7 +32,12 @@ export function getWeekDates(today = new Date()) {
   });
 }
 
-// Генерація масиву днів для заданого місяця
+/**
+ * Генерація масиву днів для заданого місяця.
+ * @param {number} year - Звичайний рік (наприклад, 2026).
+ * @param {number} month - Індекс місяця (0 - січень, 11 - грудень).
+ * @returns {number[]} Масив чисел, що представляють порядкові номери днів у заданому місяці.
+ */
 export function generateMonthDays(year, month) {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   return [...Array(daysInMonth)].map((_, i) => i + 1);

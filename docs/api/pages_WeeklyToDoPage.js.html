@@ -1,4 +1,95 @@
-import React, { useState, useEffect } from "react";
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Planner API pages/WeeklyToDoPage.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="hide">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">My Planner Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-validation.html">validation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#DashboardLayout">DashboardLayout</a></li><li><a href="global.html#EditableRowActions">EditableRowActions</a></li><li><a href="global.html#HabitTrackerPage">HabitTrackerPage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ProjectPlannerPage">ProjectPlannerPage</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WeeklyToDoPage">WeeklyToDoPage</a></li><li><a href="global.html#categories">categories</a></li><li><a href="global.html#generateMonthDays">generateMonthDays</a></li><li><a href="global.html#getWeekDates">getWeekDates</a></li><li><a href="global.html#loadFromStorage">loadFromStorage</a></li><li><a href="global.html#navItems">navItems</a></li><li><a href="global.html#removeFromStorage">removeFromStorage</a></li><li><a href="global.html#saveToStorage">saveToStorage</a></li><li><a href="global.html#useFormHandlers">useFormHandlers</a></li><li><a href="global.html#useMonthNavigation">useMonthNavigation</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>pages/WeeklyToDoPage.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
 import styles from "./WeeklyToDoPage.module.css";
 import common from "../styles/Common.module.css";
 import EditableRowActions from "../components/EditableRowActions";
@@ -10,6 +101,7 @@ import { getWeekDates } from "../utils/date";
  * - Відображає дні поточного тижня
  * - Дозволяє додавати, редагувати, видаляти та виконувати завдання
  * - Використовує localStorage для збереження завдань користувача
+ *
  * @component
  * @returns {JSX.Element} Сторінка планування завдань на тиждень.
  */
@@ -96,31 +188,31 @@ function WeeklyToDoPage() {
 
   // Візуальні компоненти сторінки
   return (
-    <div className={`${common.container} ${common.pageEnter}`}>
+    &lt;div className={`${common.container} ${common.pageEnter}`}>
       {/* Інтро-текст */}
-      <p className={common.intro}>
+      &lt;p className={common.intro}>
         Plan your weekly tasks day by day. Add, edit, and mark them as done.
-      </p>
+      &lt;/p>
 
       {/* Сітка по днях тижня */}
-      <div className={styles.grid}>
+      &lt;div className={styles.grid}>
         {week.map(({ label, date, fullDate }) => (
-          <div key={fullDate} className={styles.dayColumn}>
+          &lt;div key={fullDate} className={styles.dayColumn}>
             {/* Заголовок дня */}
-            <div className={styles.dayHeader}>
-              <div>{label}</div>
-              <div className={styles.date}>{date}</div>
-            </div>
+            &lt;div className={styles.dayHeader}>
+              &lt;div>{label}&lt;/div>
+              &lt;div className={styles.date}>{date}&lt;/div>
+            &lt;/div>
 
             {/* Список задач */}
-            <ul className={styles.taskList}>
+            &lt;ul className={styles.taskList}>
               {(tasks[fullDate] || []).map((task, index) => {
                 const isEditing =
-                  editingTask?.date === fullDate &&
+                  editingTask?.date === fullDate &amp;&amp;
                   editingTask?.index === index;
 
                 return (
-                  <li
+                  &lt;li
                     key={index}
                     className={`${styles.task} ${task.done ? styles.done : ""}`}
                     onClick={() => {
@@ -131,8 +223,8 @@ function WeeklyToDoPage() {
 
                     {/* Інпут редагування завдання */}
                     {isEditing ? (
-                      <div className={styles.inputWrapper}>
-                        <input
+                      &lt;div className={styles.inputWrapper}>
+                        &lt;input
                           className={styles.input}
                           value={editingTask.text}
                           onChange={(e) =>
@@ -147,26 +239,26 @@ function WeeklyToDoPage() {
                           }}
                           autoFocus
                         />
-                        <div className={styles.inputButtons}>
-                          <button
+                        &lt;div className={styles.inputButtons}>
+                          &lt;button
                             className={styles.addConfirm}
                             onClick={saveEditedTask}
                           >
                             Save
-                          </button>
-                          <button
+                          &lt;/button>
+                          &lt;button
                             className={styles.addCancel}
                             onClick={() => setEditingTask(null)}
                           >
                             Cancel
-                          </button>
-                        </div>
-                      </div>
+                          &lt;/button>
+                        &lt;/div>
+                      &lt;/div>
                     ) : (
-                      <>
+                      &lt;>
                       {/* Текст завдання та кнопки редагування/видалення */}
-                        <span>{task.text}</span>
-                        <EditableRowActions
+                        &lt;span>{task.text}&lt;/span>
+                        &lt;EditableRowActions
                           isEditing={false}
                           onEdit={(e) => {
                             e.stopPropagation();
@@ -183,17 +275,17 @@ function WeeklyToDoPage() {
                           editTitle="Edit task"
                           deleteTitle="Delete task"
                         />
-                      </>
+                      &lt;/>
                     )}
-                  </li>
+                  &lt;/li>
                 );
               })}
-            </ul>
+            &lt;/ul>
 
             {/* Поле вводу для нової задачі */}
             {inputVisible[fullDate] ? (
-              <div className={styles.inputWrapper}>
-                <input
+              &lt;div className={styles.inputWrapper}>
+                &lt;input
                   type="text"
                   className={`${common.input} ${
                     taskError[fullDate] ? common.inputError : ""
@@ -221,45 +313,74 @@ function WeeklyToDoPage() {
                   placeholder="New task"
                   autoFocus
                 />
-                <div className={styles.inputButtons}>
-                  <button
+                &lt;div className={styles.inputButtons}>
+                  &lt;button
                     className={styles.addConfirm}
                     onClick={() => handleAddTask(fullDate)}
                   >
                     Add
-                  </button>
-                  <button
+                  &lt;/button>
+                  &lt;button
                     className={styles.addCancel}
                     onClick={() =>
                       setInputVisible((prev) => ({ ...prev, [fullDate]: false }))
                     }
                   >
                     Cancel
-                  </button>
-                </div>
+                  &lt;/button>
+                &lt;/div>
 
                 {/* Повідомлення про помилку */}
-                {taskError[fullDate] && (
-                  <div className={common.errorMessage}>
+                {taskError[fullDate] &amp;&amp; (
+                  &lt;div className={common.errorMessage}>
                     Obligatory field is not filled
-                  </div>
+                  &lt;/div>
                 )}
-              </div>
+              &lt;/div>
             ) : (
-              <button
+              &lt;button
                 className={common.addButton}
                 onClick={() =>
                   setInputVisible((prev) => ({ ...prev, [fullDate]: true }))
                 }
               >
                 + Add Task
-              </button>
+              &lt;/button>
             )}
-          </div>
+          &lt;/div>
         ))}
-      </div>
-    </div>
+      &lt;/div>
+    &lt;/div>
   );
 }
 
-export default WeeklyToDoPage;
+export default WeeklyToDoPage;</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

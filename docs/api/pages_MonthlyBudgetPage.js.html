@@ -1,4 +1,95 @@
-import React, { useState, useEffect, useRef } from "react";
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Planner API pages/MonthlyBudgetPage.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="hide">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">My Planner Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-validation.html">validation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#DashboardLayout">DashboardLayout</a></li><li><a href="global.html#EditableRowActions">EditableRowActions</a></li><li><a href="global.html#HabitTrackerPage">HabitTrackerPage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ProjectPlannerPage">ProjectPlannerPage</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WeeklyToDoPage">WeeklyToDoPage</a></li><li><a href="global.html#categories">categories</a></li><li><a href="global.html#generateMonthDays">generateMonthDays</a></li><li><a href="global.html#getWeekDates">getWeekDates</a></li><li><a href="global.html#loadFromStorage">loadFromStorage</a></li><li><a href="global.html#navItems">navItems</a></li><li><a href="global.html#removeFromStorage">removeFromStorage</a></li><li><a href="global.html#saveToStorage">saveToStorage</a></li><li><a href="global.html#useFormHandlers">useFormHandlers</a></li><li><a href="global.html#useMonthNavigation">useMonthNavigation</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>pages/MonthlyBudgetPage.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import styles from "./MonthlyBudgetPage.module.css";
 import common from "../styles/Common.module.css";
@@ -12,6 +103,7 @@ import { useMonthNavigation } from "../hooks/useMonthNavigation";
 /**
  * Сторінка Monthly Budget.
  * Дозволяє користувачеві відслідковувати та редагувати щомісячні витрати.
+ *
  * @component
  * @returns {JSX.Element} Інтерфейс управління щомісячним бюджетом.
  */
@@ -22,9 +114,6 @@ import { useMonthNavigation } from "../hooks/useMonthNavigation";
  */
 const categories = ["Food", "Transport", "Entertainment", "Health", "Shopping", "Other"];
 
-/**
- *
- */
 function MonthlyBudgetPage() {
   const today = new Date();
 
@@ -127,7 +216,7 @@ function MonthlyBudgetPage() {
 
   /**
    * Зміна значень редагованої витрати.
-   * @param {React.ChangeEvent<HTMLInputElement>} e - Подія зміни інпуту.
+   * @param {React.ChangeEvent&lt;HTMLInputElement>} e - Подія зміни інпуту.
    */
   const handleEditChange = (e) => {
     setEditedExpense({ ...editedExpense, [e.target.name]: e.target.value });
@@ -154,7 +243,7 @@ function MonthlyBudgetPage() {
 
   /**
    * Обробка фокусу на полі категорії для відкриття дропдауну.
-   * @param {React.FocusEvent<HTMLInputElement>} e - Подія фокусу.
+   * @param {React.FocusEvent&lt;HTMLInputElement>} e - Подія фокусу.
    */
   const handleCategoryFocus = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -179,12 +268,9 @@ function MonthlyBudgetPage() {
     setShowDropdown(false);
   };
 
-  /**
-   * Закриття дропдауну при кліку поза ним
-   * @param e
-   */
+  /** Закриття дропдауну при кліку поза ним */
   const handleClickOutside = (e) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+    if (dropdownRef.current &amp;&amp; !dropdownRef.current.contains(e.target)) {
       setShowDropdown(false);
     }
   };
@@ -207,37 +293,38 @@ function MonthlyBudgetPage() {
    * Відбирає лише ті записи, у яких:
    * - рік дати збігається з поточним роком (`currentYear`);
    * - місяць дати збігається з поточним місяцем (`currentMonth`).
+   *
    * @constant
-   * @type {Array<{ name: string, amount: string, category: string, date: string }>}
+   * @type {Array&lt;{ name: string, amount: string, category: string, date: string }>}
    */
   const filteredExpenses = expenses.filter((e) => {
     const d = new Date(e.date);
-    return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+    return d.getFullYear() === currentYear &amp;&amp; d.getMonth() === currentMonth;
   });
 
   /** Загальна сума витрат за місяць */
   const total = filteredExpenses.reduce((sum, e) => sum + parseFloat(e.amount || 0), 0);
 
   return (
-    <div className={`${common.container} ${common.pageEnter}`}>
-      <p className={common.intro}>
+    &lt;div className={`${common.container} ${common.pageEnter}`}>
+      &lt;p className={common.intro}>
         Track your monthly expenses to stay on top of your budget and make smarter spending decisions.
-      </p>
+      &lt;/p>
 
       {/* Навігація по місяцях */}
-      <div className={common.monthNav}>
-        <button onClick={goToPreviousMonth} className={common.navButton}>←</button>
-        <span className={common.monthLabel}>
+      &lt;div className={common.monthNav}>
+        &lt;button onClick={goToPreviousMonth} className={common.navButton}>←&lt;/button>
+        &lt;span className={common.monthLabel}>
           {monthNames[currentMonth]} {currentYear}
-        </span>
-        <button onClick={goToNextMonth} className={common.navButton}>→</button>
-      </div>
+        &lt;/span>
+        &lt;button onClick={goToNextMonth} className={common.navButton}>→&lt;/button>
+      &lt;/div>
 
       {/* Форма додавання витрати */}
-      <div className={common.form}>
-        <div className={common.inputGroup} style={{ flex: 2 }}>
-  <label htmlFor="expense-name" className={common.srOnly}>Expense name</label>
-  <input
+      &lt;div className={common.form}>
+        &lt;div className={common.inputGroup} style={{ flex: 2 }}>
+  &lt;label htmlFor="expense-name" className={common.srOnly}>Expense name&lt;/label>
+  &lt;input
     id="expense-name"
     className={`${common.input} ${errors.name ? common.inputError : ""}`}
     type="text"
@@ -247,11 +334,11 @@ function MonthlyBudgetPage() {
     onFocus={handleFocus}
     placeholder={errors.name || "Expense name"}
   />
-</div>
+&lt;/div>
 
-<div className={common.inputGroup} style={{ flex: 1 }}>
-  <label htmlFor="expense-amount" className={common.srOnly}>Amount</label>
-  <input
+&lt;div className={common.inputGroup} style={{ flex: 1 }}>
+  &lt;label htmlFor="expense-amount" className={common.srOnly}>Amount&lt;/label>
+  &lt;input
     id="expense-amount"
     className={`${common.input} ${errors.amount ? common.inputError : ""}`}
     type="number"
@@ -261,11 +348,11 @@ function MonthlyBudgetPage() {
     onFocus={handleFocus}
     placeholder={errors.amount || "Amount"}
   />
-</div>
+&lt;/div>
 
-<div className={common.inputGroup} style={{ flex: 1.5 }}>
-  <label htmlFor="expense-category" className={common.srOnly}>Category</label>
-  <input
+&lt;div className={common.inputGroup} style={{ flex: 1.5 }}>
+  &lt;label htmlFor="expense-category" className={common.srOnly}>Category&lt;/label>
+  &lt;input
     id="expense-category"
     className={common.input}
     type="text"
@@ -275,11 +362,11 @@ function MonthlyBudgetPage() {
     placeholder="Category"
     onFocus={handleCategoryFocus}
   />
-</div>
+&lt;/div>
 
-<div className={common.inputGroup} style={{ flex: 1.5 }}>
-  <label htmlFor="expense-date" className={common.srOnly}>Date</label>
-  <input
+&lt;div className={common.inputGroup} style={{ flex: 1.5 }}>
+  &lt;label htmlFor="expense-date" className={common.srOnly}>Date&lt;/label>
+  &lt;input
     id="expense-date"
     className={common.input}
     type="date"
@@ -287,36 +374,36 @@ function MonthlyBudgetPage() {
     value={form.date}
     onChange={handleChange}
   />
-</div>
+&lt;/div>
 
-        <button onClick={handleAddExpense} className={common.addButton}>
+        &lt;button onClick={handleAddExpense} className={common.addButton}>
           + Add Expense
-        </button>
-      </div>
+        &lt;/button>
+      &lt;/div>
 
-      {(errors.name || errors.amount) && (
-        <div className={common.errorMessage}>Obligatory field is not filled</div>
+      {(errors.name || errors.amount) &amp;&amp; (
+        &lt;div className={common.errorMessage}>Obligatory field is not filled&lt;/div>
       )}
 
-      <div className={styles.total}>Total this month: ${total.toFixed(2)}</div>
+      &lt;div className={styles.total}>Total this month: ${total.toFixed(2)}&lt;/div>
 
       {/* Таблиця витрат */}
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Expense</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Date</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
+      &lt;table className={styles.table}>
+        &lt;thead>
+          &lt;tr>
+            &lt;th>Expense&lt;/th>
+            &lt;th>Amount&lt;/th>
+            &lt;th>Category&lt;/th>
+            &lt;th>Date&lt;/th>
+            &lt;th />
+          &lt;/tr>
+        &lt;/thead>
+        &lt;tbody>
           {filteredExpenses.map((e, i) => (
-            <tr key={i}>
-              <td>
+            &lt;tr key={i}>
+              &lt;td>
                 {editIndex === i ? (
-                  <input
+                  &lt;input
                     name="name"
                     value={editedExpense.name}
                     onChange={handleEditChange}
@@ -325,11 +412,11 @@ function MonthlyBudgetPage() {
                 ) : (
                   e.name
                 )}
-              </td>
+              &lt;/td>
 
-              <td>
+              &lt;td>
                 {editIndex === i ? (
-                  <input
+                  &lt;input
                     type="number"
                     name="amount"
                     value={editedExpense.amount}
@@ -339,11 +426,11 @@ function MonthlyBudgetPage() {
                 ) : (
                   `$${parseFloat(e.amount).toFixed(2)}`
                 )}
-              </td>
+              &lt;/td>
 
-              <td>
+              &lt;td>
                 {editIndex === i ? (
-                  <input
+                  &lt;input
                     name="category"
                     value={editedExpense.category}
                     onChange={handleEditChange}
@@ -353,11 +440,11 @@ function MonthlyBudgetPage() {
                 ) : (
                   e.category || "-"
                 )}
-              </td>
+              &lt;/td>
 
-              <td>
+              &lt;td>
                 {editIndex === i ? (
-                  <input
+                  &lt;input
                     type="date"
                     name="date"
                     value={editedExpense.date}
@@ -367,10 +454,10 @@ function MonthlyBudgetPage() {
                 ) : (
                   e.date
                 )}
-              </td>
+              &lt;/td>
 
-              <td>
-                <EditableRowActions
+              &lt;td>
+                &lt;EditableRowActions
                   isEditing={editIndex === i}
                   onSave={handleSaveEdit}
                   onCancel={handleCancelEdit}
@@ -381,16 +468,16 @@ function MonthlyBudgetPage() {
                   editTitle="Edit expense"
                   deleteTitle="Delete expense"
                 />
-              </td>
-            </tr>
+              &lt;/td>
+            &lt;/tr>
           ))}
-        </tbody>
-      </table>
+        &lt;/tbody>
+      &lt;/table>
 
       {/* Дропдаун з категоріями */}
-      {showDropdown &&
+      {showDropdown &amp;&amp;
         createPortal(
-          <div
+          &lt;div
             ref={dropdownRef}
             className={styles.dropdown}
             style={{
@@ -400,19 +487,49 @@ function MonthlyBudgetPage() {
             }}
           >
             {categories.map((cat) => (
-              <div
+              &lt;div
                 key={cat}
                 className={styles.dropdownItem}
                 onMouseDown={() => handleCategorySelect(cat)}
               >
                 {cat}
-              </div>
+              &lt;/div>
             ))}
-          </div>,
+          &lt;/div>,
           document.body
         )}
-    </div>
+    &lt;/div>
   );
 }
 
 export default MonthlyBudgetPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

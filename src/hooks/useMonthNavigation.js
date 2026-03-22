@@ -1,10 +1,18 @@
 import { useState } from "react";
 
 /**
- * Хук для навігації між місяцями
- * @param {number} initialYear - поточний рік
- * @param {number} initialMonth - поточний місяць (0-11)
- * @returns {object} { currentYear, currentMonth, goToPreviousMonth, goToNextMonth, setCurrentYear, setCurrentMonth }
+ * Хук для навігації між місяцями та роками.
+ * Дозволяє зручно перемикатися на попередній та наступний місяць, автоматично враховуючи зміну року.
+ * @param {number} initialYear - Початковий рік.
+ * @param {number} initialMonth - Початковий місяць (0-11, де 0 - січень).
+ * @returns {{
+ *   currentYear: number,
+ *   currentMonth: number,
+ *   goToPreviousMonth: Function,
+ *   goToNextMonth: Function,
+ *   setCurrentYear: Function,
+ *   setCurrentMonth: Function
+ * }} Геттери та сеттери для управління місяцем.
  */
 export function useMonthNavigation(initialYear, initialMonth) {
   const [currentYear, setCurrentYear] = useState(initialYear);

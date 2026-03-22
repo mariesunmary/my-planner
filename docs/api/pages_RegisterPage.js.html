@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Planner API pages/RegisterPage.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="hide">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">My Planner Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-validation.html">validation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#DashboardLayout">DashboardLayout</a></li><li><a href="global.html#EditableRowActions">EditableRowActions</a></li><li><a href="global.html#HabitTrackerPage">HabitTrackerPage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ProjectPlannerPage">ProjectPlannerPage</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WeeklyToDoPage">WeeklyToDoPage</a></li><li><a href="global.html#categories">categories</a></li><li><a href="global.html#generateMonthDays">generateMonthDays</a></li><li><a href="global.html#getWeekDates">getWeekDates</a></li><li><a href="global.html#loadFromStorage">loadFromStorage</a></li><li><a href="global.html#navItems">navItems</a></li><li><a href="global.html#removeFromStorage">removeFromStorage</a></li><li><a href="global.html#saveToStorage">saveToStorage</a></li><li><a href="global.html#useFormHandlers">useFormHandlers</a></li><li><a href="global.html#useMonthNavigation">useMonthNavigation</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>pages/RegisterPage.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "../styles/Auth.module.css";
+import common from "../styles/Common.module.css";
+import {
+  validateName,
+  validateEmail,
+  validatePassword,
+} from "../utils/validation";
+import { loadFromStorage, saveToStorage } from "../utils/localstorage";
+import { useFormHandlers } from "../hooks/useFormHandlers";
+
+/**
+ * Сторінка реєстрації користувача.
+ * - Виконує валідацію введених даних
+ * - Зберігає користувачів у localStorage
+ * - Перевіряє унікальність email та імені
+ * - Переадресовує на Home після успіху
+ *
+ * @component
+ * @returns {JSX.Element} Сторінка реєстрації нового користувача.
+ */
+function RegisterPage() {
+  // Стан форми та повідомлень 
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
+
+  /**
+   * Валідація даних форми.
+   * @returns {Object} errors - об’єкт з помилками 
+   */
+  const validate = () => {
+    const newErrors = {};
+    const nameError = validateName(form.name);
+    const emailError = validateEmail(form.email);
+    const passError = validatePassword(form.password);
+
+    if (nameError) {newErrors.name = nameError;}
+    if (emailError) {newErrors.email = emailError;}
+    if (passError) {newErrors.password = passError;}
+
+    return newErrors;
+  };
+
+  // Обробники введення з кастомного hook
+  const { handleChange, handleFocus } = useFormHandlers(
+    form, 
+    setForm, 
+    setErrors, 
+    setSuccess
+  );
+
+  /**
+   * Обробник відправлення форми входу.
+   * - Перевіряє валідацію
+   * - Порівнює дані з користувачами в localStorage
+   * - У разі успіху зберігає користувача та переходить на Home
+   * @param {Event} e - подія submit
+   */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    // Отримання існуючих користувачів з localStorage
+    const users = loadFromStorage("users", []);
+
+    // Перевірка на унікальність
+    const duplicate = users.find(
+      (u) => u.email === form.email || u.name.toLowerCase() === form.name.toLowerCase()
+    );
+
+    if (duplicate) {
+      setErrors({
+        ...errors,
+        email: duplicate.email === form.email ? "Email already in use" : "",
+        name: duplicate.name?.toLowerCase() === form.name.toLowerCase() ? "Name already in use" : "",
+      });
+      return;
+    }
+
+    // Додавання нового користувача
+    const updatedUsers = [...users, form];
+    saveToStorage("users", updatedUsers);
+    saveToStorage("currentUser", form);
+
+    // Повідомлення про успіх
+    setSuccess("Account created successfully!");
+    setForm({ name: "", email: "", password: "" });
+
+    // Переадресація на Home
+    setTimeout(() => {
+      navigate("/home");
+    }, 800);
+  };
+
+  return (
+    &lt;div className={styles.authContainer}>
+      &lt;h2 className={styles.authTitle}>Create your account&lt;/h2>
+
+      &lt;form
+        key={success}
+        className={styles.authForm}
+        onSubmit={handleSubmit}
+        noValidate
+      >
+        {/* Ім'я */}
+        &lt;div className={styles.authInputWrapper}>
+          &lt;input
+            type="text"
+            name="name"
+            placeholder="Name"
+            className={`${styles.authInput} ${
+              errors.name ? common.inputError : ""
+            }`}
+            value={form.name}
+            onChange={handleChange}
+            onFocus={handleFocus}
+          />
+          {errors.name &amp;&amp; (
+            &lt;p className={common.errorMessage}>{errors.name}&lt;/p>
+          )}
+        &lt;/div>
+
+        {/* Email */}
+        &lt;div className={styles.authInputWrapper}>
+          &lt;input
+            type="email"
+            name="email"
+            placeholder="Email"
+            className={`${styles.authInput} ${
+              errors.email ? common.inputError : ""
+            }`}
+            value={form.email}
+            onChange={handleChange}
+            onFocus={handleFocus}
+          />
+          {errors.email &amp;&amp; (
+            &lt;p className={common.errorMessage}>{errors.email}&lt;/p>
+          )}
+        &lt;/div>
+
+        {/* Пароль */}
+        &lt;div className={styles.authInputWrapper}>
+          &lt;input
+            type="password"
+            name="password"
+            placeholder="Password"
+            autoComplete="new-password"
+            className={`${styles.authInput} ${
+              errors.password ? common.inputError : ""
+            }`}
+            value={form.password}
+            onChange={handleChange}
+            onFocus={handleFocus}
+          />
+          {errors.password &amp;&amp; (
+            &lt;p className={common.errorMessage}>{errors.password}&lt;/p>
+          )}
+        &lt;/div>
+
+        &lt;button type="submit" className={styles.button}>
+          Register
+        &lt;/button>
+
+        {/* Повідомлення про успіх */}
+        {success &amp;&amp; &lt;p className={styles.success}>{success}&lt;/p>}
+      &lt;/form>
+    &lt;/div>
+  );
+}
+
+export default RegisterPage;</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

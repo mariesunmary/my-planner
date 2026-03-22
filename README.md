@@ -39,6 +39,36 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
+## Code Documentation Guidelines
+
+In this project, we use **JSDoc** as the standard for documenting our JavaScript and React code. 
+All project contributors should follow these guidelines to keep the codebase understandable and maintainable.
+
+### What to Document
+- **Key Functions & Utilities**: Any function containing business logic, complex data transformations (e.g., date formatting), or calculations.
+- **Custom Hooks**: Explain what state it manages and what it returns.
+- **React Components**: Describe the purpose of the component, its behavior, and expected props (if any).
+
+### How to Document
+We use standard JSDoc block comments. Start your comment block with `/**` directly above the function or component declaration.
+
+#### Example: Documenting a Function
+```javascript
+/**
+ * Calculates the total sum of items in a shopping cart.
+ * 
+ * @param {Array<{price: number, quantity: number}>} items - List of cart items.
+ * @param {number} [discount=0] - Optional discount percentage to apply (0-100).
+ * @returns {number} The final calculated total.
+ */
+export function calculateTotal(items, discount = 0) {
+  // ...
+}
+```
+
+#### Automatically Generating Documentation
+While the primary focus is to keep the code readable for IDE extensions (like VSCode intellisense), you will be able to generate explicit HTML documentation in the future using tools like [JSDoc](https://jsdoc.app/) or [TypeDoc](https://typedoc.org/). Please ensure all your code strictly follows the JSDoc syntax standard.
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

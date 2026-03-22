@@ -6,7 +6,8 @@ module.exports = {
   },
   extends: [
     "react-app",
-    "react-app/jest"
+    "react-app/jest",
+    "plugin:jsdoc/recommended"
   ],
   parserOptions: {
     ecmaFeatures: {

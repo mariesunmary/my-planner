@@ -2,11 +2,16 @@
  * Стартова сторінка застосунку.
  * Відповідає за привітання користувача та надання вибору між входом і реєстрацією.
  * Містить логотип, короткий опис і кнопки переходу до сторінок Login та Register.
+ * @component
+ * @returns {JSX.Element} Стартовий екран з вибором дій.
  */
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./StartPage.module.css";
 
+/**
+ *
+ */
 function StartPage() {
   return (
     <div className={styles.container}>

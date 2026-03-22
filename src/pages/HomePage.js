@@ -8,6 +8,8 @@ import styles from "./HomePage.module.css";
  * - Містить опис філософії та призначення FocusFlow
  * - Використовує компонент Sidebar для навігації між сторінками
  * - Є стартовою сторінкою після авторизації
+ * @component
+ * @returns {JSX.Element} Сторінка привітання та ознайомлення.
  */
 function HomePage() {
   return (

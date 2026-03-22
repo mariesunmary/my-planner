@@ -16,6 +16,8 @@ import { useFormHandlers } from "../hooks/useFormHandlers";
  * - Зберігає користувачів у localStorage
  * - Перевіряє унікальність email та імені
  * - Переадресовує на Home після успіху
+ * @component
+ * @returns {JSX.Element} Сторінка реєстрації нового користувача.
  */
 function RegisterPage() {
   // Стан форми та повідомлень 
@@ -26,7 +28,7 @@ function RegisterPage() {
 
   /**
    * Валідація даних форми.
-   * @returns {Object} errors - об’єкт з помилками 
+   * @returns {object} errors - об’єкт з помилками 
    */
   const validate = () => {
     const newErrors = {};

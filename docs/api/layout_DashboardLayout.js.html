@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Planner API layout/DashboardLayout.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="hide">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">My Planner Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-validation.html">validation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#DashboardLayout">DashboardLayout</a></li><li><a href="global.html#EditableRowActions">EditableRowActions</a></li><li><a href="global.html#HabitTrackerPage">HabitTrackerPage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#ProjectPlannerPage">ProjectPlannerPage</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WeeklyToDoPage">WeeklyToDoPage</a></li><li><a href="global.html#categories">categories</a></li><li><a href="global.html#generateMonthDays">generateMonthDays</a></li><li><a href="global.html#getWeekDates">getWeekDates</a></li><li><a href="global.html#loadFromStorage">loadFromStorage</a></li><li><a href="global.html#navItems">navItems</a></li><li><a href="global.html#removeFromStorage">removeFromStorage</a></li><li><a href="global.html#saveToStorage">saveToStorage</a></li><li><a href="global.html#useFormHandlers">useFormHandlers</a></li><li><a href="global.html#useMonthNavigation">useMonthNavigation</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>layout/DashboardLayout.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+import React from "react";
+import PropTypes from "prop-types";
+import { useLocation } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import styles from "./DashboardLayout.module.css";
+import common from "../styles/Common.module.css";
+
+/**
+ * Список пунктів навігації для Sidebar та заголовка шапки.
+ * Кожен об'єкт містить:
+ * - label: назва пункту меню
+ * - path: шлях сторінки
+ */
+const navItems = [
+  { label: "Home", path: "/home" },
+  { label: "Weekly To-do List", path: "/weekly" },
+  { label: "Habit Tracker", path: "/habits" },
+  { label: "Monthly Budget", path: "/budget" },
+  { label: "Project Planner", path: "/projects" },
+];
+
+const quote = "Small steps every day lead to big changes.";
+
+/**
+ * DashboardLayout — компонент обгортки для сторінок, які використовують
+ * структуру з бічною панеллю, шапкою та контейнером для основного контенту.
+ *
+ * @component
+ * @param {Object} props - Властивості компонента.
+ * @param {React.ReactNode} props.children - Основний контент сторінки, який буде вставлений всередину контейнера.
+ * @returns {JSX.Element} Обгортка зі структурою Dashboard.
+ */
+function DashboardLayout({ children }) {
+  const location = useLocation();
+
+  // Визначення активного пункту меню за шляхом
+  const activeItem = navItems.find(item =>
+    location.pathname.startsWith(item.path)
+  );
+
+  // Отримання поточного місяця у форматі "Month Year"
+  const today = new Date();
+  const currentMonth = today.toLocaleString("en-GB", {
+    month: "long",
+    year: "numeric",
+  });
+
+  return (
+    &lt;div className={styles.layout}>
+      {/* Sidebar з відображенням імені користувача */}
+      &lt;Sidebar showAppName={false} userName="User" />
+
+      &lt;div className={styles.main}>
+        {/* Шапка сторінки */}
+        &lt;header className={styles.header}>
+          &lt;div className={styles.headerText}>
+            &lt;h2 className={styles.title}>{activeItem?.label}&lt;/h2>
+            &lt;p className={styles.month}>{currentMonth}&lt;/p>
+          &lt;/div>
+          &lt;p className={styles.quote}>{quote}&lt;/p>
+        &lt;/header>
+
+        {/* Основний контент сторінки */}
+        &lt;div className={common.container}>{children}&lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+DashboardLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default DashboardLayout;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

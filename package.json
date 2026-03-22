@@ -23,7 +23,8 @@
     "lint:fix": "eslint src/**/*.js --fix",
     "type-check": "tsc",
     "check-all": "npm run lint && npm run type-check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docs": "jsdoc -c jsdoc.json"
   },
   "lint-staged": {
     "src/**/*.js": [
@@ -51,7 +52,10 @@
   "devDependencies": {
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "better-docs": "^2.7.3",
+    "eslint-plugin-jsdoc": "^61.7.1",
     "husky": "^9.1.7",
+    "jsdoc": "^4.0.5",
     "lint-staged": "^16.4.0",
     "typescript": "^5.9.3"
   }
