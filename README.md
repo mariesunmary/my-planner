@@ -1,17 +1,78 @@
-# Getting Started with Create React App
+# My Planner - Посібник Розробника
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Цей документ містить покрокову інструкцію для розробників, які приєднуються до проєкту "My Planner". Проєкт побудований на React (Create React App).
 
-## Available Scripts
+## 🚀 Покрокова інструкція для нового розробника
 
-In the project directory, you can run:
+Якщо ви тільки-но встановили нову ОС і плануєте працювати з цим проєктом, дотримуйтесь наступних кроків.
 
-### `npm start`
+### 1. Необхідні залежності та програмне забезпечення
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Перед початком роботи переконайтеся, що у вас встановлено:
+- **[Git](https://git-scm.com/)** — система контролю версій (для клонування репозиторію та управління кодом).
+- **[Node.js](https://nodejs.org/uk/) (версія 18.x або новіша) та npm** — середовище виконання JavaScript та менеджер пакетів. Рекомендується використовувати NVM чи NVM-Windows.
+- **Редактор коду** — рекомендується **[Visual Studio Code](https://code.visualstudio.com/)** з плагінами для ESLint та Prettier.
 
-The page will reload when you make changes.\
+### 2. Клонування репозиторію та налаштування середовища розробки
+
+1. Відкрийте термінал і створіть робочу директорію:
+   ```bash
+   mkdir -p ~/projects
+   cd ~/projects
+   ```
+2. Склонуйте репозиторій проєкту:
+   ```bash
+   git clone <URL_ВАШОГО_РЕПОЗИТОРІЮ> my-planner
+   cd my-planner
+   ```
+
+### 3. Встановлення та конфігурація залежностей
+
+У кореневій папці проєкту запустіть команду для встановлення всіх необхідних пакетів (у тому числі React, husky, eslint тощо):
+
+```bash
+npm install
+```
+
+> **Примітка:** Проєкт використовує Husky для git-хуків. Під час `npm install` автоматично налаштуються необхідні pre-commit перевірки (`husky install`).
+
+### 4. Створення та налаштування бази даних
+
+*Для поточного React-додатка окрема локальна база даних (на кшталт PostgreSQL/MySQL) не потрібна. Додаток працює з browser API (наприклад, localStorage) або підключається до зовнішнього API.*
+
+Якщо у майбутньому з'явиться Backend/API-сервер, тут буде описано процес розгортання локальної БД. Якщо потрібні файли змінних оточення (наприклад, `.env`), скопіюйте їх із шаблону:
+```bash
+cp .env.example .env
+```
+*(Скоригуйте значення у `.env` за потреби).*
+
+### 5. Запуск проєкту у режимі розробки
+
+Щоб запустити проєкт для локальної розробки (з гарячим перезавантаженням – Hot-Reloading), виконайте:
+
+```bash
+npm start
+```
+Додаток буде доступний за адресою: [http://localhost:3000](http://localhost:3000)
+
+### 6. Базові команди та операції
+
+Основні скрипти, доступні у проєкті (знаходяться у `package.json`):
+
+- `npm start` — запуск dev-сервера.
+- `npm run build` — збірка оптимізованого проєкту для production у папку `build`.
+- `npm test` — запуск тестів у режимі watch.
+- `npm run lint` — перевірка JS-файлів лінтером (ESLint).
+- `npm run lint:fix` — автоматичне виправлення помилок лінтера.
+- `npm run type-check` — перевірка типів через TypeScript (checkJs).
+- `npm run check-all` — запуск лінтера та перевірки типів.
+- `npm run docs` — генерація документації за допомогою JSDoc (відповідно до конфігурації `jsdoc.json`).
+
+---
+
+# Офіційна документація Create React App
+
+Проєкт створено за допомогою [Create React App](https://github.com/facebook/create-react-app).
 You may also see any lint errors in the console.
 
 ### `npm test`
