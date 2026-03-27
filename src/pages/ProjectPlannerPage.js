@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import styles from "./ProjectPlannerPage.module.css";
 import common from "../styles/Common.module.css";
 import EditableRowActions from "../components/EditableRowActions";
-import { loadFromStorage, saveToStorage } from "../utils/localstorage";
+import { loadFromStorage, saveToStorage, saveToStorageDebounced } from "../utils/localstorage";
 
 /**
  * Сторінка Project Planner.
@@ -96,19 +96,39 @@ function ProjectPlannerPage() {
   const [taskError, setTaskError] = useState(false);
 
   /**
-   * Збереження списку проєктів у localStorage.
+   * Збереження списку проєктів у localStorage (Дебаунсінг для оптимізації продуктивності).
    */
   useEffect(() => {
-    saveToStorage(`projects_${userKey}`, projects);
+    saveToStorageDebounced(`projects_${userKey}`, projects, 500);
   }, [projects, userKey]);
 
   /**
-   * Збереження вибраного проєкту у localStorage.
+   * Збереження вибраного проєкту у localStorage (Дебаунсінг)
    */
   useEffect(() => {
-    saveToStorage(`selectedProjectId_${userKey}`, selectedProjectId);
+    saveToStorageDebounced(`selectedProjectId_${userKey}`, selectedProjectId, 500);
   }, [selectedProjectId, userKey]);
 
+
+  /**
+   * Генератор великого об'єму даних для профілювання (Performance Testing)
+   */
+  const handleGenerateStressData = useCallback(() => {
+    const stressProjects = Array.from({ length: 150 }, (_, i) => ({
+      id: Date.now() + i,
+      title: `Stress Project ${i}`,
+      description: `Description ${i}`,
+      deadline: "2026-12-31",
+      tasks: Array.from({ length: 40 }, (_, j) => ({
+        id: Date.now() + i * 1000 + j,
+        name: `Task ${j}`,
+        deadline: "2026-12-31",
+        status: j % 2 === 0 ? "To Do" : "In Progress",
+      })),
+    }));
+    setProjects(stressProjects);
+    setSelectedProjectId(stressProjects[0].id);
+  }, []);
 
   /**
    * Додавання нового проєкту у список.
@@ -299,10 +319,146 @@ function ProjectPlannerPage() {
   };
 
   /**
-   * Поточний вибраний проєкт.
+   * Поточний вибраний проєкт (Мемоізовано для уникнення лінійного пошуку O(N) на кожному рендері)
    * @type {{ id: number, title: string, description: string, deadline: string, tasks: Array } | undefined}
    */
-  const selectedProject = projects.find((p) => p.id === selectedProjectId);
+  const selectedProject = useMemo(() => {
+    return projects.find((p) => p.id === selectedProjectId);
+  }, [projects, selectedProjectId]);
+
+  /**
+   * Мемоізований список проектів (Sidebar) для оптимізації рендерів при введенні тексту
+   */
+  const renderedProjectNav = useMemo(() => (
+    <ul className={styles.projectNavList}>
+      {projects.map((project) => (
+        <li key={project.id} className={styles.projectItem}>
+          <div
+            className={`${styles.projectDisplayWrapper} ${
+              selectedProjectId === project.id ? styles.activeProject : ""
+            }`}
+            onClick={() => setSelectedProjectId(project.id)}
+          >
+            {editProjectId === project.id ? (
+              <>
+                <div className={styles.projectTitleWrapper}>
+                  <input
+                    className={common.input}
+                    value={editedProject?.title || ""}
+                    onChange={(e) =>
+                      setEditedProject({
+                        ...editedProject,
+                        title: e.target.value,
+                      })
+                    }
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+                <div className={styles.projectActions} onClick={(e) => e.stopPropagation()}>
+                  <EditableRowActions
+                    isEditing={true}
+                    onSave={() => handleSaveProjectEdit(project.id)}
+                    onCancel={handleCancelProjectEdit}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.projectTitleWrapper}>
+                  {project.title}
+                </div>
+                <div className={styles.projectActions} onClick={(e) => e.stopPropagation()}>
+                  <EditableRowActions
+                    isEditing={false}
+                    onEdit={() => handleEditProject(project)}
+                    onDelete={() => handleDeleteProject(project.id)}
+                    editTitle="Edit project"
+                    deleteTitle="Delete project"
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  ), [projects, selectedProjectId, editProjectId, editedProject]);
+
+  /**
+   * Мемоізований список завдань для оптимізації рендерингу великих списків
+   */
+  const renderedTasksList = useMemo(() => {
+    if (!selectedProject || selectedProject.tasks.length === 0) {return null;}
+    return (
+      <table className={styles.taskTable}>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedProject.tasks.map((task) => (
+            <tr key={task.id}>
+              {editTaskId === task.id ? (
+                <>
+                  <td>
+                    <input
+                      type="text"
+                      name="name"
+                      value={editedTask?.name || ""}
+                      onChange={handleEditTaskChange}
+                      className={common.input}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      name="deadline"
+                      value={editedTask?.deadline || ""}
+                      onChange={handleEditTaskChange}
+                      className={common.input}
+                    />
+                  </td>
+                  <td>{task.status}</td>
+                  <td className={styles.taskActions}>
+                    <EditableRowActions
+                      isEditing={true}
+                      onSave={handleSaveTaskEdit}
+                      onCancel={handleCancelTaskEdit}
+                    />
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td>{task.name}</td>
+                  <td>{task.deadline}</td>
+                  <td
+                    className={styles.statusCell}
+                    onClick={() => handleStatusChange(task.id)}
+                    title="Click to change status"
+                  >
+                    {task.status}
+                  </td>
+                  <td className={styles.taskActions}>
+                    <EditableRowActions
+                      isEditing={false}
+                      onEdit={() => handleEditTask(task)}
+                      onDelete={() => handleDeleteTask(task.id)}
+                      editTitle="Edit task"
+                      deleteTitle="Delete task"
+                    />
+                  </td>
+                </>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }, [selectedProject, editTaskId, editedTask]);
 
   return (
     <div className={`${common.container} ${common.pageEnter}`}>
@@ -348,6 +504,9 @@ function ProjectPlannerPage() {
           <button onClick={handleAddProject} className={common.addButton}>
             + Add Project
           </button>
+          <button onClick={handleGenerateStressData} className={common.addButton} style={{ backgroundColor: '#ff6b6b' }} title="Generate 150 projects x 40 tasks for profiling">
+            [Test] Load Heavy Data
+          </button>
         </div>
         {projectError && (
           <div className={common.errorMessage}>
@@ -364,60 +523,7 @@ function ProjectPlannerPage() {
 
           {projects.length === 0 ? (
             <p className={styles.noProjects}>No projects yet. Please add one above.</p>
-          ) : (
-            <ul className={styles.projectNavList}>
-              {projects.map((project) => (
-                <li key={project.id} className={styles.projectItem}>
-                  <div
-                    className={`${styles.projectDisplayWrapper} ${
-                      selectedProjectId === project.id ? styles.activeProject : ""
-                    }`}
-                    onClick={() => setSelectedProjectId(project.id)}
-                  >
-                    {editProjectId === project.id ? (
-                      <>
-                        <div className={styles.projectTitleWrapper}>
-                          <input
-                            className={common.input}
-                            value={editedProject.title}
-                            onChange={(e) =>
-                              setEditedProject({
-                                ...editedProject,
-                                title: e.target.value,
-                              })
-                            }
-                            onClick={(e) => e.stopPropagation()}
-                          />
-                        </div>
-                        <div className={styles.projectActions} onClick={(e) => e.stopPropagation()}>
-                          <EditableRowActions
-                            isEditing={true}
-                            onSave={() => handleSaveProjectEdit(project.id)}
-                            onCancel={handleCancelProjectEdit}
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className={styles.projectTitleWrapper}>
-                          {project.title}
-                        </div>
-                        <div className={styles.projectActions} onClick={(e) => e.stopPropagation()}>
-                          <EditableRowActions
-                            isEditing={false}
-                            onEdit={() => handleEditProject(project)}
-                            onDelete={() => handleDeleteProject(project.id)}
-                            editTitle="Edit project"
-                            deleteTitle="Delete project"
-                          />
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+          ) : renderedProjectNav}
         </aside>
 
         {/* Завдяння проету */}
@@ -479,75 +585,7 @@ function ProjectPlannerPage() {
               {/* Список задач */}
               {selectedProject.tasks.length === 0 ? (
                 <p className={styles.noTasks}>No tasks yet. Add one above.</p>
-              ) : (
-                <table className={styles.taskTable}>
-                  <thead>
-                    <tr>
-                      <th>Task</th>
-                      <th>Deadline</th>
-                      <th>Status</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedProject.tasks.map((task) => (
-                      <tr key={task.id}>
-                        {editTaskId === task.id ? (
-                          <>
-                            <td>
-                              <input
-                                type="text"
-                                name="name"
-                                value={editedTask.name}
-                                onChange={handleEditTaskChange}
-                                className={common.input}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                type="date"
-                                name="deadline"
-                                value={editedTask.deadline}
-                                onChange={handleEditTaskChange}
-                                className={common.input}
-                              />
-                            </td>
-                            <td>{task.status}</td>
-                            <td className={styles.taskActions}>
-                              <EditableRowActions
-                                isEditing={true}
-                                onSave={handleSaveTaskEdit}
-                                onCancel={handleCancelTaskEdit}
-                              />
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td>{task.name}</td>
-                            <td>{task.deadline}</td>
-                            <td
-                              className={styles.statusCell}
-                              onClick={() => handleStatusChange(task.id)}
-                              title="Click to change status"
-                            >
-                              {task.status}
-                            </td>
-                            <td className={styles.taskActions}>
-                              <EditableRowActions
-                                isEditing={false}
-                                onEdit={() => handleEditTask(task)}
-                                onDelete={() => handleDeleteTask(task.id)}
-                                editTitle="Edit task"
-                                deleteTitle="Delete task"
-                              />
-                            </td>
-                          </>
-                        )}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
+              ) : renderedTasksList}
             </>
           ) : (
             <p className={styles.selectPrompt}>

@@ -34,6 +34,24 @@ export function saveToStorage(key, value) {
   }
 }
 
+const saveTimeouts = new Map();
+/**
+ * Відкладене збереження даних (Debounced) для оптимізації продуктивності
+ * @param {string} key - Ключ
+ * @param {any} value - Значення
+ * @param {number} delay - Затримка у мс
+ */
+export function saveToStorageDebounced(key, value, delay = 500) {
+  if (saveTimeouts.has(key)) {
+    clearTimeout(saveTimeouts.get(key));
+  }
+  const timeoutId = setTimeout(() => {
+    saveToStorage(key, value);
+    saveTimeouts.delete(key);
+  }, delay);
+  saveTimeouts.set(key, timeoutId);
+}
+
 /**
  * Видалення даних
  * @param {string} key - Ключ елемента для видалення
