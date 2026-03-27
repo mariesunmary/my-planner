@@ -5,6 +5,8 @@ import common from "../styles/Common.module.css";
 import { validateEmail, validatePassword } from "../utils/validation";
 import { loadFromStorage, saveToStorage } from "../utils/localstorage";
 import { useFormHandlers } from "../hooks/useFormHandlers";
+import logger from "../utils/logger";
+import { AuthError } from "../utils/errors";
 
 /**
  * Сторінка входу користувача.
@@ -50,8 +52,11 @@ function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    logger.debug('Auth', 'Attempting to log in user', { email: form.email });
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
+      logger.warn('Auth', 'Login validation failed', validationErrors);
       setErrors(validationErrors);
       return;
     }
@@ -65,11 +70,14 @@ function LoginPage() {
     );
 
     if (!userExists) {
-      setErrors({ general: "Account not found or password incorrect" });
+      const authError = new AuthError('Account not found or password incorrect', { email: form.email });
+      logger.error('Auth', 'Login failed', { errorId: authError.errorId, email: form.email });
+      setErrors({ general: authError.message });
       return;
     }
 
     // Збереження активного користувача
+    logger.info('Auth', 'User successfully logged in', { userId: userExists.id, email: userExists.email });
     saveToStorage("currentUser", userExists);
 
     // Перенаправлення на головну сторінку

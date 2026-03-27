@@ -2,6 +2,8 @@
  * Універсальні функції для роботи з localStorage
  */
 
+import logger from './logger';
+
 /**
  * Завантаження даних
  * @param {string} key - Ключ елемента у localStorage
@@ -13,8 +15,7 @@ export function loadFromStorage(key, fallback = null) {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : fallback;
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error("Error loading from storage", e);
+    logger.error('LocalStorage', `Error loading key: ${key}`, { error: e.message });
     return fallback;
   }
 }
@@ -27,9 +28,9 @@ export function loadFromStorage(key, fallback = null) {
 export function saveToStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
+    logger.debug('LocalStorage', `Saved data for key: ${key}`);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error("Error saving to storage", e);
+    logger.error('LocalStorage', `Error saving key: ${key}`, { error: e.message });
   }
 }
 
@@ -40,8 +41,8 @@ export function saveToStorage(key, value) {
 export function removeFromStorage(key) {
   try {
     localStorage.removeItem(key);
+    logger.debug('LocalStorage', `Removed key: ${key}`);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error("Error removing from storage", e);
+    logger.error('LocalStorage', `Error removing key: ${key}`, { error: e.message });
   }
 }
