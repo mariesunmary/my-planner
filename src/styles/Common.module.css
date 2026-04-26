@@ -15,7 +15,7 @@
 
 /* Опис сторінки та інструкції */
 .intro {
-  text-align: justify !important;;
+  text-align: justify;
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
   color: var(--color-almost-black);
@@ -41,9 +41,9 @@
   min-width: 0;
   padding: 0.6rem 1rem;
   font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  background-color: #fafafa;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-light);
   box-sizing: border-box;
 }
 
@@ -59,13 +59,13 @@
   background-color: var(--color-dark-blue);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
   box-sizing: border-box;
-  transition: background-color 0.25s ease, transform 0.15s ease,
-              box-shadow 0.2s ease;
+  transition: background-color var(--transition-base), transform 0.15s ease,
+              box-shadow var(--transition-base);
 }
 
 .addButton:hover {
@@ -96,7 +96,7 @@
 .deleteButton {
   background: none;
   border: none;
-  color: #c00;
+  color: var(--color-error);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0 0.5rem;
@@ -104,24 +104,24 @@
 }
 
 .deleteButton:hover {
-  color: #a00;
+  color: var(--color-error-hover);
 }
 
 /* Стиль поля при помилці введення */
 .inputError {
-  border: 2px solid #e63946 !important;
-  background-color: #f9e6e6;
-  color: #e63946;
+  border: 2px solid var(--color-error);
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
 }
 
 .inputError::placeholder {
-  color: #e63946;
+  color: var(--color-error);
   font-weight: 500;
 }
 
 /* Повідомлення про помилку */
 .errorMessage {
-  color: #e63946;
+  color: var(--color-error);
   font-size: 0.95rem;
   margin-top: 0rem;
   font-weight: 500;
@@ -162,10 +162,10 @@
   color: white;
   border: none;
   padding: 0.4rem 0.8rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-size: 1rem;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: transform var(--transition-base), background var(--transition-base);
 }
 
 .navButton:hover {
@@ -184,12 +184,7 @@
   animation: fadeInUp 0.5s ease-out forwards;
 }
 
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+
 
 .srOnly {
   position: absolute;

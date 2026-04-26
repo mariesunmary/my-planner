@@ -40,7 +40,7 @@
   text-decoration: none;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   transition: 
     background-color 0.3s ease,
     transform 0.2s ease,
@@ -50,7 +50,7 @@
 .link:hover {
   background-color: var(--color-medium-blue);
   transform: translateX(4px);
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Активна сторінка */
