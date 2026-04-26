@@ -17,6 +17,30 @@
   --color-light-blue: #8cc0f7;
   --color-light-beige: #f3f1e7;
   --color-almost-black: #1b2024;
+
+  /* Змінні фонів та бордерів (уніфіковані) */
+  --color-bg-light: #fcfcfc;
+  --color-bg-muted: #f4f6f8;
+  --color-hover-blue: #cde2ff;
+  --color-success-bg: #d4edda;
+  --color-border: #e0e0e0;
+  --color-border-light: #eeeeee;
+
+  /* Текст */
+  --color-text-dark: #1c3d5a;
+  --color-text-muted: #666666;
+
+  /* Радіуси та тіні */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* Анімації та переходи */
+  --transition-base: 0.2s ease;
 }
 
 /* Базові налаштування сторінки */
@@ -36,4 +60,25 @@ body {
 /* Стиль для посилань */
 a {
   text-decoration: none;
+}
+
+/* Глобальні анімації */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
 }

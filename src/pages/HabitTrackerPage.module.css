@@ -11,7 +11,7 @@
 
 /* таблиця трекера */
 .grid {
-  border-top: 2px solid #ddd;
+  border-top: 2px solid var(--color-border-light);
   overflow-x: auto;
 }
 
@@ -31,8 +31,8 @@
   flex-shrink: 0;
   color: var(--color-almost-black);
   text-align: left;
-  background-color: #f9f9f9;
-  border-right: 2px solid #e0e0e0;
+  background-color: var(--color-bg-light);
+  border-right: 2px solid var(--color-border);
   white-space: normal;         
   word-break: break-word;      
   overflow-wrap: anywhere;     
@@ -43,8 +43,8 @@
 .dayCell {
   width: var(--cell-size);
   height: var(--cell-size);
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
   margin: 1px;
   display: flex;
   align-items: center;
@@ -52,12 +52,12 @@
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  background-color: #f0f0f0;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  background-color: var(--color-bg-muted);
+  transition: transform var(--transition-base), background-color var(--transition-base);
 }
 
 .dayCell:hover {
-  background-color: #cde2ff;
+  background-color: var(--color-hover-blue);
   transform: scale(1.1);
 }
 
