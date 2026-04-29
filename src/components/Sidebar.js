@@ -16,6 +16,7 @@ const navItems = [
   { label: "Habit Tracker", path: "/habits" },
   { label: "Monthly Budget", path: "/budget" },
   { label: "Project Planner", path: "/projects" },
+  { label: "Statistics", path: "/statistics" },
 ];
 
 /**

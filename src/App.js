@@ -20,6 +20,7 @@ import WeeklyToDoPage from "./pages/WeeklyToDoPage";
 import HabitTrackerPage from "./pages/HabitTrackerPage";
 import MonthlyBudgetPage from "./pages/MonthlyBudgetPage";
 import ProjectPlannerPage from "./pages/ProjectPlannerPage";
+import StatisticsPage from "./pages/StatisticsPage";
 
 // Імпорт Layout для Dashboard
 import DashboardLayout from "./layout/DashboardLayout";
@@ -75,6 +76,15 @@ function App() {
               <ProjectPlannerPage />
             </DashboardLayout>
           } 
+        />
+
+        <Route
+          path="/statistics"
+          element={
+            <DashboardLayout>
+              <StatisticsPage />
+            </DashboardLayout>
+          }
         />
 
         {/* Редірект на головну сторінку для некоректних URL */}
