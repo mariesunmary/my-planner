@@ -150,6 +150,11 @@ function HabitTrackerPage() {
     if (!newName) {return;}
 
     const oldName = habits[index];
+    if (newName === oldName) {
+      setEditingIndex(null);
+      setEditedHabit("");
+      return;
+    }
 
     setTrack((prev) => {
       const next = { ...prev };
