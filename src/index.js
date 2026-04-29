@@ -1,17 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+/**
+ * index.js
+ * 
+ * Стартова точка React-додатку.
+ * Цей файл відповідає за ініціалізацію React і підключення головного компонента App.
+ * Також підключає глобальні стилі з index.css.
+ */
 
+import React from 'react';                       // Імпорт бібліотеки React для роботи з JSX
+import ReactDOM from 'react-dom/client';        // Імпорт ReactDOM для рендерингу додатку в DOM
+import App from './App';                        // Імпорт головного компонента додатку
+import './index.css';                            // Підключення глобальних стилів
+
+// Створення root-елемента для React у HTML-документі
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Рендеринг головного компонента App всередині root
+root.render(<App />);

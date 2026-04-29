@@ -1,0 +1,150 @@
+/**
+ * Стилі для сторінки Monthly Budget.
+ * Файл визначає вигляд таблиці витрат, полів редагування,
+ * елементів дропдауну для вибору категорій та блоку з відображенням загальної суми.
+ */
+
+/* блок із загальною сумою витрат */
+.total {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: var(--color-dark-blue);
+}
+
+/* таблиця з витратами */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+}
+
+/* заголовки таблиці */
+.table th {
+  background-color: var(--color-medium-blue);
+  color: white;
+  text-align: left;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* ячейки таблиці */
+.table td {
+  padding: 0.75rem;
+  border-top: 1px solid #eee;
+  font-size: 0.95rem;
+  word-break: break-word;      
+  overflow-wrap: anywhere;     
+  max-width: 200px;     
+}
+
+/* плавна анімація для рядків */
+.table tbody tr {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+/* ефект при наведенні */
+.table tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: #cde2ff;
+}
+
+/* ширини стовпців */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 30%;   /* Назва витрати */
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 10%;   /* Сума */
+  text-align: center;  
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 25%;   /* Категорія */
+  text-align: center;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 15%;   /* Дата */
+  text-align: center;
+}
+
+.table th:nth-child(5),
+.table td:nth-child(5) {
+  width: 10%;   /* Кнопка редагування */
+  text-align: center;
+}
+
+.table th:nth-child(6),
+.table td:nth-child(6) {
+  width: 10%;   /* Кнопка видалення */
+  text-align: center;
+}
+
+/* поля вводу в таблиці (при редагуванні) */
+.inputCell {
+padding: 8px 10px;
+border: 1px solid var(--color-medium-blue);
+border-radius: 10px;
+font-size: 0.95rem;
+width: 100%;
+background-color: white;
+color: var(--color-almost-black);
+box-sizing: border-box;
+}
+
+.inputCell:focus {
+  outline: none;
+  border-color: var(--color-medium-blue);
+  background-color: white;
+}
+
+/* вимкнення спінерів у числових полях */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Дропдаун контейнер */
+.dropdown {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+/* Елемент категорії */
+.dropdownItem {
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--color-almost-black);
+  transition: background 0.15s ease, color 0.15s ease;
+  border-radius: 8px;
+}
+
+.dropdownItem:hover {
+  background-color: #cde2ff; 
+  color: var(--color-dark-blue);
+}
+

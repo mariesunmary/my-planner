@@ -1,0 +1,70 @@
+/**
+ * Стилі для компонента DashboardLayout.
+ * Файл відповідає за:
+ * 1. Розташування основних блоків Dashboard: Sidebar та основного контенту.
+ * 2. Оформлення шапки сторінки (header) з назвою, місяцем та мотивуючою цитатою.
+ * 3. Анімації плавної появи елементів шапки.
+ */
+
+/* Головний контейнер Dashboard */
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-light-beige);
+}
+
+/* Контейнер для основного контенту сторінки */
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Шапка сторінки */
+.header {
+  padding: 2rem 3rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(-15px);
+  animation: fadeDown 0.6s ease-out forwards;
+}
+
+/* Анімація плавної появи шапки */
+@keyframes fadeDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Контейнер для тексту в шапці (назва сторінки та місяць) */
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* Назва активної сторінки */
+.title {
+  font-size: 1.8rem;
+  color: var(--color-dark-blue);
+}
+
+/* Поточний місяць у шапці */
+.month {
+  font-size: 1rem;
+  color: var(--color-almost-black);
+  opacity: 0.7;
+}
+
+/* Мотивуюча цитата в шапці */
+.quote {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--color-medium-blue);
+  max-width: 240px;
+}

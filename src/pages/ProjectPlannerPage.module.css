@@ -1,0 +1,214 @@
+/**
+ * Стилі для сторінки Project Planner.
+ * Файл визначає структуру двоколонкового макету, оформлення списку проєктів,
+ * таблиці завдань, елементів навігації, назв, статусів і кнопок дій.
+ * Забезпечує зручну взаємодію користувача з проєктами та задачами.
+ */
+
+/* Основний макет — дві колонки: список проєктів і контент */
+.layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Ліва колонка зі списком проєктів*/
+.sidebar {
+  width: 30%;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Заголовок у лівій колонці */
+.sidebarTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--color-dark-blue);
+}
+
+/* Список проєктів */
+.projectNavList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Права колонка з таблицею задач */
+.mainContent {
+  width: 70%;
+}
+
+/* Таблиця задач */
+.taskTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+  table-layout: fixed;
+}
+
+/* Заголовки таблиці */
+.taskTable th {
+  background-color: var(--color-medium-blue);
+  color: white;
+  padding: 0.75rem;
+  text-align: left;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+/* Комірки таблиці */
+.taskTable td {
+  padding: 0.75rem;
+  border-top: 1px solid #eee;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+/* Анімація рядків у таблиці */
+.taskTable tbody tr {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.taskTable tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: #cde2ff;
+}
+
+/* Фіксована ширина колонок */
+.taskTable th:nth-child(1),
+.taskTable td:nth-child(1) { /* Task */
+  width: 40%;
+}
+
+.taskTable th:nth-child(2),
+.taskTable td:nth-child(2) { /* Deadline */
+  width: 25%;
+  text-align: center;
+}
+
+.taskTable th:nth-child(3),
+.taskTable td:nth-child(3) { /* Status */
+  width: 20%;
+  text-align: center;
+}
+
+.taskTable th:nth-child(4),
+.taskTable td:nth-child(4) { /* Delete */
+  width: 10%;
+  text-align: center;
+}
+
+/* Клітинка зі статусом задачі */
+.statusCell {
+  cursor: pointer;
+  color: var(--color-dark-blue);
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.statusCell:hover {
+  text-decoration: underline;
+  color: var(--color-medium-blue);
+}
+
+/* Назва активного проєкту над таблицею */
+.projectTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  white-space: normal;    
+  word-wrap: break-word;  
+  overflow-wrap: break-word;
+  max-width: 100%;
+  display: block;
+  word-break: break-word;
+}
+
+/* Контейнер з кнопками дій у таблиці */
+.taskActions > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+/* Блок відображення проєкту у списку зліва */
+.projectDisplayWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.projectDisplayWrapper:hover {
+  background: var(--color-light-blue);
+  transform: translateX(3px);
+}
+
+/* Активний проект */
+.activeProject {
+  background: var(--color-medium-blue);
+  border-color: var(--color-medium-blue);
+  color: white;
+  font-weight: 600;
+}
+
+/* Назва проекту */
+.projectTitleWrapper {
+  flex: 1;
+  white-space: normal;
+  word-break: break-word;
+  font-size: 1rem;
+}
+
+/* Поле редагування назви */
+.projectTitleWrapper input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Кнопки дій поруч із назвою проєкту */
+.projectActions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Відображення дедлайну проєкту */
+.projectDeadline {
+  margin-left: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-dark-blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.projectDeadline::before {
+  content: "📅";
+  font-size: 1rem;
+}
+
+/* Опис проєкту під назвою */
+.projectDescription {
+  margin: -0.5rem 0 1.5rem 0;
+  font-size: 1rem;
+  color: var(--color-almost-black);
+  line-height: 1.4;
+}

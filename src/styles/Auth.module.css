@@ -1,0 +1,139 @@
+/**
+ * Стилі для сторінок автентифікації (реєстрація та вхід).
+ * Файл визначає вигляд та анімації компонентів форм логіну і реєстрації.
+ */
+
+ /* Контейнер сторінки автентифікації */
+.authContainer {
+  min-height: 100vh;
+  background-color: var(--color-light-beige);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Заголовок сторінки */
+.authTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-dark-blue);
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(-15px);
+  animation: fadeDown 0.8s ease-out forwards;
+}
+
+/* Форма автентифікації */
+.authForm {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease-out 0.3s forwards;
+}
+
+/* Обгортка для інпутів */
+.authInputWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  opacity: 0;
+  gap: 0.5rem;
+  animation: fadeIn 0.7s ease-out forwards;
+}
+
+.authInputWrapper:nth-child(1) { animation-delay: 0.4s; }
+.authInputWrapper:nth-child(2) { animation-delay: 0.6s; }
+.authInputWrapper:nth-child(3) { animation-delay: 0.8s; }
+
+/* Поля вводу */
+.authInput {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease-in-out, transform 0.15s ease-in-out;
+  opacity: 0;
+  animation: fadeIn 0.7s ease-out forwards;
+}
+
+.authInput:nth-child(1) { animation-delay: 0.5s; }
+.authInput:nth-child(2) { animation-delay: 0.7s; }
+
+.authInput:focus {
+  border-color: var(--color-medium-blue);
+  transform: scale(1.02);
+}
+
+/* Кнопка входу / реєстрації */
+.button {
+  padding: 0.75rem 1rem;
+  background-color: var(--color-dark-blue);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  margin-top: 0.5rem;
+  opacity: 0;
+  animation: fadeIn 0.7s ease-out 0.9s forwards;
+}
+
+.button:hover {
+  background-color: var(--color-medium-blue);
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Повідомлення про успіх */
+.success {
+  color: #2e7d32;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Скидання autofill стилів браузера */
+input:-webkit-autofill, 
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active { 
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: var(--color-dark-blue) !important; 
+  transition: background-color 5000s ease-in-out 0s; 
+} 
+
+/* Видалення браузерної рамки при невалідних інпутах */
+input:invalid { 
+  box-shadow: none; 
+}
+
+/* Анімації */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

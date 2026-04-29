@@ -1,0 +1,156 @@
+/**
+ * Стилі для сторінки Weekly To-Do.
+ * Файл визначає вигляд колонок днів, списку завдань,
+ * полів вводу та кнопок для додавання/редагування завдань.
+ */
+
+/* Сітка колонок днів тижня */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+/* Колонка одного дня */
+.dayColumn {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+  transition: transform 0.2s ease;
+}
+
+.dayColumn:hover {
+  transform: translateY(-4px);
+}
+
+/* Назва дня */
+.dayHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--color-dark-blue);
+  margin-bottom: 1rem;
+}
+
+/* Дата */
+.date {
+  font-size: 1rem;
+  color: var(--color-medium-blue);
+}
+
+/* Список завдань */
+.taskList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 1rem 0;
+  flex-grow: 1;
+}
+
+/* Окреме завдання */
+.task {
+  margin-bottom: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background-color: #f0f4f8;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+  flex-wrap: wrap;
+  word-break: break-word;
+}
+
+.task:hover {
+  background-color: #cde2ff;
+}
+
+/* Виконане завдання */
+.done {
+  text-decoration: line-through;
+  color: #888;
+  background-color: #d4edda;
+}
+
+/* Обгортка для інпутів */
+.inputWrapper {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Поле вводу завдання */
+.input {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-medium-blue);
+  background-color: white;
+}
+
+/* Контейнер для кнопок підтвердження/скасування */
+.inputButtons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.75rem; 
+  margin-top: 1rem; 
+}
+
+/* Загальний стиль кнопок додавання/скасування */
+.addConfirm,
+.addCancel {
+  flex: 1; 
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+}
+
+/* Кнопка підтвердження додавання/редагування */
+.addConfirm {
+  background-color: var(--color-dark-blue);
+  color: white;
+}
+
+.addConfirm:hover {
+  background-color: var(--color-medium-blue);
+}
+
+/* Кнопка скасування */
+.addCancel {
+  background-color: #eee;
+  color: #333;
+}
+
+.addCancel:hover {
+  background-color: #ddd;
+}
+
+
