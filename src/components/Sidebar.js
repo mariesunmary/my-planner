@@ -7,6 +7,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import { loadFromStorage } from "../utils/localstorage";
+import WaterWidget from "./WaterWidget";
 
 // Масив пунктів навігації
 const navItems = [
@@ -51,6 +52,8 @@ function Sidebar() {
           </Link>
         ))}
       </nav>
+
+      <WaterWidget />
     </aside>
   );
 }

@@ -1,0 +1,146 @@
+.widget {
+  margin-top: auto;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background-color: #1b2e45;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 0.85rem;
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.18s ease-out forwards;
+}
+
+.tooltipText {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  line-height: 1.5;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.quote {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  font-style: italic;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.icon {
+  font-size: 1.1rem;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  flex: 1;
+}
+
+.count {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.count.done {
+  color: #7ee8a2;
+}
+
+.track {
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background-color: var(--color-light-blue);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.fill.fillDone {
+  background-color: #7ee8a2;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.plus {
+  flex: 1;
+  padding: 0.4rem 0.5rem;
+  background-color: var(--color-medium-blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.plus:hover:not(:disabled) {
+  background-color: var(--color-light-blue);
+}
+
+.plus:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.minus {
+  padding: 0.4rem 0.6rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  line-height: 1;
+}
+
+.minus:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.minus:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.message {
+  font-size: 0.75rem;
+  color: #7ee8a2;
+  text-align: center;
+  margin: 0;
+  font-weight: 500;
+}
