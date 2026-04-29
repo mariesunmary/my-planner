@@ -2,7 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import common from "../styles/Common.module.css";
+import styles from "./EditableRowActions.module.css";
 
 /**
  * Компонент для відображення кнопок дій для редагованих рядків (наприклад, у таблицях або списках).
@@ -32,24 +32,16 @@ function EditableRowActions({
   deleteTitle = "Delete",
 }) {
   return (
-    <div>
+    <div className={styles.actions}>
       {isEditing ? (
         <>
-          <button onClick={onSave} className={common.actionButton} title={saveTitle}>
-            ✓︎
-          </button>
-          <button onClick={onCancel} className={common.actionButton} title={cancelTitle}>
-            ✕
-          </button>
+          <button onClick={onSave} className={styles.save} title={saveTitle}>✓</button>
+          <button onClick={onCancel} className={styles.cancel} title={cancelTitle}>✕</button>
         </>
       ) : (
         <>
-          <button onClick={onEdit} className={common.actionButton} title={editTitle}>
-            ✎
-          </button>
-          <button onClick={onDelete} className={common.deleteButton} title={deleteTitle}>
-            ✕
-          </button>
+          <button onClick={onEdit} className={styles.edit} title={editTitle}>✏</button>
+          <button onClick={onDelete} className={styles.delete} title={deleteTitle}>✕</button>
         </>
       )}
     </div>
