@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styles from "./ProjectPlannerPage.module.css";
 import common from "../styles/Common.module.css";
 import EditableRowActions from "../components/EditableRowActions";
@@ -113,23 +113,6 @@ function ProjectPlannerPage() {
   /**
    * Генератор великого об'єму даних для профілювання (Performance Testing)
    */
-  const handleGenerateStressData = useCallback(() => {
-    const stressProjects = Array.from({ length: 150 }, (_, i) => ({
-      id: Date.now() + i,
-      title: `Stress Project ${i}`,
-      description: `Description ${i}`,
-      deadline: "2026-12-31",
-      tasks: Array.from({ length: 40 }, (_, j) => ({
-        id: Date.now() + i * 1000 + j,
-        name: `Task ${j}`,
-        deadline: "2026-12-31",
-        status: j % 2 === 0 ? "To Do" : "In Progress",
-      })),
-    }));
-    setProjects(stressProjects);
-    setSelectedProjectId(stressProjects[0].id);
-  }, []);
-
   /**
    * Додавання нового проєкту у список.
    * - Перевіряє, щоб поле назви не було порожнім.
@@ -503,9 +486,6 @@ function ProjectPlannerPage() {
           />
           <button onClick={handleAddProject} className={common.addButton}>
             + Add Project
-          </button>
-          <button onClick={handleGenerateStressData} className={common.addButton} style={{ backgroundColor: '#ff6b6b' }} title="Generate 150 projects x 40 tasks for profiling">
-            [Test] Load Heavy Data
           </button>
         </div>
         {projectError && (
