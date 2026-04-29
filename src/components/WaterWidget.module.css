@@ -35,6 +35,72 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes celebratePulse {
+  0%   { background-color: rgba(255, 255, 255, 0.08); }
+  30%  { background-color: rgba(126, 232, 162, 0.35); }
+  65%  { background-color: rgba(126, 232, 162, 0.18); }
+  100% { background-color: rgba(255, 255, 255, 0.08); }
+}
+
+@keyframes iconBounce {
+  0%   { transform: scale(1)    rotate(0deg); }
+  25%  { transform: scale(1.5)  rotate(-15deg); }
+  50%  { transform: scale(1.25) rotate(10deg); }
+  75%  { transform: scale(1.4)  rotate(-8deg); }
+  100% { transform: scale(1)    rotate(0deg); }
+}
+
+@keyframes toastSlide {
+  0%   { opacity: 0; transform: translateX(80px); }
+  12%  { opacity: 1; transform: translateX(0); }
+  80%  { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(80px); }
+}
+
+.celebrating {
+  animation: celebratePulse 1s ease-out forwards;
+}
+
+.iconBounce {
+  display: inline-block;
+  animation: iconBounce 0.8s ease-out forwards;
+}
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.4rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  z-index: 1000;
+  animation: toastSlide 3.8s ease forwards;
+  border-left: 4px solid #7ee8a2;
+  min-width: 260px;
+}
+
+.toastEmoji {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.toastTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-dark-blue);
+  margin: 0 0 0.15rem;
+}
+
+.toastSub {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
 .quote {
   font-size: 0.72rem;
   color: rgba(255, 255, 255, 0.5);

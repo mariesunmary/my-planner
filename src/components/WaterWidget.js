@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./WaterWidget.module.css";
 
 const STORAGE_KEY = "waterWidget";
@@ -64,9 +64,19 @@ function saveData(count) {
 function WaterWidget() {
   const [count, setCount] = useState(() => loadData().count);
   const [hovered, setHovered] = useState(false);
+  const [celebrating, setCelebrating] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const prevCount = useRef(count);
 
   useEffect(() => {
     saveData(count);
+    if (prevCount.current < GOAL && count === GOAL) {
+      setCelebrating(true);
+      setShowToast(true);
+      setTimeout(() => setCelebrating(false), 1000);
+      setTimeout(() => setShowToast(false), 3800);
+    }
+    prevCount.current = count;
   }, [count]);
 
   const percent = Math.min((count / GOAL) * 100, 100);
@@ -87,46 +97,60 @@ function WaterWidget() {
   }
 
   return (
-    <div
-      className={styles.widget}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {hovered && (
-        <div className={styles.tooltip}>
-          <p className={styles.tooltipText}>{TOOLTIP}</p>
+    <>
+      <div
+        className={`${styles.widget} ${celebrating ? styles.celebrating : ""}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {hovered && (
+          <div className={styles.tooltip}>
+            <p className={styles.tooltipText}>{TOOLTIP}</p>
+          </div>
+        )}
+
+        <div className={styles.header}>
+          <span className={`${styles.icon} ${celebrating ? styles.iconBounce : ""}`}>
+            💧
+          </span>
+          <span className={styles.title}>Water</span>
+          <span className={`${styles.count} ${done ? styles.done : ""}`}>
+            {count}/{GOAL}
+          </span>
+        </div>
+
+        <div className={styles.track}>
+          <div
+            className={`${styles.fill} ${done ? styles.fillDone : ""}`}
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+
+        <div className={styles.controls}>
+          <button className={styles.minus} onClick={remove} disabled={count === 0}>
+            −
+          </button>
+          <button className={styles.plus} onClick={add} disabled={done}>
+            + glass
+          </button>
+        </div>
+
+        {done
+          ? <p className={styles.message}>Goal reached! 🎉</p>
+          : <p className={styles.quote}>{getDailyQuote()}</p>
+        }
+      </div>
+
+      {showToast && (
+        <div className={styles.toast}>
+          <span className={styles.toastEmoji}>🎉</span>
+          <div>
+            <p className={styles.toastTitle}>Daily goal reached!</p>
+            <p className={styles.toastSub}>8 glasses done. Your body thanks you 💧</p>
+          </div>
         </div>
       )}
-
-      <div className={styles.header}>
-        <span className={styles.icon}>💧</span>
-        <span className={styles.title}>Water</span>
-        <span className={`${styles.count} ${done ? styles.done : ""}`}>
-          {count}/{GOAL}
-        </span>
-      </div>
-
-      <div className={styles.track}>
-        <div
-          className={`${styles.fill} ${done ? styles.fillDone : ""}`}
-          style={{ width: `${percent}%` }}
-        />
-      </div>
-
-      <div className={styles.controls}>
-        <button className={styles.minus} onClick={remove} disabled={count === 0}>
-          −
-        </button>
-        <button className={styles.plus} onClick={add} disabled={done}>
-          + glass
-        </button>
-      </div>
-
-      {done
-        ? <p className={styles.message}>Goal reached! 🎉</p>
-        : <p className={styles.quote}>{getDailyQuote()}</p>
-      }
-    </div>
+    </>
   );
 }
 
