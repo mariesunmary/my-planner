@@ -53,6 +53,11 @@
   opacity: 0.9;
 }
 
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Мотивуюча цитата в шапці */
 .quote {
   font-size: 0.95rem;
