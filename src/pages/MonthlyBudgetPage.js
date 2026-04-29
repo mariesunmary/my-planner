@@ -38,7 +38,10 @@ function MonthlyBudgetPage() {
   const userKey = currentUser ? currentUser.email : "guest";
 
   /** Масив усіх витрат користувача */
-  const [expenses, setExpenses] = useState(() => loadFromStorage(`expenses_${userKey}`, []));
+  const [expenses, setExpenses] = useState(() => {
+    const stored = loadFromStorage(`expenses_${userKey}`, []);
+    return stored.map((e, index) => e.id ? e : { ...e, id: Date.now() + index });
+  });
 
   /** Стан форми додавання нової витрати */
   const [form, setForm] = useState({
@@ -49,9 +52,6 @@ function MonthlyBudgetPage() {
   });
   /** Об'єкт помилок форми */
   const [errors, setErrors] = useState({});
-
-  /** Індекс витрати, що редагується */
-  const [editIndex, setEditIndex] = useState(null);
 
   /** Стан редагованої витрати */
   const [editedExpense, setEditedExpense] = useState(null);
@@ -86,15 +86,15 @@ function MonthlyBudgetPage() {
     const nameError = validateRequired(form.name, "Expense name");
     const amountError = validateRequired(form.amount, "Amount");
 
-    if (nameError) {newErrors.name = nameError;}
-    if (amountError) {newErrors.amount = amountError;}
+    if (nameError) { newErrors.name = nameError; }
+    if (amountError) { newErrors.amount = amountError; }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    setExpenses([...expenses, { ...form }]);
+    setExpenses([...expenses, { ...form, id: form.id || Date.now() }]);
     setForm({
       name: "",
       amount: "",
@@ -107,22 +107,20 @@ function MonthlyBudgetPage() {
   /**
    * Видалення витрати.
    * @param {number} index - Індекс видаляємого елемента.
+   * @param id
    */
-  const handleDelete = (index) => {
-    setExpenses(expenses.filter((_, i) => i !== index));
-    if (editIndex === index) {
-      setEditIndex(null);
-      setEditedExpense(null);
-    }
+  const handleDelete = (id) => {
+    setExpenses(expenses.filter((e) => e.id !== id));
   };
 
   /**
    * Початок редагування витрати.
    * @param {number} index - Індекс елемента для редагування.
+   * @param id
    */
-  const handleEdit = (index) => {
-    setEditIndex(index);
-    setEditedExpense({ ...expenses[index] });
+  const handleEdit = (id) => {
+    const expense = expenses.find((e) => e.id === id);
+    setEditedExpense({ ...expense });
   };
 
   /**
@@ -137,10 +135,11 @@ function MonthlyBudgetPage() {
    * Збереження редагованої витрати.
    */
   const handleSaveEdit = () => {
-    const updated = [...expenses];
-    updated[editIndex] = editedExpense;
+    const updated = expenses.map((e) =>
+      e.id === editedExpense.id ? editedExpense : e
+    );
+
     setExpenses(updated);
-    setEditIndex(null);
     setEditedExpense(null);
   };
 
@@ -148,7 +147,6 @@ function MonthlyBudgetPage() {
    * Скасування редагування.
    */
   const handleCancelEdit = () => {
-    setEditIndex(null);
     setEditedExpense(null);
   };
 
@@ -171,7 +169,7 @@ function MonthlyBudgetPage() {
    * @param {string} value - Назва категорії.
    */
   const handleCategorySelect = (value) => {
-    if (editIndex !== null) {
+    if (editedExpense !== null) {
       setEditedExpense({ ...editedExpense, category: value });
     } else {
       setForm({ ...form, category: value });
@@ -236,58 +234,58 @@ function MonthlyBudgetPage() {
       {/* Форма додавання витрати */}
       <div className={common.form}>
         <div className={common.inputGroup} style={{ flex: 2 }}>
-  <label htmlFor="expense-name" className={common.srOnly}>Expense name</label>
-  <input
-    id="expense-name"
-    className={`${common.input} ${errors.name ? common.inputError : ""}`}
-    type="text"
-    name="name"
-    value={form.name}
-    onChange={handleChange}
-    onFocus={handleFocus}
-    placeholder={errors.name || "Expense name"}
-  />
-</div>
+          <label htmlFor="expense-name" className={common.srOnly}>Expense name</label>
+          <input
+            id="expense-name"
+            className={`${common.input} ${errors.name ? common.inputError : ""}`}
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            onFocus={handleFocus}
+            placeholder={errors.name || "Expense name"}
+          />
+        </div>
 
-<div className={common.inputGroup} style={{ flex: 1 }}>
-  <label htmlFor="expense-amount" className={common.srOnly}>Amount</label>
-  <input
-    id="expense-amount"
-    className={`${common.input} ${errors.amount ? common.inputError : ""}`}
-    type="number"
-    name="amount"
-    value={form.amount}
-    onChange={handleChange}
-    onFocus={handleFocus}
-    placeholder={errors.amount || "Amount"}
-  />
-</div>
+        <div className={common.inputGroup} style={{ flex: 1 }}>
+          <label htmlFor="expense-amount" className={common.srOnly}>Amount</label>
+          <input
+            id="expense-amount"
+            className={`${common.input} ${errors.amount ? common.inputError : ""}`}
+            type="number"
+            name="amount"
+            value={form.amount}
+            onChange={handleChange}
+            onFocus={handleFocus}
+            placeholder={errors.amount || "Amount"}
+          />
+        </div>
 
-<div className={common.inputGroup} style={{ flex: 1.5 }}>
-  <label htmlFor="expense-category" className={common.srOnly}>Category</label>
-  <input
-    id="expense-category"
-    className={common.input}
-    type="text"
-    name="category"
-    value={form.category}
-    onChange={handleChange}
-    placeholder="Category"
-    onFocus={handleCategoryFocus}
-  />
-</div>
+        <div className={common.inputGroup} style={{ flex: 1.5 }}>
+          <label htmlFor="expense-category" className={common.srOnly}>Category</label>
+          <input
+            id="expense-category"
+            className={common.input}
+            type="text"
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            placeholder="Category"
+            onFocus={handleCategoryFocus}
+          />
+        </div>
 
-<div className={common.inputGroup} style={{ flex: 1.5 }}>
-  <label htmlFor="expense-date" className={common.srOnly}>Date</label>
-  <input
-    id="expense-date"
-    className={common.input}
-    type="date"
-    name="date"
-    value={form.date}
-    onChange={handleChange}
-  />
-</div>
+        <div className={common.inputGroup} style={{ flex: 1.5 }}>
+          <label htmlFor="expense-date" className={common.srOnly}>Date</label>
+          <input
+            id="expense-date"
+            className={common.input}
+            type="date"
+            name="date"
+            value={form.date}
+            onChange={handleChange}
+          />
+        </div>
 
         <button onClick={handleAddExpense} className={common.addButton}>
           + Add Expense
@@ -312,10 +310,10 @@ function MonthlyBudgetPage() {
           </tr>
         </thead>
         <tbody>
-          {filteredExpenses.map((e, i) => (
-            <tr key={i}>
+          {filteredExpenses.map((e) => (
+            <tr key={e.id}>
               <td>
-                {editIndex === i ? (
+                {editedExpense?.id === e.id ? (
                   <input
                     name="name"
                     value={editedExpense.name}
@@ -323,12 +321,12 @@ function MonthlyBudgetPage() {
                     className={styles.inputCell}
                   />
                 ) : (
-                  e.name
+                e.name
                 )}
               </td>
 
               <td>
-                {editIndex === i ? (
+                {editedExpense?.id === e.id ? (
                   <input
                     type="number"
                     name="amount"
@@ -337,12 +335,12 @@ function MonthlyBudgetPage() {
                     className={styles.inputCell}
                   />
                 ) : (
-                  `$${parseFloat(e.amount).toFixed(2)}`
+                `$${parseFloat(e.amount).toFixed(2)}`
                 )}
               </td>
 
               <td>
-                {editIndex === i ? (
+                {editedExpense?.id === e.id ? (
                   <input
                     name="category"
                     value={editedExpense.category}
@@ -351,12 +349,12 @@ function MonthlyBudgetPage() {
                     onFocus={handleCategoryFocus}
                   />
                 ) : (
-                  e.category || "-"
+                e.category || "-"
                 )}
               </td>
 
               <td>
-                {editIndex === i ? (
+                {editedExpense?.id === e.id ? (
                   <input
                     type="date"
                     name="date"
@@ -365,17 +363,17 @@ function MonthlyBudgetPage() {
                     className={styles.inputCell}
                   />
                 ) : (
-                  e.date
+                e.date
                 )}
               </td>
 
               <td>
                 <EditableRowActions
-                  isEditing={editIndex === i}
                   onSave={handleSaveEdit}
                   onCancel={handleCancelEdit}
-                  onEdit={() => handleEdit(i)}
-                  onDelete={() => handleDelete(i)}
+                  onEdit={() => handleEdit(e.id)}
+                  onDelete={() => handleDelete(e.id)}
+                  isEditing={editedExpense?.id === e.id}
                   saveTitle="Save"
                   cancelTitle="Cancel"
                   editTitle="Edit expense"
