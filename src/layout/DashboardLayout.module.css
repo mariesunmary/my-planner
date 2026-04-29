@@ -18,19 +18,29 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 /* Шапка сторінки */
 .header {
-  padding: 2rem 3rem 1rem;
+  padding: 2rem 0 1rem;
+  opacity: 0;
+  transform: translateY(-15px);
+  animation: fadeInDown 0.6s ease-out forwards;
+}
+
+/* Вирівнювання вмісту шапки з контентом */
+.headerInner {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  opacity: 0;
-  transform: translateY(-15px);
-  animation: fadeInDown 0.6s ease-out forwards;
 }
 
 /* Контейнер для тексту в шапці (назва сторінки та місяць) */
