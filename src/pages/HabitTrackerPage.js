@@ -218,17 +218,19 @@ function HabitTrackerPage() {
       {/* Форма для додавання звички */}
       <div className={common.formWrapper}>
         <div className={common.form}>
-          <input
-            type="text"
-            value={newHabit}
-            onChange={(e) => {
-              setNewHabit(e.target.value);
-              if (error) {setError(false);}
-            }}
-            onFocus={() => setError(false)}
-            placeholder="Enter a new habit"
-            className={`${common.input} ${error ? common.inputError : ""}`}
-          />
+          <div className={common.inputGroup} style={{ flex: 1 }}>
+            <input
+              type="text"
+              value={newHabit}
+              onChange={(e) => {
+                setNewHabit(e.target.value);
+                if (error) {setError(false);}
+              }}
+              onFocus={() => setError(false)}
+              placeholder="Enter a new habit"
+              className={`${common.input} ${error ? common.inputError : ""}`}
+            />
+          </div>
           <button onClick={handleAddHabit} className={common.addButton}>
             + Add Habit
           </button>
