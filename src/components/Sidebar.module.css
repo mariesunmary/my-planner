@@ -58,3 +58,19 @@
   background-color: var(--color-medium-blue);
   transform: scale(1.05);
 }
+
+.logoutButton {
+  margin-top: auto;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}

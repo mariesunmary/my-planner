@@ -1,15 +1,8 @@
-/**
- * Бічна панель навігації.
- * Відповідає за привітання користувача та навігацію між сторінками.
- */
-
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
-import { loadFromStorage } from "../utils/localstorage";
+import { useAuth } from "../context/AuthContext";
 import WaterWidget from "./WaterWidget";
 
-// Масив пунктів навігації
 const navItems = [
   { label: "Home", path: "/home" },
   { label: "Weekly To-do List", path: "/weekly" },
@@ -20,34 +13,30 @@ const navItems = [
 ];
 
 /**
- * Компонент бічної панелі навігації (Sidebar).
- * Відповідає за привітання користувача та рендеринг основних посилань для навігації між сторінками застосунку.
- * Використовує localStorage для отримання даних про поточного користувача.
- * @returns {JSX.Element} React-компонент, що містить блок привітання та меню навігації.
+ *
  */
 function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
-  // Завантаження даних користувача з localStorage
-  const storedUser = loadFromStorage("currentUser", {});
-  const userName = storedUser.name || "User";
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <aside className={styles.sidebar}>
-      {/* Верхня частина з привітанням */}
       <div className={styles.top}>
-          <p className={styles.username}>Hello, {userName}</p>
+        <p className={styles.username}>Hello, {user?.name || "User"}</p>
       </div>
 
-      {/* Навігація по основних сторінках */}
       <nav className={styles.nav}>
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            className={`${styles.link} ${
-              location.pathname.startsWith(item.path) ? styles.active : ""
-            }`}
+            className={`${styles.link} ${location.pathname.startsWith(item.path) ? styles.active : ""}`}
           >
             {item.label}
           </Link>
@@ -55,6 +44,10 @@ function Sidebar() {
       </nav>
 
       <WaterWidget />
+
+      <button onClick={handleLogout} className={styles.logoutButton}>
+        Log out
+      </button>
     </aside>
   );
 }

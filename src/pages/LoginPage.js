@@ -1,125 +1,68 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/Auth.module.css";
 import common from "../styles/Common.module.css";
-import { validateEmail, validatePassword } from "../utils/validation";
-import { loadFromStorage, saveToStorage } from "../utils/localstorage";
-import { useFormHandlers } from "../hooks/useFormHandlers";
-import logger from "../utils/logger";
-import { AuthError } from "../utils/errors";
+import { useAuth } from "../context/AuthContext";
 
 /**
- * Сторінка входу користувача.
- * - Перевіряє валідність введених даних (email, пароль)
- * - Здійснює пошук користувача у localStorage
- * - Зберігає поточного користувача після успішного входу
- * - Переадресовує на головну сторінку (Home)
- * @component
- * @returns {JSX.Element} Форма авторизації.
+ *
  */
 function LoginPage() {
   const navigate = useNavigate();
-
-  // Стан полів форми та можливих помилок
+  const { login } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  /**
-   * Валідація даних форми входу.
-   * @returns {object} errors - об’єкт із помилками, якщо є
-   */
-  const validate = () => {
-    const newErrors = {};
-    const emailError = validateEmail(form.email);
-    const passError = validatePassword(form.password);
-
-    if (emailError) {newErrors.email = emailError;}
-    if (passError) {newErrors.password = passError;}
-
-    return newErrors;
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setError("");
   };
 
-  // Обробники введення
-  const { handleChange, handleFocus } = useFormHandlers(form, setForm, setErrors);
-
-  /**
-   * Обробник відправлення форми входу.
-   * - Перевіряє валідацію
-   * - Порівнює дані з користувачами в localStorage
-   * - У разі успіху зберігає користувача та переходить на Home
-   * @param {Event} e - подія submit
-   */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    logger.debug('Auth', 'Attempting to log in user', { email: form.email });
-
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      logger.warn('Auth', 'Login validation failed', validationErrors);
-      setErrors(validationErrors);
+    if (!form.email || !form.password) {
+      setError("Please fill in all fields");
       return;
     }
-
-    // Отримання користувачів з localStorage
-    const users = loadFromStorage("users", []);
-
-    // Перевірка на існування користувача
-    const userExists = users.find(
-      (u) => u.email === form.email && u.password === form.password
-    );
-
-    if (!userExists) {
-      const authError = new AuthError('Account not found or password incorrect', { email: form.email });
-      logger.error('Auth', 'Login failed', { errorId: authError.errorId, email: form.email });
-      setErrors({ general: authError.message });
-      return;
+    setLoading(true);
+    try {
+      await login(form.email, form.password);
+      navigate("/home");
+    } catch (err) {
+      setError(err.response?.data?.error || "Invalid email or password");
+    } finally {
+      setLoading(false);
     }
-
-    // Збереження активного користувача
-    logger.info('Auth', 'User successfully logged in', { userId: userExists.id, email: userExists.email });
-    saveToStorage("currentUser", userExists);
-
-    // Перенаправлення на головну сторінку
-    navigate("/home");
   };
 
   return (
     <div className={styles.authContainer}>
       <h2 className={styles.authTitle}>Welcome back</h2>
       <form className={styles.authForm} onSubmit={handleSubmit} noValidate>
-        {/* Поле Email */}
         <div className={styles.authInputWrapper}>
           <input
             type="email"
             name="email"
             placeholder="Email"
-            className={`${styles.authInput} ${errors.email ? common.inputError : ""}`}
+            className={styles.authInput}
             value={form.email}
             onChange={handleChange}
-            onFocus={handleFocus}
           />
-          {errors.email && <p className={common.errorMessage}>{errors.email}</p>}
         </div>
-
-        {/* Поле Пароля */}
         <div className={styles.authInputWrapper}>
           <input
             type="password"
             name="password"
             placeholder="Password"
-            className={`${styles.authInput} ${errors.password ? common.inputError : ""}`}
+            className={styles.authInput}
             value={form.password}
             onChange={handleChange}
-            onFocus={handleFocus}
           />
-          {errors.password && <p className={common.errorMessage}>{errors.password}</p>}
         </div>
-
-        {errors.general && <p className={common.errorMessage}>{errors.general}</p>}
-
-        <button type="submit" className={styles.button}>
-          Log In
+        {error && <p className={common.errorMessage}>{error}</p>}
+        <button type="submit" className={styles.button} disabled={loading}>
+          {loading ? "Logging in..." : "Log In"}
         </button>
       </form>
     </div>

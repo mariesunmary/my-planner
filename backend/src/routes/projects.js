@@ -19,19 +19,19 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name } = req.body;
+  const { name, description, deadline } = req.body;
   const result = await db.query(
-    "INSERT INTO projects (user_id, name) VALUES ($1, $2) RETURNING *",
-    [req.user.id, name]
+    "INSERT INTO projects (user_id, name, description, deadline) VALUES ($1, $2, $3, $4) RETURNING *",
+    [req.user.id, name, description || "", deadline || ""]
   );
   res.json(result.rows[0]);
 });
 
 router.put("/:id", async (req, res) => {
-  const { name } = req.body;
+  const { name, description, deadline } = req.body;
   const result = await db.query(
-    "UPDATE projects SET name = $1 WHERE id = $2 AND user_id = $3 RETURNING *",
-    [name, req.params.id, req.user.id]
+    "UPDATE projects SET name = $1, description = $2, deadline = $3 WHERE id = $4 AND user_id = $5 RETURNING *",
+    [name, description || "", deadline || "", req.params.id, req.user.id]
   );
   res.json(result.rows[0]);
 });
@@ -42,19 +42,24 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.post("/:id/tasks", async (req, res) => {
-  const { text } = req.body;
+  const { name, deadline, status } = req.body;
   const result = await db.query(
-    "INSERT INTO project_tasks (project_id, text) VALUES ($1, $2) RETURNING *",
-    [req.params.id, text]
+    "INSERT INTO project_tasks (project_id, text, name, deadline, status) VALUES ($1, $2, $2, $3, $4) RETURNING *",
+    [req.params.id, name, deadline || "", status || "To Do"]
   );
   res.json(result.rows[0]);
 });
 
 router.put("/tasks/:taskId", async (req, res) => {
-  const { text, done } = req.body;
+  const { name, deadline, status } = req.body;
   const result = await db.query(
-    "UPDATE project_tasks SET text = COALESCE($1, text), done = COALESCE($2, done) WHERE id = $3 RETURNING *",
-    [text ?? null, done ?? null, req.params.taskId]
+    `UPDATE project_tasks
+     SET name = COALESCE($1, name),
+         text = COALESCE($1, text),
+         deadline = COALESCE($2, deadline),
+         status = COALESCE($3, status)
+     WHERE id = $4 RETURNING *`,
+    [name ?? null, deadline ?? null, status ?? null, req.params.taskId]
   );
   res.json(result.rows[0]);
 });
