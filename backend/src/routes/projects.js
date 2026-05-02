@@ -44,8 +44,8 @@ router.delete("/:id", async (req, res) => {
 router.post("/:id/tasks", async (req, res) => {
   const { name, deadline, status } = req.body;
   const result = await db.query(
-    "INSERT INTO project_tasks (project_id, text, name, deadline, status) VALUES ($1, $2, $2, $3, $4) RETURNING *",
-    [req.params.id, name, deadline || "", status || "To Do"]
+    "INSERT INTO project_tasks (project_id, text, name, deadline, status) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [req.params.id, name, name, deadline || "", status || "To Do"]
   );
   res.json(result.rows[0]);
 });
