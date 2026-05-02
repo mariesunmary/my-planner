@@ -11,6 +11,12 @@ import api from "../services/api";
 
 const categories = ["Food", "Transport", "Entertainment", "Health", "Shopping", "Other"];
 
+const formatDate = (dateStr) => {
+  if (!dateStr) {return "-";}
+  const [year, month, day] = dateStr.split("T")[0].split("-");
+  return `${day}-${month}-${year}`;
+};
+
 /**
  *
  */
@@ -152,7 +158,7 @@ function MonthlyBudgetPage() {
               <td>{editedExpense?.id === e.id ? <input name="name" value={editedExpense.name} onChange={handleEditChange} className={styles.inputCell} /> : e.name}</td>
               <td>{editedExpense?.id === e.id ? <input type="number" name="amount" value={editedExpense.amount} onChange={handleEditChange} className={styles.inputCell} /> : `$${parseFloat(e.amount).toFixed(2)}`}</td>
               <td>{editedExpense?.id === e.id ? <input name="category" value={editedExpense.category} onChange={handleEditChange} className={styles.inputCell} onFocus={handleCategoryFocus} /> : (e.category || "-")}</td>
-              <td>{editedExpense?.id === e.id ? <input type="date" name="date" value={editedExpense.date} onChange={handleEditChange} className={styles.inputCell} /> : e.date}</td>
+              <td>{editedExpense?.id === e.id ? <input type="date" name="date" value={editedExpense.date.split("T")[0]} onChange={handleEditChange} className={styles.inputCell} /> : formatDate(e.date)}</td>
               <td>
                 <EditableRowActions isEditing={editedExpense?.id === e.id}
                   onSave={handleSaveEdit} onCancel={handleCancelEdit}
