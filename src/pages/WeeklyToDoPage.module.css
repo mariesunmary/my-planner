@@ -1,156 +1,324 @@
-/**
- * Стилі для сторінки Weekly To-Do.
- * Файл визначає вигляд колонок днів, списку завдань,
- * полів вводу та кнопок для додавання/редагування завдань.
- */
-
-/* Сітка колонок днів тижня */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 2rem;
-}
-
-/* Колонка одного дня */
-.dayColumn {
-  background-color: white;
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-md);
+.layout {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 250px;
-  transition: transform var(--transition-base);
+  gap: 1.5rem;
+  align-items: flex-start;
 }
 
-.dayColumn:hover {
-  transform: translateY(-4px);
+/* ── Mini Calendar ── */
+.miniCal {
+  width: 232px;
+  flex-shrink: 0;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+  position: sticky;
+  top: 1rem;
 }
 
-/* Назва дня */
-.dayHeader {
+.calNav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: var(--color-dark-blue);
-  margin-bottom: 1rem;
-}
-
-/* Дата */
-.date {
-  font-size: 1rem;
-  color: var(--color-medium-blue);
-}
-
-/* Список завдань */
-.taskList {
-  list-style: none;
-  padding-left: 0;
-  margin: 0 0 1rem 0;
-  flex-grow: 1;
-}
-
-/* Окреме завдання */
-.task {
-  margin-bottom: 0.5rem;
-  padding: 0.6rem 1rem;
-  border-radius: var(--radius-md);
-  background-color: var(--color-bg-muted);
-  cursor: pointer;
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  transition: background-color var(--transition-base);
-  flex-wrap: wrap;
-  word-break: break-word;
+  margin-bottom: 0.6rem;
 }
 
-.task:hover {
-  background-color: var(--color-hover-blue);
-}
-
-/* Виконане завдання */
-.done {
-  text-decoration: line-through;
-  color: var(--color-text-muted);
-  background-color: var(--color-success-bg);
-}
-
-/* Обгортка для інпутів */
-.inputWrapper {
-  margin-top: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  box-sizing: border-box;
-}
-
-/* Поле вводу завдання */
-.input {
-  width: 100%;
-  max-width: 100%;
-  flex: 1;
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg-light);
-  box-sizing: border-box;
-  transition: border-color var(--transition-base), background-color var(--transition-base);
-}
-
-.input:focus {
-  outline: none;
-  border-color: var(--color-medium-blue);
-  background-color: white;
-}
-
-/* Контейнер для кнопок підтвердження/скасування */
-.inputButtons {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: flex-start;
-}
-
-.buttonGroup {
-  display: flex;
-  gap: 0.75rem; 
-  margin-top: 1rem; 
-}
-
-/* Загальний стиль кнопок додавання/скасування */
-.addConfirm,
-.addCancel {
-  flex: 1; 
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
+.calNavBtn {
+  background: none;
   border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--color-dark-blue);
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s;
 }
 
-/* Кнопка підтвердження додавання/редагування */
-.addConfirm {
-  background-color: var(--color-dark-blue);
+.calNavBtn:hover {
+  background: var(--color-light-beige);
+}
+
+.calMonthLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-dark-blue);
+}
+
+.calGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.calDayHeader {
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #94a3b8;
+  padding: 0.2rem 0;
+}
+
+.calCell {
+  text-align: center;
+  font-size: 0.78rem;
+  padding: 0.28rem 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--color-almost-black);
+  transition: background 0.15s;
+}
+
+.calCell:hover:not(.calEmpty) {
+  background: #e8f0fb;
+}
+
+.calEmpty {
+  cursor: default;
+}
+
+.calInWeek {
+  background: #eef4fd;
+  border-radius: 0;
+}
+
+.calToday {
+  font-weight: 700;
+  color: var(--color-dark-blue);
+}
+
+.calSelected {
+  background: var(--color-dark-blue) !important;
+  color: white !important;
+  border-radius: 50%;
+}
+
+.todayBtn {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.4rem;
+  background: none;
+  border: 1px solid var(--color-dark-blue);
+  color: var(--color-dark-blue);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.todayBtn:hover {
+  background: var(--color-dark-blue);
   color: white;
 }
 
-.addConfirm:hover {
-  background-color: var(--color-medium-blue);
+/* ── Week Panel ── */
+.weekPanel {
+  flex: 1;
+  min-width: 0;
 }
 
-/* Кнопка скасування */
-.addCancel {
-  background-color: var(--color-border-light);
+.weekNav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.weekLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-dark-blue);
+}
+
+/* ── Day sections ── */
+.dayList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.daySection {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 0.9rem 1.2rem;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.daySection:hover {
+  border-left-color: #cbd5e1;
+}
+
+.daySelected {
+  border-left-color: var(--color-dark-blue) !important;
+}
+
+.dayToday {
+  border-left-color: #5b9bd5 !important;
+}
+
+.dayHeading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.dayName {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  min-width: 28px;
+}
+
+.dayDate {
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--color-almost-black);
 }
 
-.addCancel:hover {
-  background-color: var(--color-border);
+.dayDateToday {
+  color: var(--color-dark-blue);
 }
 
+.todayBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--color-dark-blue);
+  color: white;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+}
 
+.taskCount {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* ── Tasks ── */
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.task:hover {
+  background: #f8fafc;
+}
+
+.taskCheck {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  min-width: 14px;
+}
+
+.taskDone .taskCheck {
+  color: var(--color-dark-blue);
+}
+
+.taskText {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.taskDone .taskText {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+/* ── Inline edit ── */
+.editWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.editInput {
+  flex: 1;
+  padding: 0.28rem 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: var(--color-dark-blue);
+}
+
+/* ── Add task ── */
+.addWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.addInput {
+  flex: 1;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.addInput:focus {
+  outline: none;
+  border-color: var(--color-dark-blue);
+}
+
+.addInputError {
+  border-color: #ef4444;
+}
+
+.addTaskBtn {
+  background: none;
+  border: none;
+  color: var(--color-dark-blue);
+  cursor: pointer;
+  font-size: 0.82rem;
+  padding: 0.2rem 0;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.addTaskBtn:hover {
+  opacity: 1;
+}
+
+.confirmBtn {
+  padding: 0.28rem 0.6rem;
+  background: var(--color-dark-blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.cancelBtn {
+  padding: 0.28rem 0.6rem;
+  background: none;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
