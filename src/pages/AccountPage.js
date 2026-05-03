@@ -57,11 +57,15 @@ function AccountPage() {
     }
   };
 
+  const initials = (user?.name || "U").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+
   return (
     <div className={`${common.container} ${common.pageEnter}`}>
-      <p className={common.intro}>
-        Manage your personal information and keep your account secure.
-      </p>
+      <div className={styles.hero}>
+        <div className={styles.avatar}>{initials}</div>
+        <h2 className={styles.heroName}>{user?.name || "User"}</h2>
+        <p className={styles.heroSub}>Manage your personal information and keep your account secure.</p>
+      </div>
 
       <div className={styles.sections}>
         <section className={styles.section}>
