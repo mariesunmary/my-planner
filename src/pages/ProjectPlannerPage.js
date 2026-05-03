@@ -98,7 +98,7 @@ function ProjectPlannerPage() {
       const updated = allTasks.map((t) => t.id === taskId ? { ...t, status: "Done" } : t);
       const projectTasks = updated.filter((t) => t.project_id === selectedProjectId);
       if (projectTasks.length > 0 && projectTasks.every((t) => t.status === "Done")) {
-        showToast("Project complete!", `All tasks finished — great work! 🏆`, "🏆");
+        showToast("All tasks checked off!", "No pending tasks in this project 🏆", "🏆");
       }
     }
     setAllTasks((prev) => prev.map((t) => t.id === taskId ? { ...t, status: next } : t));
