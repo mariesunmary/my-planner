@@ -123,6 +123,17 @@
   text-align: center;
 }
 
+/* заголовки що можна сортувати */
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  background-color: var(--color-medium-blue);
+  color: white;
+}
+
 /* поля вводу в таблиці (при редагуванні) */
 .inputCell {
 padding: 8px 10px;
@@ -150,6 +161,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* Дропдаун контейнер */

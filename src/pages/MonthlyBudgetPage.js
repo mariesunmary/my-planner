@@ -32,6 +32,13 @@ function MonthlyBudgetPage() {
   });
   const [errors, setErrors] = useState({});
   const [editedExpense, setEditedExpense] = useState(null);
+  const [sortKey, setSortKey] = useState("date");
+  const [sortDir, setSortDir] = useState("desc");
+
+  const handleSort = (key) => {
+    if (sortKey === key) {setSortDir((d) => d === "asc" ? "desc" : "asc");}
+    else { setSortKey(key); setSortDir("asc"); }
+  };
   const { user, updateUser } = useAuth();
   const currency = user?.currency || "USD";
   const symbol = CURRENCIES.find((c) => c.code === currency)?.symbol || "$";
@@ -107,10 +114,20 @@ function MonthlyBudgetPage() {
     setShowDropdown(false);
   };
 
-  const filteredExpenses = expenses.filter((e) => {
-    const d = new Date(e.date);
-    return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
-  });
+  const filteredExpenses = expenses
+    .filter((e) => {
+      const d = new Date(e.date);
+      return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+    })
+    .sort((a, b) => {
+      let valA, valB;
+      if (sortKey === "date") { valA = a.date; valB = b.date; }
+      else if (sortKey === "amount") { valA = parseFloat(a.amount); valB = parseFloat(b.amount); }
+      else if (sortKey === "category") { valA = a.category || ""; valB = b.category || ""; }
+      if (valA < valB) {return sortDir === "asc" ? -1 : 1;}
+      if (valA > valB) {return sortDir === "asc" ? 1 : -1;}
+      return 0;
+    });
 
   const total = filteredExpenses.reduce((sum, e) => sum + parseFloat(e.amount || 0), 0);
 
@@ -171,7 +188,19 @@ function MonthlyBudgetPage() {
 
       <table className={styles.table}>
         <thead>
-          <tr><th>Expense</th><th>Amount</th><th>Category</th><th>Date</th><th /></tr>
+          <tr>
+            <th>Expense</th>
+            <th onClick={() => handleSort("amount")} className={styles.sortable}>
+              Amount {sortKey === "amount" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
+            </th>
+            <th onClick={() => handleSort("category")} className={styles.sortable}>
+              Category {sortKey === "category" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
+            </th>
+            <th onClick={() => handleSort("date")} className={styles.sortable}>
+              Date {sortKey === "date" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
+            </th>
+            <th />
+          </tr>
         </thead>
         <tbody>
           {filteredExpenses.map((e) => (
