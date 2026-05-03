@@ -28,7 +28,7 @@ function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.top}>
-        <p className={styles.username}>Hello, {user?.name || "User"}</p>
+        <Link to="/account" className={styles.username}>Hello, {user?.name || "User"}</Link>
       </div>
 
       <nav className={styles.nav}>

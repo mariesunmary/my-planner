@@ -11,6 +11,7 @@ import MonthlyBudgetPage from "./pages/MonthlyBudgetPage";
 import ProjectPlannerPage from "./pages/ProjectPlannerPage";
 import StatisticsPage from "./pages/StatisticsPage";
 import DashboardLayout from "./layout/DashboardLayout";
+import AccountPage from "./pages/AccountPage";
 
 /**
  *
@@ -37,6 +38,7 @@ function AppRoutes() {
       <Route path="/budget" element={<PrivateRoute><DashboardLayout><MonthlyBudgetPage /></DashboardLayout></PrivateRoute>} />
       <Route path="/projects" element={<PrivateRoute><DashboardLayout><ProjectPlannerPage /></DashboardLayout></PrivateRoute>} />
       <Route path="/statistics" element={<PrivateRoute><DashboardLayout><StatisticsPage /></DashboardLayout></PrivateRoute>} />
+      <Route path="/account" element={<PrivateRoute><DashboardLayout><AccountPage /></DashboardLayout></PrivateRoute>} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
