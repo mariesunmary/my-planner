@@ -34,6 +34,7 @@ function MonthlyBudgetPage() {
   const [editedExpense, setEditedExpense] = useState(null);
   const [sortKey, setSortKey] = useState("date");
   const [sortDir, setSortDir] = useState("desc");
+  const [filterCategory, setFilterCategory] = useState("All");
 
   const handleSort = (key) => {
     if (sortKey === key) {setSortDir((d) => d === "asc" ? "desc" : "asc");}
@@ -117,7 +118,9 @@ function MonthlyBudgetPage() {
   const filteredExpenses = expenses
     .filter((e) => {
       const d = new Date(e.date);
-      return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+      const inMonth = d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+      const inCategory = filterCategory === "All" || e.category === filterCategory;
+      return inMonth && inCategory;
     })
     .sort((a, b) => {
       let valA, valB;
@@ -183,6 +186,16 @@ function MonthlyBudgetPage() {
       </div>
 
       {(errors.name || errors.amount) && <div className={common.errorMessage}>Obligatory field is not filled</div>}
+
+      <div className={styles.filterBar}>
+        {["All", ...categories].map((cat) => (
+          <button key={cat}
+            className={`${styles.filterChip} ${filterCategory === cat ? styles.filterChipActive : ""}`}
+            onClick={() => setFilterCategory(cat)}>
+            {cat}
+          </button>
+        ))}
+      </div>
 
       <div className={styles.total}>Total this month: {symbol}{total.toFixed(2)}</div>
 
