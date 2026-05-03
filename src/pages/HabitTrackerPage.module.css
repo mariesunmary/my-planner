@@ -49,9 +49,9 @@
 }
 
 .dayHeader {
-  width: var(--cell-size);
-  min-width: var(--cell-size);
-  height: var(--cell-size);
+  flex: 1;
+  min-width: 0;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,9 +69,9 @@
 }
 
 .dayCell {
-  width: var(--cell-size);
-  min-width: var(--cell-size);
-  height: var(--cell-size);
+  flex: 1;
+  min-width: 0;
+  height: 26px;
   border-radius: 4px;
   margin: 1px;
   cursor: pointer;
