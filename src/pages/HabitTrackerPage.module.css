@@ -1,9 +1,8 @@
 :root {
-  --cell-size: 32px;
+  --cell-size: 26px;
 }
 
 .grid {
-  overflow-x: auto;
   background: white;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
@@ -24,7 +23,7 @@
 
 .habitRow {
   border-radius: var(--radius-sm);
-  padding: 0.3rem 0;
+  padding: 0.25rem 0;
   transition: background 0.15s;
 }
 
@@ -34,15 +33,15 @@
 
 .habitHeader,
 .habitName {
-  width: 190px;
-  min-width: 190px;
+  width: 175px;
+  min-width: 175px;
   padding: 0.3rem 0.5rem;
   flex-shrink: 0;
   color: var(--color-almost-black);
 }
 
 .habitHeader {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   color: #94a3b8;
@@ -56,11 +55,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
   color: #94a3b8;
   margin: 1px;
-  border-radius: 50%;
+  border-radius: 4px;
 }
 
 .todayHeader {
@@ -73,11 +72,8 @@
   width: var(--cell-size);
   min-width: var(--cell-size);
   height: var(--cell-size);
-  border-radius: 50%;
+  border-radius: 4px;
   margin: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   background-color: #f1f5f9;
   transition: transform 0.15s, background-color 0.15s;
@@ -85,19 +81,11 @@
 
 .dayCell:hover {
   background-color: #dbeafe;
-  transform: scale(1.12);
+  transform: scale(1.1);
 }
 
 .checked {
   background-color: var(--color-dark-blue);
-  color: white;
-}
-
-.checked::after {
-  content: "✓";
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: white;
 }
 
 .todayCell {
@@ -131,8 +119,8 @@
 }
 
 .pctHeader {
-  width: 44px;
-  min-width: 44px;
+  width: 40px;
+  min-width: 40px;
   text-align: center;
   font-size: 0.72rem;
   font-weight: 700;
@@ -143,8 +131,8 @@
 }
 
 .pctCell {
-  width: 44px;
-  min-width: 44px;
+  width: 40px;
+  min-width: 40px;
   text-align: center;
   font-size: 0.8rem;
   font-weight: 600;
