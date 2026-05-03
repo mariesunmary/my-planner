@@ -122,50 +122,62 @@ function HabitTrackerPage() {
       <div className={styles.grid}>
         <div className={styles.headerRow}>
           <div className={styles.habitHeader}>Habit</div>
-          {days.map((day) => <div key={day} className={styles.dayHeader}>{day}</div>)}
+          {days.map((day) => {
+            const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+            return (
+              <div key={day} className={`${styles.dayHeader} ${isToday ? styles.todayHeader : ""}`}>{day}</div>
+            );
+          })}
+          <div className={styles.pctHeader}>%</div>
         </div>
 
-        {habits.map((habit) => (
-          <div key={habit.id} className={styles.habitRow}>
-            <div className={styles.habitName}>
-              <div className={styles.habitTitle}>
-                {editingId === habit.id ? (
-                  <input
-                    type="text"
-                    value={editedHabit}
-                    onChange={(e) => setEditedHabit(e.target.value)}
-                    className={common.input}
+        {habits.map((habit) => {
+          const completed = days.filter((day) => track[`${habit.id}-${toDate(day)}`]).length;
+          const pct = days.length > 0 ? Math.round((completed / days.length) * 100) : 0;
+          return (
+            <div key={habit.id} className={styles.habitRow}>
+              <div className={styles.habitName}>
+                <div className={styles.habitTitle}>
+                  {editingId === habit.id ? (
+                    <input
+                      type="text"
+                      value={editedHabit}
+                      onChange={(e) => setEditedHabit(e.target.value)}
+                      className={common.input}
+                    />
+                  ) : (
+                    <span>{habit.name}</span>
+                  )}
+                </div>
+                <div className={styles.habitActions}>
+                  <EditableRowActions
+                    isEditing={editingId === habit.id}
+                    onSave={() => handleSaveHabit(habit.id)}
+                    onCancel={handleCancelEdit}
+                    onEdit={() => handleEditHabit(habit)}
+                    onDelete={() => handleDeleteHabit(habit.id)}
+                    editTitle="Edit habit"
+                    deleteTitle="Delete habit"
+                    saveTitle="Save"
+                    cancelTitle="Cancel"
                   />
-                ) : (
-                  <span>{habit.name}</span>
-                )}
+                </div>
               </div>
-              <div className={styles.habitActions}>
-                <EditableRowActions
-                  isEditing={editingId === habit.id}
-                  onSave={() => handleSaveHabit(habit.id)}
-                  onCancel={handleCancelEdit}
-                  onEdit={() => handleEditHabit(habit)}
-                  onDelete={() => handleDeleteHabit(habit.id)}
-                  editTitle="Edit habit"
-                  deleteTitle="Delete habit"
-                  saveTitle="Save"
-                  cancelTitle="Cancel"
-                />
-              </div>
+              {days.map((day) => {
+                const key = `${habit.id}-${toDate(day)}`;
+                const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+                return (
+                  <div
+                    key={day}
+                    className={`${styles.dayCell} ${track[key] ? styles.checked : ""} ${isToday ? styles.todayCell : ""}`}
+                    onClick={() => toggleDay(habit.id, day)}
+                  />
+                );
+              })}
+              <div className={`${styles.pctCell} ${pct === 100 ? styles.pctDone : ""}`}>{pct}%</div>
             </div>
-            {days.map((day) => {
-              const key = `${habit.id}-${toDate(day)}`;
-              return (
-                <div
-                  key={day}
-                  className={`${styles.dayCell} ${track[key] ? styles.checked : ""}`}
-                  onClick={() => toggleDay(habit.id, day)}
-                />
-              );
-            })}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

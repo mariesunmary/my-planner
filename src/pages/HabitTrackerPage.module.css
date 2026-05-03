@@ -1,92 +1,157 @@
-/**
- * Стилі для сторінки Habit Tracker.
- * Файл визначає вигляд таблиці трекера, рядків звичок,
- * заголовків днів, клітинок календаря, полів вводу та кнопок для редагування/відмітки виконання.
- */
-
-/* розмір клітинки календаря */
 :root {
-  --cell-size: 34px;
+  --cell-size: 32px;
 }
 
-/* таблиця трекера */
 .grid {
-  border-top: 2px solid var(--color-border-light);
   overflow-x: auto;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 0.75rem;
 }
 
-/* рядки заголовків та звичок */
 .headerRow,
 .habitRow {
   display: flex;
   align-items: center;
 }
 
-/* заголовок та назва звички */
-.habitHeader,
-.habitName {
-  width: 180px;
-  padding: 0.5rem 0.7rem;
-  font-weight: 600;
-  flex-shrink: 0;
-  color: var(--color-almost-black);
-  text-align: left;
-  background-color: var(--color-bg-light);
-  border-right: 2px solid var(--color-border);
-  white-space: normal;         
-  word-break: break-word;      
-  overflow-wrap: anywhere;     
+.headerRow {
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #e8edf3;
 }
 
-/* заголовки та клітинки днів */
-.dayHeader,
+.habitRow {
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0;
+  transition: background 0.15s;
+}
+
+.habitRow:hover {
+  background: #f8fafc;
+}
+
+.habitHeader,
+.habitName {
+  width: 190px;
+  min-width: 190px;
+  padding: 0.3rem 0.5rem;
+  flex-shrink: 0;
+  color: var(--color-almost-black);
+}
+
+.habitHeader {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.dayHeader {
+  width: var(--cell-size);
+  min-width: var(--cell-size);
+  height: var(--cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin: 1px;
+  border-radius: 50%;
+}
+
+.todayHeader {
+  color: var(--color-dark-blue);
+  background: #eef4fd;
+  font-weight: 700;
+}
+
 .dayCell {
   width: var(--cell-size);
+  min-width: var(--cell-size);
   height: var(--cell-size);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-sm);
+  border-radius: 50%;
   margin: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-  font-weight: 500;
   cursor: pointer;
-  background-color: var(--color-bg-muted);
-  transition: transform var(--transition-base), background-color var(--transition-base);
+  background-color: #f1f5f9;
+  transition: transform 0.15s, background-color 0.15s;
 }
 
 .dayCell:hover {
-  background-color: var(--color-hover-blue);
-  transform: scale(1.1);
+  background-color: #dbeafe;
+  transform: scale(1.12);
 }
 
-/* відмічена клітинка */
 .checked {
-  background-color: var(--color-medium-blue);
+  background-color: var(--color-dark-blue);
   color: white;
-  font-weight: 700;
 }
 
-/* розкладаємо назву та кнопки по краях всередині лівої клітинки */
+.checked::after {
+  content: "✓";
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+}
+
+.todayCell {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 1px;
+}
+
 .habitName {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
-/* інпут для редагування всередині таблиці */
+.habitTitle {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
 .habitTitle input {
-  width: 100%;          
-  max-width: 100%;      
-  box-sizing: border-box; 
-  font-size: 0.95rem;   
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.9rem;
 }
 
-/* контейнер кнопок праворуч */
 .habitActions {
-  margin-left: auto;              
+  margin-left: auto;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
+.pctHeader {
+  width: 44px;
+  min-width: 44px;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  margin-left: 0.4rem;
+}
+
+.pctCell {
+  width: 44px;
+  min-width: 44px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-left: 0.4rem;
+}
+
+.pctDone {
+  color: #16a34a;
+}
