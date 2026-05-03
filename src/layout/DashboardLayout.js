@@ -53,15 +53,17 @@ function DashboardLayout({ children }) {
 
       <div className={styles.main}>
         {/* Шапка сторінки */}
-        <header className={styles.header}>
-          <div className={styles.headerInner}>
-            <div className={styles.headerText}>
-              <h2 className={styles.title}>{activeItem?.label}</h2>
-              <p className={styles.month}>{currentMonth}</p>
+        {activeItem && (
+          <header className={styles.header}>
+            <div className={styles.headerInner}>
+              <div className={styles.headerText}>
+                <h2 className={styles.title}>{activeItem.label}</h2>
+                <p className={styles.month}>{currentMonth}</p>
+              </div>
+              <p className={styles.quote}>{quote}</p>
             </div>
-            <p className={styles.quote}>{quote}</p>
-          </div>
-        </header>
+          </header>
+        )}
 
         {/* Основний контент сторінки */}
         <div className={common.container}>{children}</div>
