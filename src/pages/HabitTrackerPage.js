@@ -5,11 +5,13 @@ import EditableRowActions from "../components/EditableRowActions";
 import { generateMonthDays, monthNames } from "../utils/date";
 import { useMonthNavigation } from "../hooks/useMonthNavigation";
 import api from "../services/api";
+import { useToast } from "../context/ToastContext";
 
 /**
  *
  */
 function HabitTrackerPage() {
+  const { showToast } = useToast();
   const today = new Date();
   const { currentYear, currentMonth, goToPreviousMonth, goToNextMonth } =
     useMonthNavigation(today.getFullYear(), today.getMonth());
@@ -82,6 +84,13 @@ function HabitTrackerPage() {
     const date = toDate(day);
     const key = `${habitId}-${date}`;
     const done = !track[key];
+    const todayStr = toDate(today.getDate());
+    if (done && date === todayStr && habits.length > 0) {
+      const newTrack = { ...track, [key]: true };
+      if (habits.every((h) => newTrack[`${h.id}-${todayStr}`])) {
+        showToast("All habits done!", "Perfect day — every habit completed! 🌱", "🌟");
+      }
+    }
     setTrack((prev) => ({ ...prev, [key]: done }));
     await api.post("/habits/tracking", { habit_id: habitId, date, done });
   };

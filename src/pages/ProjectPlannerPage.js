@@ -4,11 +4,13 @@ import common from "../styles/Common.module.css";
 import EditableRowActions from "../components/EditableRowActions";
 import api from "../services/api";
 import AppDatePicker from "../components/AppDatePicker";
+import { useToast } from "../context/ToastContext";
 
 /**
  *
  */
 function ProjectPlannerPage() {
+  const { showToast } = useToast();
   const [projects, setProjects] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
@@ -92,6 +94,13 @@ function ProjectPlannerPage() {
   const handleStatusChange = async (taskId) => {
     const task = allTasks.find((t) => t.id === taskId);
     const next = task.status === "To Do" ? "In Progress" : task.status === "In Progress" ? "Done" : "To Do";
+    if (next === "Done") {
+      const updated = allTasks.map((t) => t.id === taskId ? { ...t, status: "Done" } : t);
+      const projectTasks = updated.filter((t) => t.project_id === selectedProjectId);
+      if (projectTasks.length > 0 && projectTasks.every((t) => t.status === "Done")) {
+        showToast("Project complete!", `All tasks finished — great work! 🏆`, "🏆");
+      }
+    }
     setAllTasks((prev) => prev.map((t) => t.id === taskId ? { ...t, status: next } : t));
     await api.put(`/projects/tasks/${taskId}`, { status: next });
   };

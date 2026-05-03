@@ -3,6 +3,7 @@ import styles from "./WeeklyToDoPage.module.css";
 import common from "../styles/Common.module.css";
 import EditableRowActions from "../components/EditableRowActions";
 import api from "../services/api";
+import { useToast } from "../context/ToastContext";
 
 const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const MONTHS = ["January","February","March","April","May","June",
@@ -44,6 +45,7 @@ function getWeekDays(weekStart) {
  *
  */
 function WeeklyToDoPage() {
+  const { showToast } = useToast();
   const today = new Date();
   today.setHours(0,0,0,0);
   const todayKey = toKey(today);
@@ -115,7 +117,11 @@ function WeeklyToDoPage() {
   const toggleTask = async (date, taskId) => {
     const task = tasks[date].find((t) => t.id === taskId);
     const done = !task.done;
-    setTasks((p) => ({ ...p, [date]: p[date].map((t) => t.id === taskId ? { ...t, done } : t) }));
+    const updatedDay = tasks[date].map((t) => t.id === taskId ? { ...t, done } : t);
+    if (done && date === todayKey && updatedDay.length > 0 && updatedDay.every((t) => t.done)) {
+      showToast("All tasks done!", "You crushed today's to-do list 🎯", "🎯");
+    }
+    setTasks((p) => ({ ...p, [date]: updatedDay }));
     await api.put(`/tasks/${taskId}`, { done });
   };
 
