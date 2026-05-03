@@ -48,8 +48,9 @@ function WeeklyToDoPage() {
   today.setHours(0,0,0,0);
   const todayKey = toKey(today);
 
+  const [view, setView] = useState("week");
   const [weekStart, setWeekStart] = useState(() => getWeekStart(today));
-  const [selectedDate, setSelectedDate] = useState(todayKey);
+  const [selectedDate, setSelectedDate] = useState(today);
   const [calYear, setCalYear] = useState(today.getFullYear());
   const [calMonth, setCalMonth] = useState(today.getMonth());
 
@@ -71,48 +72,34 @@ function WeeklyToDoPage() {
     }).finally(() => setLoading(false));
   }, []);
 
+  // Navigation
+  const goToPrev = () => {
+    if (view === "week") { const d = new Date(weekStart); d.setDate(d.getDate()-7); setWeekStart(d); }
+    else if (view === "day") { const d = new Date(selectedDate); d.setDate(d.getDate()-1); setSelectedDate(d); }
+    else { if (calMonth === 0) { setCalMonth(11); setCalYear((y) => y-1); } else {setCalMonth((m) => m-1);} }
+  };
+  const goToNext = () => {
+    if (view === "week") { const d = new Date(weekStart); d.setDate(d.getDate()+7); setWeekStart(d); }
+    else if (view === "day") { const d = new Date(selectedDate); d.setDate(d.getDate()+1); setSelectedDate(d); }
+    else { if (calMonth === 11) { setCalMonth(0); setCalYear((y) => y+1); } else {setCalMonth((m) => m+1);} }
+  };
+
+  const switchView = (v) => {
+    setView(v);
+    if (v === "week") {setWeekStart(getWeekStart(selectedDate));}
+    if (v === "day") {setCalYear(selectedDate.getFullYear()); setCalMonth(selectedDate.getMonth());}
+  };
+
+  // Navigation label
   const weekDays = getWeekDays(weekStart);
-
-  const goToPrevWeek = () => { const d = new Date(weekStart); d.setDate(d.getDate()-7); setWeekStart(d); };
-  const goToNextWeek = () => { const d = new Date(weekStart); d.setDate(d.getDate()+7); setWeekStart(d); };
-
-  const goToToday = () => {
-    setWeekStart(getWeekStart(today));
-    setSelectedDate(todayKey);
-    setCalYear(today.getFullYear());
-    setCalMonth(today.getMonth());
-  };
-
-  const handleDayClick = (date) => {
-    setSelectedDate(toKey(date));
-    setWeekStart(getWeekStart(date));
-    setCalYear(date.getFullYear());
-    setCalMonth(date.getMonth());
-  };
-
-  const prevCalMonth = () => {
-    if (calMonth === 0) { setCalMonth(11); setCalYear((y) => y-1); }
-    else {setCalMonth((m) => m-1);}
-  };
-  const nextCalMonth = () => {
-    if (calMonth === 11) { setCalMonth(0); setCalYear((y) => y+1); }
-    else {setCalMonth((m) => m+1);}
-  };
-
-  // Mini calendar grid
-  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
-  let startDow = new Date(calYear, calMonth, 1).getDay() - 1;
-  if (startDow < 0) {startDow = 6;}
-  const calCells = [...Array(startDow).fill(null), ...Array.from({length: daysInMonth}, (_, i) => i+1)];
-
-  const isInWeek = (day) => {
-    if (!day) {return false;}
-    const d = new Date(calYear, calMonth, day);
-    const ws = new Date(weekStart);
-    const we = new Date(weekStart);
-    we.setDate(we.getDate()+6);
-    return d >= ws && d <= we;
-  };
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate()+6);
+  const navLabel = view === "month"
+    ? `${MONTHS[calMonth]} ${calYear}`
+    : view === "week"
+      ? weekStart.getMonth() === weekEnd.getMonth()
+        ? `${MONTHS[weekStart.getMonth()]} ${weekStart.getDate()}–${weekEnd.getDate()}, ${weekStart.getFullYear()}`
+        : `${MONTHS[weekStart.getMonth()]} ${weekStart.getDate()} – ${MONTHS[weekEnd.getMonth()]} ${weekEnd.getDate()}`
+      : `${DAY_NAMES[(selectedDate.getDay()+6)%7]}, ${selectedDate.getDate()} ${MONTHS[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
 
   // Task handlers
   const handleAddTask = async (date) => {
@@ -145,129 +132,155 @@ function WeeklyToDoPage() {
     setEditingTask(null);
   };
 
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekEnd.getDate()+6);
-  const weekLabel = weekStart.getMonth() === weekEnd.getMonth()
-    ? `${MONTHS[weekStart.getMonth()]} ${weekStart.getDate()}–${weekEnd.getDate()}, ${weekStart.getFullYear()}`
-    : `${MONTHS[weekStart.getMonth()]} ${weekStart.getDate()} – ${MONTHS[weekEnd.getMonth()]} ${weekEnd.getDate()}, ${weekStart.getFullYear()}`;
+  // Reusable day section
+  const renderDaySection = (date, compact = false) => {
+    const key = toKey(date);
+    const isTodayDay = key === todayKey;
+    const isSelectedDay = toKey(date) === toKey(selectedDate);
+    const dayTasks = tasks[key] || [];
+
+    return (
+      <div key={key}
+        className={`${styles.daySection} ${isSelectedDay && view !== "week" ? styles.daySelected : ""} ${isTodayDay ? styles.dayToday : ""}`}
+        onClick={() => { setSelectedDate(date); if (view === "month") {switchView("day");} }}
+      >
+        <div className={styles.dayHeading}>
+          <span className={styles.dayName}>{DAY_NAMES[(date.getDay()+6)%7]}</span>
+          <span className={`${styles.dayDate} ${isTodayDay ? styles.dayDateToday : ""}`}>
+            {date.getDate()} {MONTHS[date.getMonth()].slice(0,3)}
+          </span>
+          {isTodayDay && <span className={styles.todayBadge}>Today</span>}
+          <span className={styles.taskCount}>{dayTasks.length > 0 ? `${dayTasks.filter((t)=>t.done).length}/${dayTasks.length}` : ""}</span>
+        </div>
+
+        {!compact && (
+          <>
+            <ul className={styles.taskList}>
+              {dayTasks.map((task) => {
+                const isEditing = editingTask?.id === task.id;
+                return (
+                  <li key={task.id} className={`${styles.task} ${task.done ? styles.taskDone : ""}`}
+                    onClick={(e) => { e.stopPropagation(); if (!isEditing) {toggleTask(key, task.id);} }}>
+                    {isEditing ? (
+                      <div className={styles.editWrapper} onClick={(e) => e.stopPropagation()}>
+                        <input className={styles.editInput} value={editingTask.text}
+                          onChange={(e) => setEditingTask({ ...editingTask, text: e.target.value })}
+                          onKeyDown={(e) => { if (e.key==="Enter") {saveEditedTask();} if (e.key==="Escape") {setEditingTask(null);} }}
+                          autoFocus />
+                        <button className={styles.confirmBtn} onClick={saveEditedTask}>Save</button>
+                        <button className={styles.cancelBtn} onClick={() => setEditingTask(null)}>Cancel</button>
+                      </div>
+                    ) : (
+                      <>
+                        <span className={styles.taskCheck}>{task.done ? "✓" : "○"}</span>
+                        <span className={styles.taskText}>{task.text}</span>
+                        <EditableRowActions isEditing={false}
+                          onEdit={(e) => { e.stopPropagation(); setEditingTask({ id: task.id, date: key, text: task.text }); }}
+                          onDelete={(e) => { e.stopPropagation(); deleteTask(key, task.id); }}
+                          editTitle="Edit task" deleteTitle="Delete task" />
+                      </>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+
+            {inputVisible[key] ? (
+              <div className={styles.addWrapper} onClick={(e) => e.stopPropagation()}>
+                <input type="text"
+                  className={`${styles.addInput} ${taskError[key] ? styles.addInputError : ""}`}
+                  value={newTaskText[key] || ""}
+                  onChange={(e) => { setNewTaskText((p) => ({ ...p, [key]: e.target.value })); if (taskError[key]) {setTaskError((p) => ({ ...p, [key]: false }));} }}
+                  onKeyDown={(e) => { if (e.key==="Enter") {handleAddTask(key);} if (e.key==="Escape") {setInputVisible((p) => ({ ...p, [key]: false }));} }}
+                  placeholder="New task…" autoFocus />
+                <button className={styles.confirmBtn} onClick={() => handleAddTask(key)}>Add</button>
+                <button className={styles.cancelBtn} onClick={() => setInputVisible((p) => ({ ...p, [key]: false }))}>Cancel</button>
+              </div>
+            ) : (
+              <button className={styles.addTaskBtn}
+                onClick={(e) => { e.stopPropagation(); setInputVisible((p) => ({ ...p, [key]: true })); }}>
+                + Add task
+              </button>
+            )}
+          </>
+        )}
+
+        {compact && dayTasks.length > 0 && (
+          <div className={styles.monthDots}>
+            {dayTasks.slice(0,3).map((t) => (
+              <span key={t.id} className={`${styles.dot} ${t.done ? styles.dotDone : ""}`} />
+            ))}
+            {dayTasks.length > 3 && <span className={styles.dotMore}>+{dayTasks.length-3}</span>}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Month grid
+  const renderMonth = () => {
+    const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+    let startDow = new Date(calYear, calMonth, 1).getDay() - 1;
+    if (startDow < 0) {startDow = 6;}
+    const cells = [...Array(startDow).fill(null), ...Array.from({length: daysInMonth}, (_, i) => i+1)];
+
+    return (
+      <div className={styles.monthGrid}>
+        {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d) => (
+          <div key={d} className={styles.monthHeader}>{d}</div>
+        ))}
+        {cells.map((day, i) => {
+          if (!day) {return <div key={i} className={styles.monthEmpty} />;}
+          const date = new Date(calYear, calMonth, day);
+          const key = toKey(date);
+          const isTodayDay = key === todayKey;
+          const dayTasks = tasks[key] || [];
+          return (
+            <div key={i} className={`${styles.monthCell} ${isTodayDay ? styles.monthCellToday : ""}`}
+              onClick={() => { setSelectedDate(date); switchView("day"); }}>
+              <span className={`${styles.monthDay} ${isTodayDay ? styles.monthDayToday : ""}`}>{day}</span>
+              {dayTasks.length > 0 && (
+                <div className={styles.monthDots}>
+                  {dayTasks.slice(0,3).map((t) => (
+                    <span key={t.id} className={`${styles.dot} ${t.done ? styles.dotDone : ""}`} />
+                  ))}
+                  {dayTasks.length > 3 && <span className={styles.dotMore}>+{dayTasks.length-3}</span>}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
   if (loading) {return <div className={common.container}><p>Loading...</p></div>;}
 
   return (
     <div className={`${common.container} ${common.pageEnter}`}>
-      <div className={styles.layout}>
+      <p className={common.intro}>
+        Plan your tasks day by day. Switch between month, week and day views to stay organised.
+      </p>
 
-        {/* Mini Calendar */}
-        <aside className={styles.miniCal}>
-          <div className={styles.calNav}>
-            <button className={styles.calNavBtn} onClick={prevCalMonth}>←</button>
-            <span className={styles.calMonthLabel}>{MONTHS[calMonth]} {calYear}</span>
-            <button className={styles.calNavBtn} onClick={nextCalMonth}>→</button>
-          </div>
-          <div className={styles.calGrid}>
-            {["Mo","Tu","We","Th","Fr","Sa","Su"].map((d) => (
-              <div key={d} className={styles.calDayHeader}>{d}</div>
-            ))}
-            {calCells.map((day, i) => {
-              const key = day ? `${calYear}-${String(calMonth+1).padStart(2,"0")}-${String(day).padStart(2,"0")}` : null;
-              const isToday = key === todayKey;
-              const isSelected = key === selectedDate;
-              const inWeek = isInWeek(day);
-              return (
-                <div key={i}
-                  className={`${styles.calCell} ${!day ? styles.calEmpty : ""} ${inWeek ? styles.calInWeek : ""} ${isToday ? styles.calToday : ""} ${isSelected ? styles.calSelected : ""}`}
-                  onClick={() => day && handleDayClick(new Date(calYear, calMonth, day))}
-                >
-                  {day}
-                </div>
-              );
-            })}
-          </div>
-          <button className={styles.todayBtn} onClick={goToToday}>Today</button>
-        </aside>
-
-        {/* Week Panel */}
-        <div className={styles.weekPanel}>
-          <div className={styles.weekNav}>
-            <button className={common.navButton} onClick={goToPrevWeek}>←</button>
-            <span className={styles.weekLabel}>{weekLabel}</span>
-            <button className={common.navButton} onClick={goToNextWeek}>→</button>
-          </div>
-
-          <div className={styles.dayList}>
-            {weekDays.map((date, i) => {
-              const key = toKey(date);
-              const isSelectedDay = key === selectedDate;
-              const isTodayDay = key === todayKey;
-              const dayTasks = tasks[key] || [];
-
-              return (
-                <div key={key}
-                  className={`${styles.daySection} ${isSelectedDay ? styles.daySelected : ""} ${isTodayDay ? styles.dayToday : ""}`}
-                  onClick={() => setSelectedDate(key)}
-                >
-                  <div className={styles.dayHeading}>
-                    <span className={styles.dayName}>{DAY_NAMES[i]}</span>
-                    <span className={`${styles.dayDate} ${isTodayDay ? styles.dayDateToday : ""}`}>
-                      {date.getDate()} {MONTHS[date.getMonth()].slice(0,3)}
-                    </span>
-                    {isTodayDay && <span className={styles.todayBadge}>Today</span>}
-                    <span className={styles.taskCount}>{dayTasks.length > 0 ? `${dayTasks.filter(t=>t.done).length}/${dayTasks.length}` : ""}</span>
-                  </div>
-
-                  <ul className={styles.taskList}>
-                    {dayTasks.map((task) => {
-                      const isEditing = editingTask?.id === task.id;
-                      return (
-                        <li key={task.id} className={`${styles.task} ${task.done ? styles.taskDone : ""}`}
-                          onClick={(e) => { e.stopPropagation(); if (!isEditing) {toggleTask(key, task.id);} }}>
-                          {isEditing ? (
-                            <div className={styles.editWrapper} onClick={(e) => e.stopPropagation()}>
-                              <input className={styles.editInput} value={editingTask.text}
-                                onChange={(e) => setEditingTask({ ...editingTask, text: e.target.value })}
-                                onKeyDown={(e) => { if (e.key==="Enter") {saveEditedTask();} if (e.key==="Escape") {setEditingTask(null);} }}
-                                autoFocus />
-                              <button className={styles.confirmBtn} onClick={saveEditedTask}>Save</button>
-                              <button className={styles.cancelBtn} onClick={() => setEditingTask(null)}>Cancel</button>
-                            </div>
-                          ) : (
-                            <>
-                              <span className={styles.taskCheck}>{task.done ? "✓" : "○"}</span>
-                              <span className={styles.taskText}>{task.text}</span>
-                              <EditableRowActions isEditing={false}
-                                onEdit={(e) => { e.stopPropagation(); setEditingTask({ id: task.id, date: key, text: task.text }); }}
-                                onDelete={(e) => { e.stopPropagation(); deleteTask(key, task.id); }}
-                                editTitle="Edit task" deleteTitle="Delete task" />
-                            </>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-
-                  {inputVisible[key] ? (
-                    <div className={styles.addWrapper} onClick={(e) => e.stopPropagation()}>
-                      <input type="text"
-                        className={`${styles.addInput} ${taskError[key] ? styles.addInputError : ""}`}
-                        value={newTaskText[key] || ""}
-                        onChange={(e) => { setNewTaskText((p) => ({ ...p, [key]: e.target.value })); if (taskError[key]) {setTaskError((p) => ({ ...p, [key]: false }));} }}
-                        onKeyDown={(e) => { if (e.key==="Enter") {handleAddTask(key);} if (e.key==="Escape") {setInputVisible((p) => ({ ...p, [key]: false }));} }}
-                        placeholder="New task…" autoFocus />
-                      <button className={styles.confirmBtn} onClick={() => handleAddTask(key)}>Add</button>
-                      <button className={styles.cancelBtn} onClick={() => setInputVisible((p) => ({ ...p, [key]: false }))}>Cancel</button>
-                    </div>
-                  ) : (
-                    <button className={styles.addTaskBtn}
-                      onClick={(e) => { e.stopPropagation(); setInputVisible((p) => ({ ...p, [key]: true })); }}>
-                      + Add task
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+      <div className={styles.toolbar}>
+        <div className={styles.viewToggle}>
+          {["month","week","day"].map((v) => (
+            <button key={v} className={`${styles.viewBtn} ${view===v ? styles.viewBtnActive : ""}`}
+              onClick={() => switchView(v)}>
+              {v.charAt(0).toUpperCase() + v.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div className={styles.navGroup}>
+          <button className={common.navButton} onClick={goToPrev}>←</button>
+          <span className={styles.navLabel}>{navLabel}</span>
+          <button className={common.navButton} onClick={goToNext}>→</button>
         </div>
       </div>
+
+      {view === "month" && renderMonth()}
+      {view === "week" && <div className={styles.dayList}>{weekDays.map((d) => renderDaySection(d))}</div>}
+      {view === "day" && <div className={styles.dayList}>{renderDaySection(selectedDate)}</div>}
     </div>
   );
 }

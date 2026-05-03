@@ -1,133 +1,52 @@
-.layout {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
-}
-
-/* ── Mini Calendar ── */
-.miniCal {
-  width: 232px;
-  flex-shrink: 0;
-  background: white;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  padding: 1rem;
-  position: sticky;
-  top: 1rem;
-}
-
-.calNav {
+/* ── Toolbar ── */
+.toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.6rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
-.calNavBtn {
+.viewToggle {
+  display: flex;
+  background: white;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.viewBtn {
+  padding: 0.45rem 1rem;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.95rem;
-  color: var(--color-dark-blue);
-  padding: 0.2rem 0.45rem;
-  border-radius: var(--radius-sm);
-  transition: background 0.15s;
-}
-
-.calNavBtn:hover {
-  background: var(--color-light-beige);
-}
-
-.calMonthLabel {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-dark-blue);
-}
-
-.calGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
-}
-
-.calDayHeader {
-  text-align: center;
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: #94a3b8;
-  padding: 0.2rem 0;
-}
-
-.calCell {
-  text-align: center;
-  font-size: 0.78rem;
-  padding: 0.28rem 0;
-  border-radius: 50%;
-  cursor: pointer;
-  color: var(--color-almost-black);
-  transition: background 0.15s;
-}
-
-.calCell:hover:not(.calEmpty) {
-  background: #e8f0fb;
-}
-
-.calEmpty {
-  cursor: default;
-}
-
-.calInWeek {
-  background: #eef4fd;
-  border-radius: 0;
-}
-
-.calToday {
-  font-weight: 700;
-  color: var(--color-dark-blue);
-}
-
-.calSelected {
-  background: var(--color-dark-blue) !important;
-  color: white !important;
-  border-radius: 50%;
-}
-
-.todayBtn {
-  display: block;
-  width: 100%;
-  margin-top: 0.75rem;
-  padding: 0.4rem;
-  background: none;
-  border: 1px solid var(--color-dark-blue);
-  color: var(--color-dark-blue);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-size: 0.82rem;
+  font-size: 0.875rem;
+  color: #64748b;
   transition: background 0.15s, color 0.15s;
 }
 
-.todayBtn:hover {
+.viewBtn:hover {
+  background: #f1f5f9;
+}
+
+.viewBtnActive {
   background: var(--color-dark-blue);
   color: white;
 }
 
-/* ── Week Panel ── */
-.weekPanel {
-  flex: 1;
-  min-width: 0;
-}
-
-.weekNav {
+.navGroup {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
 }
 
-.weekLabel {
-  font-size: 0.95rem;
+.navLabel {
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-dark-blue);
+  min-width: 200px;
+  text-align: center;
 }
 
 /* ── Day sections ── */
@@ -321,4 +240,81 @@
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 0.78rem;
+}
+
+/* ── Month grid ── */
+.monthGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.monthHeader {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+  padding: 0.3rem 0;
+  text-transform: uppercase;
+}
+
+.monthEmpty {
+  background: transparent;
+}
+
+.monthCell {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem;
+  min-height: 64px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.monthCell:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.monthCellToday {
+  border: 1.5px solid var(--color-dark-blue);
+}
+
+.monthDay {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-almost-black);
+}
+
+.monthDayToday {
+  color: var(--color-dark-blue);
+}
+
+.monthDots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-dark-blue);
+  opacity: 0.5;
+  display: inline-block;
+}
+
+.dotDone {
+  opacity: 1;
+  background: #7ee8a2;
+}
+
+.dotMore {
+  font-size: 0.65rem;
+  color: #94a3b8;
 }
