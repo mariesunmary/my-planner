@@ -3,6 +3,7 @@ import styles from "./ProjectPlannerPage.module.css";
 import common from "../styles/Common.module.css";
 import EditableRowActions from "../components/EditableRowActions";
 import api from "../services/api";
+import AppDatePicker from "../components/AppDatePicker";
 
 /**
  *
@@ -153,7 +154,7 @@ function ProjectPlannerPage() {
               {editTaskId === task.id ? (
                 <>
                   <td><input type="text" name="name" value={editedTask?.name || ""} onChange={handleEditTaskChange} className={common.input} /></td>
-                  <td><input type="date" name="deadline" value={editedTask?.deadline || ""} onChange={handleEditTaskChange} className={common.input} /></td>
+                  <td><AppDatePicker value={editedTask?.deadline ? editedTask.deadline.split("T")[0] : ""} onChange={(val) => setEditedTask({ ...editedTask, deadline: val })} className={common.input} /></td>
                   <td>{task.status}</td>
                   <td className={styles.taskActions}><EditableRowActions isEditing={true} onSave={handleSaveTaskEdit} onCancel={handleCancelTaskEdit} /></td>
                 </>
@@ -190,9 +191,9 @@ function ProjectPlannerPage() {
           <input type="text" value={newProject.description}
             onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
             placeholder="Project description" className={common.input} style={{ flex: 3 }} />
-          <input type="date" value={newProject.deadline}
-            onChange={(e) => setNewProject({ ...newProject, deadline: e.target.value })}
-            className={common.input} style={{ flex: 1.5 }} />
+          <div style={{ flex: 1.5 }}>
+            <AppDatePicker value={newProject.deadline} onChange={(val) => setNewProject({ ...newProject, deadline: val })} className={common.input} placeholder="Deadline" />
+          </div>
           <button onClick={handleAddProject} className={common.addButton}>+ Add Project</button>
         </div>
         {projectError && <div className={common.errorMessage}>Project name is required</div>}
@@ -223,10 +224,9 @@ function ProjectPlannerPage() {
                     type="text" placeholder="Task name" value={taskForm.name} style={{ flex: 2 }}
                     onChange={(e) => setTaskForm({ ...taskForm, name: e.target.value })}
                     onFocus={() => setTaskError(false)} />
-                  <input className={`${common.input} ${taskError && !taskForm.deadline ? common.inputError : ""}`}
-                    type="date" value={taskForm.deadline} style={{ flex: 1 }}
-                    onChange={(e) => setTaskForm({ ...taskForm, deadline: e.target.value })}
-                    onFocus={() => setTaskError(false)} />
+                  <div style={{ flex: 1 }}>
+                    <AppDatePicker value={taskForm.deadline} onChange={(val) => { setTaskForm({ ...taskForm, deadline: val }); setTaskError(false); }} className={`${common.input} ${taskError && !taskForm.deadline ? common.inputError : ""}`} placeholder="Deadline" />
+                  </div>
                   <button onClick={handleAddTask} className={common.addButton}>+ Add Task</button>
                 </div>
                 {taskError && <div className={common.errorMessage}>Obligatory field is not filled</div>}

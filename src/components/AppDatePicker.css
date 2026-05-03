@@ -1,0 +1,87 @@
+.app-calendar {
+  font-family: inherit;
+  border: 1px solid #d1dae6;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(30, 58, 95, 0.12);
+  overflow: hidden;
+}
+
+/* Header (місяць + рік + стрілки) */
+.app-calendar .react-datepicker__header {
+  background-color: #1e3a5f;
+  border-bottom: none;
+  padding: 12px 0 8px;
+  border-radius: 0;
+}
+
+.app-calendar .react-datepicker__current-month {
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.app-calendar .react-datepicker__day-name {
+  color: #a8c0d6;
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: 2rem;
+  line-height: 2rem;
+}
+
+/* Кнопки навігації */
+.app-calendar .react-datepicker__navigation-icon::before {
+  border-color: #a8c0d6;
+}
+
+.app-calendar .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
+  border-color: white;
+}
+
+/* Дні */
+.app-calendar .react-datepicker__day {
+  color: #1e3a5f;
+  font-size: 0.875rem;
+  width: 2rem;
+  line-height: 2rem;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.app-calendar .react-datepicker__day:hover {
+  background-color: #cde2ff;
+  color: #1e3a5f;
+}
+
+.app-calendar .react-datepicker__day--selected,
+.app-calendar .react-datepicker__day--keyboard-selected {
+  background-color: #1e3a5f;
+  color: white;
+  font-weight: 600;
+}
+
+.app-calendar .react-datepicker__day--selected:hover {
+  background-color: #3b6ea5;
+}
+
+.app-calendar .react-datepicker__day--today {
+  font-weight: 700;
+  color: #3b6ea5;
+}
+
+.app-calendar .react-datepicker__day--today.react-datepicker__day--selected {
+  color: white;
+}
+
+.app-calendar .react-datepicker__day--outside-month {
+  color: #b0bec5;
+}
+
+/* Прибираємо трикутник */
+.react-datepicker__triangle {
+  display: none;
+}
+
+/* Поппер без дефолтного бордеру */
+.react-datepicker-popper {
+  z-index: 9999;
+}

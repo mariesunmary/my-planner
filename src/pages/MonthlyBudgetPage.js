@@ -9,6 +9,7 @@ import { useFormHandlers } from "../hooks/useFormHandlers";
 import { useMonthNavigation } from "../hooks/useMonthNavigation";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import AppDatePicker from "../components/AppDatePicker";
 
 const categories = ["Food", "Transport", "Entertainment", "Health", "Shopping", "Other"];
 const CURRENCIES = [{ code: "USD", symbol: "$" }, { code: "EUR", symbol: "€" }, { code: "UAH", symbol: "₴" }];
@@ -179,8 +180,7 @@ function MonthlyBudgetPage() {
         </div>
         <div className={common.inputGroup} style={{ flex: 1.5 }}>
           <label htmlFor="expense-date" className={common.srOnly}>Date</label>
-          <input id="expense-date" className={common.input} type="date" name="date"
-            value={form.date} onChange={handleChange} />
+          <AppDatePicker value={form.date} onChange={(val) => setForm({ ...form, date: val })} className={common.input} placeholder="Date" />
         </div>
         <button onClick={handleAddExpense} className={common.addButton}>+ Add Expense</button>
       </div>
@@ -221,7 +221,7 @@ function MonthlyBudgetPage() {
               <td>{editedExpense?.id === e.id ? <input name="name" value={editedExpense.name} onChange={handleEditChange} className={styles.inputCell} /> : e.name}</td>
               <td>{editedExpense?.id === e.id ? <input type="number" name="amount" value={editedExpense.amount} onChange={handleEditChange} className={styles.inputCell} /> : `${symbol}${parseFloat(e.amount).toFixed(2)}`}</td>
               <td>{editedExpense?.id === e.id ? <input name="category" value={editedExpense.category} onChange={handleEditChange} className={styles.inputCell} onFocus={handleCategoryFocus} /> : (e.category || "-")}</td>
-              <td>{editedExpense?.id === e.id ? <input type="date" name="date" value={editedExpense.date.split("T")[0]} onChange={handleEditChange} className={styles.inputCell} /> : formatDate(e.date)}</td>
+              <td>{editedExpense?.id === e.id ? <AppDatePicker value={editedExpense.date.split("T")[0]} onChange={(val) => setEditedExpense({ ...editedExpense, date: val })} className={styles.inputCell} /> : formatDate(e.date)}</td>
               <td>
                 <EditableRowActions isEditing={editedExpense?.id === e.id}
                   onSave={handleSaveEdit} onCancel={handleCancelEdit}
