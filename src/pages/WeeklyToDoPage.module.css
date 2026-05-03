@@ -17,11 +17,11 @@
 }
 
 .viewBtn {
-  padding: 0.45rem 1rem;
+  padding: 0.5rem 1.1rem;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #64748b;
   transition: background 0.15s, color 0.15s;
 }
@@ -42,7 +42,7 @@
 }
 
 .navLabel {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-dark-blue);
   min-width: 200px;
