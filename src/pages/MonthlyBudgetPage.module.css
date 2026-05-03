@@ -4,6 +4,42 @@
  * елементів дропдауну для вибору категорій та блоку з відображенням загальної суми.
  */
 
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.currencyToggle {
+  display: flex;
+  background: white;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.currencyBtn {
+  padding: 0.45rem 0.9rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #64748b;
+  transition: background 0.15s, color 0.15s;
+}
+
+.currencyBtn:hover {
+  background: #f1f5f9;
+}
+
+.currencyBtnActive {
+  background: var(--color-dark-blue);
+  color: white;
+}
+
 /* блок із загальною сумою витрат */
 .total {
   font-weight: bold;

@@ -10,6 +10,7 @@ import { useMonthNavigation } from "../hooks/useMonthNavigation";
 import api from "../services/api";
 
 const categories = ["Food", "Transport", "Entertainment", "Health", "Shopping", "Other"];
+const CURRENCIES = [{ code: "USD", symbol: "$" }, { code: "EUR", symbol: "€" }, { code: "UAH", symbol: "₴" }];
 
 const formatDate = (dateStr) => {
   if (!dateStr) {return "-";}
@@ -30,6 +31,13 @@ function MonthlyBudgetPage() {
   });
   const [errors, setErrors] = useState({});
   const [editedExpense, setEditedExpense] = useState(null);
+  const [currency, setCurrency] = useState(() => localStorage.getItem("budgetCurrency") || "USD");
+  const symbol = CURRENCIES.find((c) => c.code === currency)?.symbol || "$";
+
+  const handleCurrencyChange = (code) => {
+    setCurrency(code);
+    localStorage.setItem("budgetCurrency", code);
+  };
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const dropdownRef = useRef(null);
@@ -112,10 +120,21 @@ function MonthlyBudgetPage() {
         Track your monthly expenses to stay on top of your budget and make smarter spending decisions.
       </p>
 
-      <div className={common.monthNav}>
-        <button onClick={goToPreviousMonth} className={common.navButton}>←</button>
-        <span className={common.monthLabel}>{monthNames[currentMonth]} {currentYear}</span>
-        <button onClick={goToNextMonth} className={common.navButton}>→</button>
+      <div className={styles.toolbar}>
+        <div className={common.monthNav}>
+          <button onClick={goToPreviousMonth} className={common.navButton}>←</button>
+          <span className={common.monthLabel}>{monthNames[currentMonth]} {currentYear}</span>
+          <button onClick={goToNextMonth} className={common.navButton}>→</button>
+        </div>
+        <div className={styles.currencyToggle}>
+          {CURRENCIES.map((c) => (
+            <button key={c.code}
+              className={`${styles.currencyBtn} ${currency === c.code ? styles.currencyBtnActive : ""}`}
+              onClick={() => handleCurrencyChange(c.code)}>
+              {c.symbol} {c.code}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className={common.form}>
@@ -146,7 +165,7 @@ function MonthlyBudgetPage() {
 
       {(errors.name || errors.amount) && <div className={common.errorMessage}>Obligatory field is not filled</div>}
 
-      <div className={styles.total}>Total this month: ${total.toFixed(2)}</div>
+      <div className={styles.total}>Total this month: {symbol}{total.toFixed(2)}</div>
 
       <table className={styles.table}>
         <thead>
@@ -156,7 +175,7 @@ function MonthlyBudgetPage() {
           {filteredExpenses.map((e) => (
             <tr key={e.id}>
               <td>{editedExpense?.id === e.id ? <input name="name" value={editedExpense.name} onChange={handleEditChange} className={styles.inputCell} /> : e.name}</td>
-              <td>{editedExpense?.id === e.id ? <input type="number" name="amount" value={editedExpense.amount} onChange={handleEditChange} className={styles.inputCell} /> : `$${parseFloat(e.amount).toFixed(2)}`}</td>
+              <td>{editedExpense?.id === e.id ? <input type="number" name="amount" value={editedExpense.amount} onChange={handleEditChange} className={styles.inputCell} /> : `${symbol}${parseFloat(e.amount).toFixed(2)}`}</td>
               <td>{editedExpense?.id === e.id ? <input name="category" value={editedExpense.category} onChange={handleEditChange} className={styles.inputCell} onFocus={handleCategoryFocus} /> : (e.category || "-")}</td>
               <td>{editedExpense?.id === e.id ? <input type="date" name="date" value={editedExpense.date.split("T")[0]} onChange={handleEditChange} className={styles.inputCell} /> : formatDate(e.date)}</td>
               <td>
