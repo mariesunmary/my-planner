@@ -8,6 +8,7 @@ import { monthNames } from "../utils/date";
 import { useFormHandlers } from "../hooks/useFormHandlers";
 import { useMonthNavigation } from "../hooks/useMonthNavigation";
 import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 const categories = ["Food", "Transport", "Entertainment", "Health", "Shopping", "Other"];
 const CURRENCIES = [{ code: "USD", symbol: "$" }, { code: "EUR", symbol: "€" }, { code: "UAH", symbol: "₴" }];
@@ -31,12 +32,13 @@ function MonthlyBudgetPage() {
   });
   const [errors, setErrors] = useState({});
   const [editedExpense, setEditedExpense] = useState(null);
-  const [currency, setCurrency] = useState(() => localStorage.getItem("budgetCurrency") || "USD");
+  const { user, updateUser } = useAuth();
+  const currency = user?.currency || "USD";
   const symbol = CURRENCIES.find((c) => c.code === currency)?.symbol || "$";
 
-  const handleCurrencyChange = (code) => {
-    setCurrency(code);
-    localStorage.setItem("budgetCurrency", code);
+  const handleCurrencyChange = async (code) => {
+    const res = await api.put("/auth/me", { currency: code });
+    updateUser(res.data);
   };
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });

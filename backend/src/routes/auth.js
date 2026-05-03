@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/me", require("../middleware/auth"), async (req, res) => {
   try {
-    const result = await db.query("SELECT id, email, name FROM users WHERE id = $1", [req.user.id]);
+    const result = await db.query("SELECT id, email, name, currency FROM users WHERE id = $1", [req.user.id]);
     res.json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -53,15 +53,15 @@ router.get("/me", require("../middleware/auth"), async (req, res) => {
 });
 
 router.put("/me", require("../middleware/auth"), async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, currency } = req.body;
   try {
     if (email) {
       const exists = await db.query("SELECT id FROM users WHERE email = $1 AND id != $2", [email, req.user.id]);
       if (exists.rows.length > 0) return res.status(409).json({ error: "Email already in use" });
     }
     const result = await db.query(
-      "UPDATE users SET name = COALESCE($1, name), email = COALESCE($2, email) WHERE id = $3 RETURNING id, email, name",
-      [name || null, email || null, req.user.id]
+      "UPDATE users SET name = COALESCE($1, name), email = COALESCE($2, email), currency = COALESCE($3, currency) WHERE id = $4 RETURNING id, email, name, currency",
+      [name || null, email || null, currency || null, req.user.id]
     );
     res.json(result.rows[0]);
   } catch (err) {
