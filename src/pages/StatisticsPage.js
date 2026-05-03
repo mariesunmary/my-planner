@@ -7,6 +7,9 @@ import { getWeekDates, generateMonthDays } from "../utils/date";
 import common from "../styles/Common.module.css";
 import styles from "./StatisticsPage.module.css";
 import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
+
+const CURRENCIES = [{ code: "USD", symbol: "$" }, { code: "EUR", symbol: "€" }, { code: "UAH", symbol: "₴" }];
 
 const PALETTE = { primary: "#3a7bd5", secondary: "#8cc0f7", success: "#7ee8a2", warning: "#ffd166", muted: "#cbd5e1" };
 const EXPENSE_CATEGORIES = ["Food", "Transport", "Entertainment", "Health", "Shopping", "Other"];
@@ -16,6 +19,8 @@ const CATEGORY_COLORS    = ["#3a7bd5", "#8cc0f7", "#7ee8a2", "#ffd166", "#ef476f
  *
  */
 function StatisticsPage() {
+  const { user } = useAuth();
+  const symbol = CURRENCIES.find((c) => c.code === (user?.currency || "USD"))?.symbol || "$";
   const today = new Date();
   const [weeklyTasks, setWeeklyTasks] = useState([]);
   const [habits, setHabits] = useState([]);
@@ -115,7 +120,7 @@ function StatisticsPage() {
         <div className={styles.card}>
           <span className={styles.cardIcon}>💸</span>
           <div>
-            <p className={styles.cardValue}>${totalSpending.toFixed(0)}</p>
+            <p className={styles.cardValue}>{symbol}{totalSpending.toFixed(0)}</p>
             <p className={styles.cardLabel}>Spent this month</p>
           </div>
         </div>
@@ -171,7 +176,7 @@ function StatisticsPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e8e8e8" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip formatter={(v) => `$${Number(v).toFixed(2)}`} />
+                <Tooltip formatter={(v) => `${symbol}${Number(v).toFixed(2)}`} />
                 <Bar dataKey="amount" name="Amount" radius={[4,4,0,0]}>
                   {budgetData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
                 </Bar>
