@@ -172,10 +172,10 @@
 
 .editInput {
   flex: 1;
-  padding: 0.28rem 0.5rem;
+  padding: 0.4rem 0.65rem;
   border: 1px solid #cbd5e1;
   border-radius: var(--radius-sm);
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .editInput:focus {
@@ -193,10 +193,10 @@
 
 .addInput {
   flex: 1;
-  padding: 0.3rem 0.55rem;
+  padding: 0.4rem 0.65rem;
   border: 1px solid #cbd5e1;
   border-radius: var(--radius-sm);
-  font-size: 0.85rem;
+  font-size: 1rem;
 }
 
 .addInput:focus {
@@ -213,7 +213,7 @@
   border: none;
   color: var(--color-dark-blue);
   cursor: pointer;
-  font-size: 0.82rem;
+  font-size: 1rem;
   padding: 0.2rem 0;
   opacity: 0.6;
   transition: opacity 0.15s;
@@ -224,22 +224,22 @@
 }
 
 .confirmBtn {
-  padding: 0.28rem 0.6rem;
+  padding: 0.4rem 0.75rem;
   background: var(--color-dark-blue);
   color: white;
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
 }
 
 .cancelBtn {
-  padding: 0.28rem 0.6rem;
+  padding: 0.4rem 0.75rem;
   background: none;
   border: 1px solid #cbd5e1;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
 }
 
 /* ── Month grid ── */
