@@ -67,6 +67,22 @@
   transform: scale(1.05);
 }
 
+.themeButton {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.themeButton:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
 .logoutButton {
   margin-top: auto;
   background: transparent;

@@ -45,7 +45,7 @@
 .taskTable {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: var(--color-surface);
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -149,7 +149,7 @@
   padding: 0.6rem 0.8rem;
   margin-bottom: 0.5rem;
   border-radius: var(--radius-md);
-  background: white;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   cursor: pointer;
   transition: background var(--transition-base), transform 0.15s ease;

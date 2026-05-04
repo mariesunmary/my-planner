@@ -85,3 +85,37 @@
 .react-datepicker-popper {
   z-index: 9999;
 }
+
+/* Темна тема */
+[data-theme="dark"] .app-calendar {
+  border-color: #334155;
+  background-color: #1e293b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .app-calendar .react-datepicker__month-container {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .app-calendar .react-datepicker__day {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .app-calendar .react-datepicker__day:hover {
+  background-color: #253448;
+  color: #93c5fd;
+}
+
+[data-theme="dark"] .app-calendar .react-datepicker__day--selected,
+[data-theme="dark"] .app-calendar .react-datepicker__day--keyboard-selected {
+  background-color: #4d8fd1;
+  color: white;
+}
+
+[data-theme="dark"] .app-calendar .react-datepicker__day--outside-month {
+  color: #475569;
+}
+
+[data-theme="dark"] .app-calendar .react-datepicker__day--today {
+  color: #60a5fa;
+}

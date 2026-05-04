@@ -15,7 +15,7 @@
 
 .currencyToggle {
   display: flex;
-  background: white;
+  background: var(--color-surface);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
@@ -27,12 +27,12 @@
   border: none;
   cursor: pointer;
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--color-text-secondary);
   transition: background 0.15s, color 0.15s;
 }
 
 .currencyBtn:hover {
-  background: #f1f5f9;
+  background: var(--color-bg-muted);
 }
 
 .currencyBtnActive {
@@ -52,7 +52,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: var(--color-surface);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -171,7 +171,7 @@ border: 1px solid var(--color-medium-blue);
 border-radius: var(--radius-md);
 font-size: 0.95rem;
 width: 100%;
-background-color: white;
+background-color: var(--color-surface);
 color: var(--color-almost-black);
 box-sizing: border-box;
 }
@@ -179,7 +179,7 @@ box-sizing: border-box;
 .inputCell:focus {
   outline: none;
   border-color: var(--color-medium-blue);
-  background-color: white;
+  background-color: var(--color-surface);
 }
 
 /* вимкнення спінерів у числових полях */
@@ -197,7 +197,7 @@ input[type="number"] {
 /* Дропдаун контейнер */
 .dropdown {
   position: absolute;
-  background-color: white;
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);

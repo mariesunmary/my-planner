@@ -1,6 +1,7 @@
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import WaterWidget from "./WaterWidget";
 
 const navItems = [
@@ -19,6 +20,7 @@ function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     logout();
@@ -44,6 +46,10 @@ function Sidebar() {
       </nav>
 
       <WaterWidget />
+
+      <button onClick={toggleTheme} className={styles.themeButton}>
+        {theme === "light" ? "🌙 Dark mode" : "☀️ Light mode"}
+      </button>
 
       <button onClick={handleLogout} className={styles.logoutButton}>
         Log out
