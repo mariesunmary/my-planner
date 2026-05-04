@@ -86,9 +86,11 @@ function AccountPage() {
     <div className={`${common.container} ${common.pageEnter}`}>
       <div className={styles.hero}>
         <div className={styles.avatar}>{initials}</div>
-        <h2 className={styles.heroName}>{user?.name || "User"}</h2>
-        {memberSince && <p className={styles.heroMember}>Member since {memberSince}</p>}
-        <p className={styles.heroSub}>Manage your personal information and keep your account secure.</p>
+        <div className={styles.heroInfo}>
+          <h2 className={styles.heroName}>{user?.name || "User"}</h2>
+          {memberSince && <p className={styles.heroMember}>Member since {memberSince}</p>}
+          <p className={styles.heroSub}>Manage your personal information and keep your account secure.</p>
+        </div>
       </div>
 
       <div className={styles.sections}>
