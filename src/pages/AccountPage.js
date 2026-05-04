@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import common from "../styles/Common.module.css";
 import styles from "./AccountPage.module.css";
@@ -8,7 +9,8 @@ import api from "../services/api";
  *
  */
 function AccountPage() {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, logout } = useAuth();
+  const navigate = useNavigate();
 
   const [profileForm, setProfileForm] = useState({ name: user?.name || "", email: user?.email || "" });
   const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
@@ -17,6 +19,12 @@ function AccountPage() {
   const [passwordMsg, setPasswordMsg] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  useEffect(() => {
+    api.get("/auth/me").then((res) => updateUser(res.data)).catch(() => {});
+  }, []);
 
   const handleProfileSave = async () => {
     setProfileLoading(true);
@@ -57,13 +65,29 @@ function AccountPage() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    setDeleteLoading(true);
+    try {
+      await api.delete("/auth/me");
+      logout();
+      navigate("/");
+    } catch {
+      setDeleteLoading(false);
+    }
+  };
+
   const initials = (user?.name || "U").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+
+  const memberSince = user?.created_at
+    ? new Date(user.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    : null;
 
   return (
     <div className={`${common.container} ${common.pageEnter}`}>
       <div className={styles.hero}>
         <div className={styles.avatar}>{initials}</div>
         <h2 className={styles.heroName}>{user?.name || "User"}</h2>
+        {memberSince && <p className={styles.heroMember}>Member since {memberSince}</p>}
         <p className={styles.heroSub}>Manage your personal information and keep your account secure.</p>
       </div>
 
@@ -131,6 +155,33 @@ function AccountPage() {
           <button className={common.addButton} onClick={handlePasswordSave} disabled={passwordLoading}>
             {passwordLoading ? "Saving…" : "Change password"}
           </button>
+        </section>
+
+        <section className={`${styles.section} ${styles.dangerSection}`}>
+          <h3 className={styles.dangerTitle}>Danger Zone</h3>
+          <p className={styles.dangerDesc}>
+            Once you delete your account, all your data — tasks, habits, expenses, and projects — will be permanently removed.
+          </p>
+
+          {!showDeleteConfirm ? (
+            <button className={styles.dangerBtn} onClick={() => setShowDeleteConfirm(true)}>
+              Delete my account
+            </button>
+          ) : (
+            <div className={styles.confirmBox}>
+              <p className={styles.confirmText}>
+                Are you sure? This action <strong>cannot be undone</strong>.
+              </p>
+              <div className={styles.confirmActions}>
+                <button className={styles.confirmDeleteBtn} onClick={handleDeleteAccount} disabled={deleteLoading}>
+                  {deleteLoading ? "Deleting…" : "Yes, delete my account"}
+                </button>
+                <button className={styles.confirmCancelBtn} onClick={() => setShowDeleteConfirm(false)}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </section>
       </div>
     </div>

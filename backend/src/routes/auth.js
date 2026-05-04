@@ -45,8 +45,17 @@ router.post("/login", async (req, res) => {
 
 router.get("/me", require("../middleware/auth"), async (req, res) => {
   try {
-    const result = await db.query("SELECT id, email, name, currency FROM users WHERE id = $1", [req.user.id]);
+    const result = await db.query("SELECT id, email, name, currency, created_at FROM users WHERE id = $1", [req.user.id]);
     res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.delete("/me", require("../middleware/auth"), async (req, res) => {
+  try {
+    await db.query("DELETE FROM users WHERE id = $1", [req.user.id]);
+    res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

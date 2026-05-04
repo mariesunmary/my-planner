@@ -28,6 +28,13 @@
   margin: 0;
 }
 
+.heroMember {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
 .heroSub {
   font-size: 0.9rem;
   color: #64748b;
@@ -81,4 +88,99 @@
 .error {
   color: #dc2626;
   font-size: 0.875rem;
+}
+
+.dangerSection {
+  border: 1px solid #fecaca;
+  background: #fff9f9;
+}
+
+.dangerTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #dc2626;
+  margin: 0 0 0.25rem;
+}
+
+.dangerDesc {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.dangerBtn {
+  align-self: flex-start;
+  padding: 0.5rem 1.1rem;
+  border: 1.5px solid #dc2626;
+  border-radius: var(--radius-md);
+  background: white;
+  color: #dc2626;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.dangerBtn:hover {
+  background: #dc2626;
+  color: white;
+}
+
+.confirmBox {
+  background: #fff1f1;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.confirmText {
+  font-size: 0.9rem;
+  color: #1e293b;
+  margin: 0;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.confirmDeleteBtn {
+  padding: 0.5rem 1.1rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.confirmDeleteBtn:hover {
+  background: #b91c1c;
+}
+
+.confirmDeleteBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.confirmCancelBtn {
+  padding: 0.5rem 1.1rem;
+  background: white;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.confirmCancelBtn:hover {
+  background: #f1f5f9;
 }
