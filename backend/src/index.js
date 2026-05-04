@@ -20,6 +20,7 @@ app.get("/", (req, res) => res.json({ status: "FocusFlow API is running" }));
 async function runMigrations() {
   await db.query(`
     ALTER TABLE users ADD COLUMN IF NOT EXISTS currency VARCHAR(10) DEFAULT 'USD';
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS theme VARCHAR(10) DEFAULT 'light';
     ALTER TABLE users ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT NOW();
     ALTER TABLE projects ADD COLUMN IF NOT EXISTS description TEXT DEFAULT '';
     ALTER TABLE projects ADD COLUMN IF NOT EXISTS deadline VARCHAR(50) DEFAULT '';

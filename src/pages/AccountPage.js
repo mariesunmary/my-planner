@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import common from "../styles/Common.module.css";
 import styles from "./AccountPage.module.css";
 import api from "../services/api";
@@ -10,6 +11,7 @@ import api from "../services/api";
  */
 function AccountPage() {
   const { user, updateUser, logout } = useAuth();
+  const { applyTheme } = useTheme();
   const navigate = useNavigate();
 
   const [profileForm, setProfileForm] = useState({ name: user?.name || "", email: user?.email || "" });
@@ -23,7 +25,10 @@ function AccountPage() {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
-    api.get("/auth/me").then((res) => updateUser(res.data)).catch(() => {});
+    api.get("/auth/me").then((res) => {
+      updateUser(res.data);
+      applyTheme(res.data.theme);
+    }).catch(() => {});
   }, []);
 
   const handleProfileSave = async () => {
