@@ -28,7 +28,7 @@
 
 /* Форма автентифікації */
 .authForm {
-  background-color: white;
+  background-color: var(--color-surface);
   padding: 2rem;
   border-radius: var(--radius-lg);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
@@ -123,14 +123,14 @@
 }
 
 /* Скидання autofill стилів браузера */
-input:-webkit-autofill, 
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active { 
-  box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-text-fill-color: var(--color-dark-blue) !important; 
-  transition: background-color 5000s ease-in-out 0s; 
-} 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0px 1000px var(--color-surface) inset !important;
+  -webkit-text-fill-color: var(--color-almost-black) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
 
 /* Видалення браузерної рамки при невалідних інпутах */
 input:invalid { 

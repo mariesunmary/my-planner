@@ -67,7 +67,7 @@
 }
 
 .daySection:hover {
-  border-left-color: #cbd5e1;
+  border-left-color: var(--color-border);
 }
 
 .daySelected {
@@ -75,7 +75,7 @@
 }
 
 .dayToday {
-  border-left-color: #5b9bd5 !important;
+  border-left-color: var(--color-medium-blue) !important;
 }
 
 .dayHeading {
@@ -159,7 +159,7 @@
 
 .taskDone .taskText {
   text-decoration: line-through;
-  color: #94a3b8;
+  color: var(--color-text-subtle);
 }
 
 /* ── Inline edit ── */
@@ -209,7 +209,7 @@
 }
 
 .addInputError {
-  border-color: #ef4444;
+  border-color: var(--color-error);
 }
 
 .addTaskBtn {

@@ -40,14 +40,14 @@
 
 .heroMember {
   font-size: 0.82rem;
-  color: #94a3b8;
+  color: var(--color-text-subtle);
   margin: 0;
   letter-spacing: 0.02em;
 }
 
 .heroSub {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -94,30 +94,30 @@
 }
 
 .success {
-  color: #16a34a;
+  color: var(--color-success);
   font-size: 0.875rem;
 }
 
 .error {
-  color: #dc2626;
+  color: var(--color-error);
   font-size: 0.875rem;
 }
 
 .dangerSection {
-  border: 1px solid #fecaca;
-  background: #fff9f9;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  background: var(--color-error-bg);
 }
 
 .dangerTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: #dc2626;
+  color: var(--color-error);
   margin: 0 0 0.25rem;
 }
 
 .dangerDesc {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--color-text-secondary);
   margin: 0;
   line-height: 1.5;
 }
@@ -125,10 +125,10 @@
 .dangerBtn {
   align-self: flex-start;
   padding: 0.5rem 1.1rem;
-  border: 1.5px solid #dc2626;
+  border: 1.5px solid var(--color-error);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  color: #dc2626;
+  color: var(--color-error);
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
@@ -136,13 +136,13 @@
 }
 
 .dangerBtn:hover {
-  background: #dc2626;
+  background: var(--color-error);
   color: white;
 }
 
 .confirmBox {
-  background: #fff1f1;
-  border: 1px solid #fecaca;
+  background: var(--color-error-bg);
+  border: 1px solid rgba(220, 38, 38, 0.3);
   border-radius: var(--radius-md);
   padding: 1rem;
   display: flex;
@@ -152,7 +152,7 @@
 
 .confirmText {
   font-size: 0.9rem;
-  color: #1e293b;
+  color: var(--color-almost-black);
   margin: 0;
 }
 
@@ -164,7 +164,7 @@
 
 .confirmDeleteBtn {
   padding: 0.5rem 1.1rem;
-  background: #dc2626;
+  background: var(--color-error);
   color: white;
   border: none;
   border-radius: var(--radius-md);
@@ -175,7 +175,7 @@
 }
 
 .confirmDeleteBtn:hover {
-  background: #b91c1c;
+  background: var(--color-error-hover);
 }
 
 .confirmDeleteBtn:disabled {
@@ -195,5 +195,5 @@
 }
 
 .confirmCancelBtn:hover {
-  background: #f1f5f9;
+  background: var(--color-bg-muted);
 }

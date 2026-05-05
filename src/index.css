@@ -99,6 +99,27 @@ a {
   text-decoration: none;
 }
 
+/* Глобальні стилі для полів вводу */
+input, textarea, select {
+  color: var(--color-almost-black);
+  background-color: var(--color-bg-light);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 1;
+}
+
+/* Autofill у темній темі */
+[data-theme="dark"] input:-webkit-autofill,
+[data-theme="dark"] input:-webkit-autofill:hover,
+[data-theme="dark"] input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #1e293b inset !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+  caret-color: #e2e8f0;
+}
+
 /* Глобальні анімації */
 @keyframes fadeIn {
   from { opacity: 0; }

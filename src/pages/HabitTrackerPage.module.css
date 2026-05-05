@@ -64,7 +64,7 @@
 
 .todayHeader {
   color: var(--color-dark-blue);
-  background: #eef4fd;
+  background: var(--color-hover-blue);
   font-weight: 700;
 }
 
@@ -141,5 +141,5 @@
 }
 
 .pctDone {
-  color: #16a34a;
+  color: var(--color-success);
 }
