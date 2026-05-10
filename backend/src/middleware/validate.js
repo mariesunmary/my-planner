@@ -21,7 +21,7 @@ function isValidDate(str) {
 }
 
 function isValidWeekKey(str) {
-  return /^\d{4}-W\d{2}$/.test(str);
+  return /^\d{4}-\d{2}-\d{2}$/.test(str) && !isNaN(new Date(str).getTime());
 }
 
 module.exports = { validate, EMAIL_RE, EXPENSE_CATEGORIES, VALID_STATUSES, VALID_THEMES, VALID_CURRENCIES, isValidDate, isValidWeekKey };

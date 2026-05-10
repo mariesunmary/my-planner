@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { week_key, text } = req.body;
   if (!validate(res, [
-    [!week_key || !isValidWeekKey(week_key), "Valid week_key is required (format: YYYY-WWW)"],
+    [!week_key || !isValidWeekKey(week_key), "Valid week_key is required (format: YYYY-MM-DD)"],
     [!text || !text.trim(), "Task text is required"],
     [text.trim().length > 500, "Task text must be under 500 characters"],
   ])) return;
