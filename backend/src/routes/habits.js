@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const db = require("../db");
 const auth = require("../middleware/auth");
+const { validate, isValidDate } = require("../middleware/validate");
 
 router.use(auth);
 
@@ -11,18 +12,28 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { name } = req.body;
+  if (!validate(res, [
+    [!name || !name.trim(), "Habit name is required"],
+    [name.trim().length > 200, "Habit name must be under 200 characters"],
+  ])) return;
+
   const result = await db.query(
     "INSERT INTO habits (user_id, name) VALUES ($1, $2) RETURNING *",
-    [req.user.id, name]
+    [req.user.id, name.trim()]
   );
   res.json(result.rows[0]);
 });
 
 router.put("/:id", async (req, res) => {
   const { name } = req.body;
+  if (!validate(res, [
+    [!name || !name.trim(), "Habit name is required"],
+    [name.trim().length > 200, "Habit name must be under 200 characters"],
+  ])) return;
+
   const result = await db.query(
     "UPDATE habits SET name = $1 WHERE id = $2 AND user_id = $3 RETURNING *",
-    [name, req.params.id, req.user.id]
+    [name.trim(), req.params.id, req.user.id]
   );
   res.json(result.rows[0]);
 });
@@ -44,6 +55,12 @@ router.get("/tracking", async (req, res) => {
 
 router.post("/tracking", async (req, res) => {
   const { habit_id, date, done } = req.body;
+  if (!validate(res, [
+    [!habit_id, "habit_id is required"],
+    [!date || !isValidDate(date), "Valid date is required"],
+    [done === undefined, "done field is required"],
+  ])) return;
+
   if (done) {
     const result = await db.query(
       "INSERT INTO habit_tracking (habit_id, date) VALUES ($1, $2) ON CONFLICT (habit_id, date) DO NOTHING RETURNING *",

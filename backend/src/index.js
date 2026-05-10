@@ -8,7 +8,10 @@ const db = require("./db");
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  credentials: true,
+}));
 app.use(express.json());
 
 // Max 5 login/register attempts per 15 minutes per IP

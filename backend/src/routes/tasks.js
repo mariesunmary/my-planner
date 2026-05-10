@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const db = require("../db");
 const auth = require("../middleware/auth");
+const { validate, isValidWeekKey } = require("../middleware/validate");
 
 router.use(auth);
 
@@ -16,18 +17,29 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { week_key, text } = req.body;
+  if (!validate(res, [
+    [!week_key || !isValidWeekKey(week_key), "Valid week_key is required (format: YYYY-WWW)"],
+    [!text || !text.trim(), "Task text is required"],
+    [text.trim().length > 500, "Task text must be under 500 characters"],
+  ])) return;
+
   const result = await db.query(
     "INSERT INTO weekly_tasks (user_id, week_key, text) VALUES ($1, $2, $3) RETURNING *",
-    [req.user.id, week_key, text]
+    [req.user.id, week_key, text.trim()]
   );
   res.json(result.rows[0]);
 });
 
 router.put("/:id", async (req, res) => {
   const { text, done } = req.body;
+  if (!validate(res, [
+    [text !== undefined && text.trim().length === 0, "Task text cannot be empty"],
+    [text !== undefined && text.trim().length > 500, "Task text must be under 500 characters"],
+  ])) return;
+
   const result = await db.query(
     "UPDATE weekly_tasks SET text = COALESCE($1, text), done = COALESCE($2, done) WHERE id = $3 AND user_id = $4 RETURNING *",
-    [text ?? null, done ?? null, req.params.id, req.user.id]
+    [text?.trim() ?? null, done ?? null, req.params.id, req.user.id]
   );
   res.json(result.rows[0]);
 });
